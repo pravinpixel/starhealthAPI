@@ -56,6 +56,7 @@ class EmployeeController extends Controller
         $secret_key = $totp->getSecret();
         $timestamp = time();
         $otp = TOTP::create($secret_key);
+        $otp->setDigits(4);
         $code = $otp->at($timestamp);
         $employee = Employee::find($id);
         $employee->otp=$code;
