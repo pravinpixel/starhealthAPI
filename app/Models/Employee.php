@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject; // Corrected namespace for JWTSubject
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 class Employee extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable,SoftDeletes;
@@ -31,5 +32,26 @@ class Employee extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+    public function getPassportPhotoAttribute($value)
+    {
+        if ($value === null) {
+            return null;
+        }
+        return config('app.image_url') . $value;
+    }
+    public function getFamilyPhotoAttribute($value)
+    {
+        if ($value === null) {
+            return null;
+        }
+        return config('app.image_url') . $value;
+    }
+    public function getProfilePhotoAttribute($value)
+    {
+        if ($value === null) {
+            return null;
+        }
+        return config('app.image_url') . $value;
     }
 }

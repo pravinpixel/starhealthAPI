@@ -19,7 +19,7 @@ Route::group([
         Route::get('/view', 'getEmployee')->name('getEmployee');
         Route::post('/save', 'save')->name('save');
         Route::post('/update', 'update')->name('update');
-        Route::post('/logout', 'logout')->name('logout');
+        Route::post('/logout', 'employeelogout')->name('employeelogout');
      });
       #..Essiential...
       Route::prefix('essiential')->controller(EssientialController::class)->group(function () {

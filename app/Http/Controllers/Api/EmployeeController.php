@@ -177,7 +177,7 @@ class EmployeeController extends Controller
         return $this->returnSuccess(
             $employee,'Employee created successfully');
     }
-    public function logout()
+    public function employeelogout()
     {
         try {
             // Invalidate the token
