@@ -12,6 +12,12 @@ class Employee extends Authenticatable implements JWTSubject
     use HasFactory, Notifiable,SoftDeletes;
 
     // Define your model attributes and relationships here
+    protected $hidden = [
+        'otp',
+        'otp_verified',
+        'otp_verified',
+        'expired_date',
+    ];
 
     public function getJWTIdentifier()
     {
