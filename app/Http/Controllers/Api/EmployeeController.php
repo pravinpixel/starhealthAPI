@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailVerfiy;
 use OTPHP\TOTP;
-use JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
 
 class EmployeeController extends Controller
@@ -166,8 +166,15 @@ class EmployeeController extends Controller
     }
     public function employeelogout()
     {
-        auth()->logout();
-        return response()->json(['message' => 'Successfully logged out']);
+        try {
+            // Invalidate the token
+            JWTAuth::invalidate(JWTAuth::getToken());
+    
+            return $this->returnSuccess([], 'Successfully logged out');
+        } catch (Tymon\JWTAuth\Exceptions\JWTException $e) {
+            // Something went wrong while trying to invalidate the token
+            return $this->returnError('Failed to log out, please try again.');
+        }
     }
     
 }
