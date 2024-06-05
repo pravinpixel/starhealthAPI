@@ -17,6 +17,10 @@ class Employee extends Authenticatable implements JWTSubject
         'otp_verified',
         'otp_verified',
         'expired_date',
+        'employee_status',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     public function getJWTIdentifier()
