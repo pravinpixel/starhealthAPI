@@ -12,13 +12,15 @@ use App\Mail\EmailVerfiy;
 use OTPHP\TOTP;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\LogHelper;
+use Carbon\Carbon;
 
 class EmployeeController extends Controller
 {
     public function emailverfiy(Request $request)
     {
         try {
-            DB::beginTransaction();
+           
             $validator = Validator::make($request->all(), [
                 'email' => 'required|regex:/(.+)@(.+)\.(.+)/i|email',
             ]);
@@ -26,21 +28,26 @@ class EmployeeController extends Controller
                 $this->error = $validator->errors();
                 throw new \Exception('validation Error');
             }
-            $employee = new Employee();
-            $employee->email = $request->input('email');
-            $employee->save();
-            DB::commit();
+            $employee = Employee::where('email', $request->email)->first();
             if ($employee) {
+                $otp= $this->generateOtp($employee->id);
+                $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
+                $employee->save();
+                Mail::to( $employee->email)->send(new EmailVerfiy($otp));
+            }else{
+                $employee = new Employee();
+                $employee->email = $request->input('email');
+                $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
+                $employee->save();
                 $otp= $this->generateOtp($employee->id);
                 Mail::to( $employee->email)->send(new EmailVerfiy($otp));
             }
+            LogHelper::AddLog('Employee',$employee->id,'Otp Send',$otp,'OTP genarate this '.$employee->email);
+            return $this->returnSuccess(
+               [],'OTP send successfully');
         } catch (\Throwable $e) {
-            DB::rollback();
             return $this->returnError($this->error ?? $e->getMessage());
         }
-        
-        return $this->returnSuccess(
-            $employee,'OTP send successfully');
     }
     public static function generateOtp($id)
     {
@@ -70,6 +77,9 @@ class EmployeeController extends Controller
             if (!$employee) {
                 return $this->returnError('Employee not found');
             }
+            if (Carbon::parse($employee->expired_date)->lt(Carbon::now())) {
+                return $this->returnError('OTP has expired');
+            }
             if ($employee->otp == $request->otp) {
                 $employee->otp_verified =true;
                 $employee->save();
@@ -78,14 +88,13 @@ class EmployeeController extends Controller
                 return $this->respondWithToken($token);
             } else {
                 DB::rollback();
-                return $this->returnError('OTP verification failed');
+                return $this->returnError('OTP is Wrong');
             }
         } catch (\Throwable $e) {
             DB::rollback();
             return $this->returnError($e->getMessage());
         }
     }
-    
     protected function respondWithToken($token)
     {
         return $this->returnSuccess([
