@@ -196,6 +196,9 @@ class EmployeeController extends Controller
                 $validator = Validator::make($request->all(), [
                     'employee_name' => 'required|string|max:100',
                     'employee_code' => 'required|string|max:100',
+                    'profile_photo' => 'required',
+                    'passport_photo' => 'required',
+                    'family_photo' => 'required',
                       'mobile_number' => [
                         'required',
                         'unique:employees,mobile_number,'.$id,
