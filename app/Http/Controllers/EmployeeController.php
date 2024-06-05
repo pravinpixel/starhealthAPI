@@ -17,7 +17,7 @@ class EmployeeController extends Controller
             $q->where('employee_name', 'like', '%' . $search . '%')
               ->orWhere('employee_code', 'like', '%' . $search . '%')
               ->orWhere('email', 'like', '%' . $search . '%')
-              ->orWhere('mobile', 'like', '%' . $search . '%')
+              ->orWhere('mobile_number', 'like', '%' . $search . '%')
               ->orWhere('designation', 'like', '%' . $search . '%');
         });
     }

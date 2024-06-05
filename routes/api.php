@@ -2,6 +2,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\EmployeeController;
+use App\Http\Controllers\Api\EssientialController;
+
 
 Route::get('/', function () { return 'Welcome Star Health'; });
 
@@ -12,7 +14,16 @@ Route::post('otp-verfiy', [EmployeeController::class, 'otpverfiy'])->name('otpve
 Route::group([
     'middleware' => 'auth:api',
 ], function () {
-    Route::get('employee/view', [EmployeeController::class, 'getEmployee'])->name('getEmployee');
-    Route::post('employee/save', [EmployeeController::class, 'save'])->name('save');
-    Route::post('employee/logout', [EmployeeController::class, 'employeelogout'])->name('employeelogout');
+     #..Employee...
+     Route::prefix('employee')->controller(EmployeeController::class)->group(function () {
+        Route::get('/view', 'getEmployee')->name('getEmployee');
+        Route::post('/save', 'save')->name('save');
+        Route::post('/update', 'update')->name('update');
+        Route::post('/logout', 'logout')->name('logout');
+     });
+      #..Essiential...
+      Route::prefix('essiential')->controller(EssientialController::class)->group(function () {
+        Route::get('/', 'getdata')->name('getdata');
+        Route::get('/{id}', 'getCity')->name('getCity');
+     });
 });

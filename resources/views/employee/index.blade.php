@@ -118,13 +118,13 @@
           <thead style="color: #3498db">
            <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0" style="color:#3498db !important">
            <th  class="min-w-115px">Employee Name</th>
-            <th class="min-w-115px">Employee Code</th>
+            <th class="min-w-125px">Employee Code</th>
             <th class="min-w-125px">Department</th>
             <th class="min-w-125px">Designation</th>
             <th class="min-w-125px">Mobile</th>
             <th class="min-w-125px">Email</th>
             <th class="min-w-125px">State</th>       
-            <th class="min-w-125px">Uploaded Images</th>
+            <th class="min-w-115px">Uploaded Images</th>
             @if(in_array($title, ['Register', 'Shortlisted']))
             <th class="min-w-100px">Select</th>
             @endif
@@ -152,7 +152,7 @@
                     {{$employee->designation}}
                 </td>
                 <td>
-                    {{$employee->mobile}}
+                    {{$employee->mobile_number}}
                 </td>
                 <td>
                     {{$employee->email}}
