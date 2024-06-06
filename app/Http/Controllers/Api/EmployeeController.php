@@ -248,27 +248,27 @@ class EmployeeController extends Controller
             $user=Auth::guard('api')->user(); 
             $id = $user->id;
             $employee=Employee::find($id);
-                $validator = Validator::make($request->all(), [
-                    'employee_name' => 'required|string|max:100',
-                    'employee_code' => 'required|string|max:100',
-                    'profile_photo' => 'required',
-                    'passport_photo' => 'required',
-                    'family_photo' => 'nullable',
-                      'mobile_number' => [
-                        'required',
-                        'unique:employees,mobile_number,'.$id,
-                      ],
-                      'dob' => 'required|date|max:100',
-                      'department' => 'required|string|max:100',
-                      'designation' => 'required|string|max:100',
-                      'state' => 'required|string|max:100',
-                      'city' => 'required|string|max:100',
+                // $validator = Validator::make($request->all(), [
+                //     'employee_name' => 'required|string|max:100',
+                //     'employee_code' => 'required|string|max:100',
+                //     'profile_photo' => 'required',
+                //     'passport_photo' => 'required',
+                //     'family_photo' => 'nullable',
+                //       'mobile_number' => [
+                //         'required',
+                //         'unique:employees,mobile_number,'.$id,
+                //       ],
+                //       'dob' => 'required|date|max:100',
+                //       'department' => 'required|string|max:100',
+                //       'designation' => 'required|string|max:100',
+                //       'state' => 'required|string|max:100',
+                //       'city' => 'required|string|max:100',
         
-                ]);
-                if ($validator->fails()) {
-                    $this->error = $validator->errors();
-                    throw new \Exception('validation Error');
-                }
+                // ]);
+                // if ($validator->fails()) {
+                //     $this->error = $validator->errors();
+                //     throw new \Exception('validation Error');
+                // }
                 $employee->employee_name = $request->input('employee_name');
                 $employee->dob = $request->input('dob');
                 $employee->department = $request->input('department');
