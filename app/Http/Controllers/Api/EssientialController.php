@@ -40,6 +40,12 @@ class EssientialController extends Controller
       try{
         $state_id = $id;
         $cites = City::where('state_id', $state_id)->get(['id', 'name']);
+        $cites = $cites->map(function ($city) {
+            return [
+                'id' => $city->id,
+                'label' => $city->name,
+            ];
+        });
         return $this->returnSuccess(
             [
                 'cites' => $cites,

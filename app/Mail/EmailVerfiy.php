@@ -33,7 +33,7 @@ class emailVerfiy extends Mailable
     public function build()
     {
         return $this->view('email')
-            ->subject('Test Email with Attachments');
+            ->subject('Otp verfication');
     }
 
 }
