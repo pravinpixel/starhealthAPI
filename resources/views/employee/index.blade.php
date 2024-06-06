@@ -102,7 +102,7 @@
            <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="currentColor" />
           </svg>
          </span>
-         <input type="text" id="searchInput" class="form-control form-control-solid w-350px ps-15" placeholder="Search register list" />
+         <input type="text" id="searchInput" class="form-control form-control-solid w-350px ps-15" placeholder="Search {{$title}} list" />
         </div>
        </div>
        <div class="card-toolbar">
@@ -112,7 +112,7 @@
         </button>  
      </div>
         </div>
-           @include('filter')        
+           @include('employee.filter')        
         <div class="card-body pt-0">
          <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_customers_table">
           <thead style="color: #3498db">
@@ -207,9 +207,12 @@
             $('#searchInput').keyup(function () {
                 updateTableData();
             });
-            $('[data-kt-ecommerce-order-filter="status"]').on('change', function () {
+            $('[name="employee_name"]').on('change', function () {
                 updateTableData();
-            });
+             });
+             $(document).on('change', '[name="employee_name"]', function (e) {
+          
+              });
             $(document).on('click', '#paginationLinks a', function (e) {
                     e.preventDefault();
                     var page = $(this).attr('href').split('page=')[1];
@@ -224,7 +227,8 @@
 
        function updateTableData(page = '') {
             var searchTerm = $('#searchInput').val();
-            var selectedStatus = $('[data-kt-ecommerce-order-filter="status"]').val();
+            var selectedStatus = $('[name="employee_name""]').val();
+            console.log(selectedStatus);
             loadTableData(searchTerm, selectedStatus, page);
       }
        updateTableData();
