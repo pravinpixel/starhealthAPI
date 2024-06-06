@@ -132,7 +132,7 @@ class EmployeeController extends Controller
     }
     public function getEmployee()
     {
-        $user=auth()->user();
+        $user=Auth::guard('api')->user(); 
         return $this->returnSuccess(
             $user,'Employee data successfully');
         
@@ -140,7 +140,7 @@ class EmployeeController extends Controller
     public function save(Request $request)
     {
         try {
-            $user=Auth::user();
+            $user=Auth::guard('api')->user(); 
             $id = $user->id;
             $employee=Employee::find($id);
             if($request->status == "basic"){
@@ -223,7 +223,7 @@ class EmployeeController extends Controller
     public function update(Request $request)
     {
         try {
-            $user=Auth::user();
+            $user=Auth::guard('api')->user(); 
             $id = $user->id;
             $employee=Employee::find($id);
                 $validator = Validator::make($request->all(), [
