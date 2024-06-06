@@ -238,7 +238,11 @@ class EmployeeController extends Controller
                     $fileName = "family_photo_" . uniqid() . "_" . time() . "." . $family_photo->extension();
                     $path = $family_photo->move(storage_path("app/public/employee/"), $fileName);
                     $employee->family_photo = 'employee/' . $fileName;
-                }else{
+                }elseif($employee->family_photo && $request->family_photo){
+                    $data=explode('storage/', $employee->family_photo);
+                    $employee->family_photo =$data[1];
+                }
+                else{
                     if($employee->family_photo){
                         $data=explode('storage/', $employee->family_photo);
                         if(file_exists(storage_path('app/public/'.$data[1]))) {
