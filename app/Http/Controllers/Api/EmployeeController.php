@@ -109,7 +109,9 @@ class EmployeeController extends Controller
             }
             if ($employee->otp == $request->otp) {
                 $employee->otp_verified =true;
-                $employee->status ='basic';
+                if(!$employee->status){
+                    $employee->status ='basic';
+                }
                 $employee->save();
                 $token = JWTAuth::fromUser($employee);
                 DB::commit();
@@ -254,6 +256,7 @@ class EmployeeController extends Controller
                 $employee->status = $request->input('status');
             }else{
                 $employee->status = $request->input('status');
+                $employee->verfiystatus =true;
                 $employee->employee_status ='register';
             }
             $employee->save();
