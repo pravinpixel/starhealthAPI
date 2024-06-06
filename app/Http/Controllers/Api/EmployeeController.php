@@ -132,11 +132,32 @@ class EmployeeController extends Controller
     }
     public function getEmployee()
     {
-        $user=Auth::guard('api')->user(); 
-        return $this->returnSuccess(
-            $user,'Employee data successfully');
-        
+        $user = Auth::guard('api')->user(); 
+        $state = [
+            [
+                'id' => $user->state_id ?? null,
+                'label' => $user->state
+            ]
+        ];
+        $city = [
+            [
+                'id' => null,
+                'label' => $user->city
+            ]
+        ];
+        $department = [
+            [
+                'id' => null,
+                'label' => $user->department
+            ]
+        ];
+        $user->department = $department;
+        $user->city = $city;
+        $user->state = $state;
+    
+        return $this->returnSuccess($user, 'Employee data successfully retrieved');
     }
+    
     public function save(Request $request)
     {
         try {
@@ -174,6 +195,7 @@ class EmployeeController extends Controller
                 $employee->department = $request->input('department');
                 $employee->designation = $request->input('designation');
                 $employee->state = $request->input('state');
+                $employee->state_id = $request->input('state_id');
                 $employee->city = $request->input('city'); 
                 $employee->employee_code = $request->input('employee_code');
                 $employee->mobile_number = $request->input('mobile_number');
