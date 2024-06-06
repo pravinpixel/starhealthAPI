@@ -14,6 +14,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\LogHelper;
+use App\Models\Department;
 use Carbon\Carbon;
 
 class EmployeeController extends Controller
@@ -122,9 +123,9 @@ class EmployeeController extends Controller
                 $validator = Validator::make($request->all(), [
                     'employee_name' => 'required|string|max:100',
                     'employee_code' => 'required|string|max:100',
-                      'mobile_number' => [
+                    'mobile_number' => [
                         'required',
-                        'unique:employees,mobile_number',
+                        'unique:employees,mobile_number,'.$id,
                       ],
                       'dob' => 'required|date|max:100',
                       'department' => 'required|string|max:100',
@@ -136,6 +137,13 @@ class EmployeeController extends Controller
                 if ($validator->fails()) {
                     $this->error = $validator->errors();
                     throw new \Exception('validation Error');
+                }
+                $department = Department::where('name', $request->department)->first();
+
+                if (!$department) {
+                    $data = new Department();
+                    $data->name = $request->input('department');
+                    $data->save();
                 }
                 $employee->employee_name = $request->input('employee_name');
                 $employee->dob = $request->input('dob');
@@ -199,7 +207,7 @@ class EmployeeController extends Controller
                     'employee_code' => 'required|string|max:100',
                     'profile_photo' => 'required',
                     'passport_photo' => 'required',
-                    'family_photo' => 'required',
+                    'family_photo' => 'nullable',
                       'mobile_number' => [
                         'required',
                         'unique:employees,mobile_number,'.$id,
