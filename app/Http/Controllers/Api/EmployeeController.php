@@ -256,7 +256,6 @@ class EmployeeController extends Controller
                 $employee->status = $request->input('status');
             }else{
                 $employee->status = $request->input('status');
-                $employee->verfiystatus =true;
                 $employee->employee_status ='register';
             }
             $employee->save();
