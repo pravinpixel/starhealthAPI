@@ -109,6 +109,7 @@ class EmployeeController extends Controller
             }
             if ($employee->otp == $request->otp) {
                 $employee->otp_verified =true;
+                $employee->status ='basic';
                 $employee->save();
                 $token = JWTAuth::fromUser($employee);
                 DB::commit();
@@ -164,7 +165,7 @@ class EmployeeController extends Controller
             $user=Auth::guard('api')->user(); 
             $id = $user->id;
             $employee=Employee::find($id);
-            if($request->status == "basic"){
+            if($request->status == "upload"){
                 $validator = Validator::make($request->all(), [
                     'employee_name' => 'required|string|max:100',
                     'employee_code' => 'required|string|max:100',
@@ -201,7 +202,7 @@ class EmployeeController extends Controller
                 $employee->mobile_number = $request->input('mobile_number');
                 $employee->status = $request->input('status');
                
-            }elseif($request->status == "upload"){
+            }elseif($request->status == "summary"){
                 if ($request->hasFile('passport_photo')) {
                     $passport_photo=$request->passport_photo;
                     $fileName = "passport_photo_" . uniqid() . "_" . time() . "." . $passport_photo->extension();
