@@ -33,13 +33,13 @@ class EmployeeController extends Controller
             $employee = Employee::where('email', $request->email)->first();
             if ($employee) {
                 $otp= $this->generateOtp($employee->id);
-                $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
+                $employee->expired_date = Carbon::now()->addMinutes(2)->format('Y-m-d H:i:s');
                 $employee->save();
                 Mail::to( $employee->email)->send(new EmailVerfiy($otp));
             }else{
                 $employee = new Employee();
                 $employee->email = $request->input('email');
-                $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
+                $employee->expired_date = Carbon::now()->addMinutes(2)->format('Y-m-d H:i:s');
                 $employee->save();
                 $otp= $this->generateOtp($employee->id);
                 Mail::to( $employee->email)->send(new EmailVerfiy($otp));
@@ -64,7 +64,31 @@ class EmployeeController extends Controller
         $employee->save();
         return $code;
     }
-   
+    public function resendOtp(Request $request){
+        try {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|regex:/(.+)@(.+)\.(.+)/i|email',
+        ]);
+        if($validator->fails()) {
+            $this->error = $validator->errors();
+            throw new \Exception('validation Error');
+        }
+        $employee = Employee::where('email', $request->email)->first();
+        if ($employee) {
+            $otp= $this->generateOtp($employee->id);
+            $employee->expired_date = Carbon::now()->addMinutes(2)->format('Y-m-d H:i:s');
+            $employee->save();
+            Mail::to( $employee->email)->send(new EmailVerfiy($otp));
+        }else{
+            return $this->returnError('Employee not found');
+        }
+        LogHelper::AddLog('Employee',$employee->id,'Otp Send',$otp,' Resend OTP genarate this '.$employee->email);
+        return $this->returnSuccess(
+           [],'Resend OTP send successfully');
+    } catch (\Throwable $e) {
+        return $this->returnError($this->error ?? $e->getMessage());
+    }
+    }
     public function otpverfiy(Request $request)
     {
         try {
@@ -104,7 +128,7 @@ class EmployeeController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => JWTAuth::factory()->getTTL() * 60
-        ], 'OTP verified successfully. JWT token set.');
+        ], 'OTP verified successfully.');
     }
     public function getEmployee()
     {
