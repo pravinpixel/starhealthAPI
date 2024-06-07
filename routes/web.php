@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ForgotPasswordController;
 
 #..login..
 Route::controller(AuthController::class)->group(function () {
@@ -11,6 +12,11 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('login', 'index')->name('index.login');
     Route::post('login', 'login')->name('login');
 });
+
+#..forgot password..
+Route::get('forgot-password', [ForgotPasswordController::class, 'ForgotPasswordForm'])->name('forgot.password');
+Route::post('save', [ForgotPasswordController::class, 'submitForgotPasswordForm'])->name('forgot.save');
+
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.view');

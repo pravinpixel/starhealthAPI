@@ -11,7 +11,7 @@
  <meta property="og:type" content="article"/>
  <meta property="og:title" content="StartHelath"/>
  <meta property="og:site_name" content="StartHelath | Admin"/>
- <link rel="shortcut icon" href="{{ asset('images/logo/logo.svg') }}"/>
+ <link rel="shortcut icon" href="{{ asset('images/Group.png') }}"/>
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
  @section('style')
  <link href="{{asset('css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
@@ -19,114 +19,62 @@
  @show
 
 </head>
-<body id="kt_app_body" data-kt-app-layout="light-sidebar" data-kt-app-sidebar-enabled="true"
-data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true"
-data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true"
-class="app-default">
-<!--begin::App-->
-<div class="d-flex flex-column flex-root app-root" id="kt_app_root">
- <!--begin::Page-->
- <div class="app-page flex-column flex-column-fluid" id="kt_app_page">
-  <!--begin::Header-->
-  <body id="kt_body" class="app-blank app-blank bgi-size-cover bgi-position-center bgi-no-repeat">
-
-
-   <!--begin::Theme mode setup on page load-->
-
-   <!--end::Theme mode setup on page load-->
-   <!--begin::Root-->
-   <div class="d-flex flex-column flex-root top" id="kt_app_root">
-   
-
-    <div  class="d-flex flex-column flex-lg-row flex-column-fluid ">
-
-
-     <div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12 ">
-      <!--begin::Wrapper-->
-      <div class="bg-body d-flex flex-center rounded-4 w-md-600px p-10 log">
-
-       <!--begin::Content-->
-       <div class="w-md-400px ">
-        <!--begin::Form-->
-        <form  method="post" action="{{ route('forgot.password.post') }}">
-         @csrf
-         <!--begin::Heading-->
-         <img class="logo" src="{{ asset('images/logo/logo.svg') }}" alt="logo">
-         <div class="text-center mb-11">
-          <!--begin::Title-->
-          <h1 class="text-dark fw-bolder mb-3">Forgot Password</h1>
-          <!--end::Title-->
-          <div class="text-gray-400 fw-bold fs-4">
-          @if (session()->has('message'))
-    <div class="alert alert-success" role="alert">
-        {{ session('message') }}
-        @if (session()->has('resetLink'))
-            <a href="{{ session('resetLink') }}">Reset Password</a>
-        @endif
-    </div>
-@endif
-            @error('email')
-            <div data-field="email" data-validator="notEmpty" style="color:red;font-size:15px">{{ $message }}</div>
-            @enderror
-          </div>
-
-         </div>
-
-
-
-         <!--begin::Input group=-->
-         <div class="fv-row mb-8">
-          <!--begin::Email-->
-          <input type="text" placeholder="Email" name="email" autocomplete="off" class=" form-control bg-transparent" required />
-
-          <!--end::Email-->
-         </div>
-         <!--end::Input group=-->
-        
-         <!--end::Input group=-->
-         <!--begin::Wrapper-->
-         <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
-          <div></div>
-
-         </div>
-         <!--end::Wrapper-->
-         <!--begin::Submit button-->
-         <div class="d-grid mb-10">
-          <button type="submit" id="kt_sign_in_submit" class="btn btn-primary">
-           <!--begin::Indicator label-->
-           <span class="indicator-label">Submit</span>
-           <!--end::Indicator label-->
-           <!--begin::Indicator progress-->
-           <span class="indicator-progress">Please wait...
-            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-            <!--end::Indicator progress-->
-           </button>
-          </div>
-          <!--end::Submit button-->
-          <!-- begin::Sign up-->
-      <!--     <div class="text-gray-500 text-center fw-semibold fs-6">Not a Member yet?
-           <a href="../../demo1/dist/authentication/layouts/overlay/sign-up.html" class="link-primary">Sign up</a></div> -->
-           <!--end::Sign up -->
-           
-          </form>
-          <!--end::Form-->
-         </div>
-         <!--end::Content-->
-        </div>
-        <!--end::Wrapper-->
-       </div>
-       <!--end::Body-->
+<div class="d-flex flex-column flex-root" style="background-color: rgb(255, 255, 255)">
+  <div class="d-flex flex-column flex-xl-row flex-column-fluid">
+      <div class="d-flex flex-column flex-center flex-lg-row-fluid">
+         <div class="d-flex align-items-start flex-column p-5 p-lg-15">
+          <a href="javascript:void(0)" class="mb-15" style="background-color:#293A83">
+              <img alt="Logo" src="{{ asset('images/Group.png') }}" class="h-40px" />
+          </a>
+          <h1 class="text-dark fs-2x mb-3">Welcome, Admin</h1>
+          <img src="{{ asset('images/Frame 7.png') }}" class="h-250px h-lg-450px" />
       </div>
-      <!--end::Authentication - Sign-in-->
-     </div>
-     <!--end::Root-->
+      </div>
 
-    </body>
+      <div class="flex-row-fluid d-flex flex-center justfiy-content-xl-first p-10">
+          <div class="d-flex flex-center p-15 shadow-sm bg-body rounded w-100 w-md-550px mx-auto ms-xl-20">
+              <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework"  id="forgot-form">
+                @csrf
+                <div class="text-center mb-11">
+                 <!--begin::Title-->
+                 <h1 class="text-dark mb-3">Forgot Password <img alt="Logo" style="background-color:#293A83" src="{{ asset('images/Group.png') }}" class="h-30px" /></h1>
+                 <!--end::Title-->
+                 <div class="text-gray-400 fw-bold fs-4">
+                 @if (session()->has('message'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('message') }}
+                </div>
+                @endif
+                 </div>
+       
+                </div>
+                <div class="fv-row mb-8">
+                   <label class=" form-label">Email:</label>
+                 <input type="text" placeholder="Email" name="email" autocomplete="off" class=" form-control bg-transparent"  />
+                 <span  style="color: red" class="field-error" id="email-error"></span>
+                </div>
+                <div class="d-grid mb-6">
+                 <button type="button" id="kt_forgot_in_submit" class="btn btn-primary">
+                  <span class="indicator-label">Submit</span>
+                  <span class="indicator-progress">Please wait...
+                   <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                  </button>
+                 </div>
+                 </form>
+          </div>
+      </div>
+  </div>
+</div>
     @section('script')
+    <script>
+        var submit_url="{{ route('forgot.save') }}";
+    </script>
     <script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { if ( document.documentElement.hasAttribute("data-theme-mode")) { themeMode = document.documentElement.getAttribute("data-theme-mode"); } else { if ( localStorage.getItem("data-theme") !== null ) { themeMode = localStorage.getItem("data-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-theme", themeMode); }</script>
-    <script src="assets/plugins/global/plugins.bundle.js"></script>
-    <script src="assets/js/scripts.bundle.js"></script>
-    <script src="{{ asset('js/common.js') }}"></script>
-    @show
-   </body>
-   </html>
+    <script src="{{ asset('plugins/global/plugins.bundle.js')}}"></script>
+    <script src="{{ asset('js/scripts.bundle.js')}}"></script>
+    <script src="{{ asset('js/common.js') }}">
+        </script>  
+@show
+</body>
+</html>
+
