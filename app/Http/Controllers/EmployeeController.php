@@ -12,7 +12,7 @@ class EmployeeController extends Controller
       $employee_code = $request->input('employee_code');
       $department = $request->input('department');
       $currentRouteName = request()->route()->getName();
-      $perPage = 2;
+      $perPage = 10;
       $query = Employee::query();
       if ($search) {
         $query->where(function ($q) use ($search) {
