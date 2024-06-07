@@ -12,6 +12,7 @@ class emailVerfiy extends Mailable
     use Queueable, SerializesModels;
 
     public $mailData;
+    public $email;
     /**
      * Create a new message instance.
      *
@@ -20,9 +21,10 @@ class emailVerfiy extends Mailable
      * @param  string $pdfPath
      * @return void
      */
-    public function __construct($mailData)
+    public function __construct($mailData,$email)
     {
         $this->mailData = $mailData;
+        $this->email = $email;
     }
 
     /**
@@ -32,7 +34,7 @@ class emailVerfiy extends Mailable
      */
     public function build()
     {
-        return $this->view('email')
+        return $this->view('email.otpmail')
             ->subject('Otp verfication');
     }
 

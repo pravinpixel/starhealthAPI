@@ -33,16 +33,18 @@ class EmployeeController extends Controller
             $employee = Employee::where('email', $request->email)->first();
             if ($employee) {
                 $otp= $this->generateOtp($employee->id);
-                $employee->expired_date = Carbon::now()->addMinutes(2)->format('Y-m-d H:i:s');
+                $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
                 $employee->save();
-                Mail::to( $employee->email)->send(new EmailVerfiy($otp));
+                $data=explode('@', $employee->email);
+                Mail::to( $employee->email)->send(new EmailVerfiy($otp,$data[0]));
             }else{
                 $employee = new Employee();
                 $employee->email = $request->input('email');
-                $employee->expired_date = Carbon::now()->addMinutes(2)->format('Y-m-d H:i:s');
+                $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
                 $employee->save();
                 $otp= $this->generateOtp($employee->id);
-                Mail::to( $employee->email)->send(new EmailVerfiy($otp));
+                $data=explode('@', $employee->email);
+                Mail::to( $employee->email)->send(new EmailVerfiy($otp,$data[0]));
             }
             LogHelper::AddLog('Employee',$employee->id,'Otp Send',$otp,'OTP genarate this '.$employee->email);
             return $this->returnSuccess(
@@ -76,10 +78,11 @@ class EmployeeController extends Controller
         $employee = Employee::where('email', $request->email)->first();
         if ($employee) {
             $otp= $this->generateOtp($employee->id);
-            $employee->expired_date = Carbon::now()->addMinutes(2)->format('Y-m-d H:i:s');
+            $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
             $employee->save();
-            Mail::to( $employee->email)->send(new EmailVerfiy($otp));
-        }else{
+            $data=explode('@', $employee->email);
+            Mail::to( $employee->email)->send(new EmailVerfiy($otp,$data[0]));
+           }else{
             return $this->returnError('Employee not found');
         }
         LogHelper::AddLog('Employee',$employee->id,'Otp Send',$otp,' Resend OTP genarate this '.$employee->email);
