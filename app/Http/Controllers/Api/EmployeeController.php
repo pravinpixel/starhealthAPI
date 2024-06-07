@@ -136,18 +136,26 @@ class EmployeeController extends Controller
     public function getEmployee()
     {
         $user = Auth::guard('api')->user(); 
-        $state = [
-            [
-                'id' => $user->state_id ?? null,
-                'label' => $user->state
-            ]
-        ];
+        if($user->state){
+            $state = [
+                [
+                    'id' => $user->state_id ?? null,
+                    'label' => $user->state
+                ]
+            ];
+            $user->state = $state;
+        }
+        if($user->city){
         $city = [
             [
                 'id' => null,
                 'label' => $user->city
             ]
         ];
+        $user->city = $city;
+       
+     }
+     if($user->department){
         $department = [
             [
                 'id' => null,
@@ -155,8 +163,7 @@ class EmployeeController extends Controller
             ]
         ];
         $user->department = $department;
-        $user->city = $city;
-        $user->state = $state;
+    }
     
         return $this->returnSuccess($user, 'Employee data successfully retrieved');
     }
