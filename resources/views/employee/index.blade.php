@@ -161,7 +161,7 @@
                     {{$employee->state}}
                 </td>
                 <td>
-                    <img style="height:50px;wigth:35px !important;" src="{{ asset('images/admin-image.png') }}" alt="user"/>
+                    <img style="height:50px;wigth:35px !important;" src="{{$employee->profile_photo}}" alt="user"/>
                 </td>
                 @if(in_array($title, ['Register', 'Shortlisted']))
                 <td>
@@ -207,11 +207,14 @@
             $('#searchInput').keyup(function () {
                 updateTableData();
             });
-            $('[name="employee_name"]').on('change', function () {
-                updateTableData();
-             });
              $(document).on('change', '[name="employee_name"]', function (e) {
-          
+                updateTableData();
+              });
+              $(document).on('change', '[name="employee_code"]', function (e) {
+                updateTableData();
+              });
+              $(document).on('change', '[name="department"]', function (e) {
+                updateTableData();
               });
             $(document).on('click', '#paginationLinks a', function (e) {
                     e.preventDefault();
@@ -224,21 +227,30 @@
             $(document).on('click', '#select', function (e) {
                 selectstatus(this);
             });
-
+            $(window).on('beforeunload', function() {
+              $('#searchInput').val('');
+              $('[name="employee_name"]').val('');
+              $('[name="employee_code"]').val('');
+              $('[name="department"]').val('');
+                });
        function updateTableData(page = '') {
             var searchTerm = $('#searchInput').val();
-            var selectedStatus = $('[name="employee_name""]').val();
-            console.log(selectedStatus);
-            loadTableData(searchTerm, selectedStatus, page);
+            var employee_name = $('[name="employee_name"]').val();
+            var employee_code = $('[name="employee_code"]').val();
+            var department = $('[name="department"]').val();
+            console.log(department);
+            loadTableData(searchTerm, employee_name,employee_code,department, page);
       }
        updateTableData();
-    function loadTableData(searchTerm, selectedStatus, page = '') {
+    function loadTableData(searchTerm, employee_name,employee_code,department, page = '') {
        $.ajax({
-           url:routename +  "?search=" + searchTerm + "&status=" + selectedStatus + "&page=" + page,
+           url:routename +  "?search=" + searchTerm + "&employee_name=" + employee_name + "&page=" + page + "&employee_code=" + employee_code + "&department=" + department,
            type: "GET",
            data: {
                 search: searchTerm,
-                status: selectedStatus,
+                employee_name: employee_name,
+                employee_code: employee_code,
+                department: department,
                 page: page
             },
            dataType: 'html',
