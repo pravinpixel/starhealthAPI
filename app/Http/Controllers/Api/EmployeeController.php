@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailVerfiy;
+use App\Mail\Thankyou;
 use OTPHP\TOTP;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
@@ -267,6 +268,7 @@ class EmployeeController extends Controller
             }else{
                 $employee->status = $request->input('status');
                 $employee->employee_status ='register';
+                Mail::to( $employee->email)->send(new Thankyou($employee->employee_name));
             }
             $employee->save();
         } catch (\Throwable $e) {

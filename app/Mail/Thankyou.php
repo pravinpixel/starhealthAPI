@@ -3,16 +3,13 @@
 namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class EmailVerfiy extends Mailable
+class Thankyou extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $mailData;
-    public $email;
+    public $name;
     /**
      * Create a new message instance.
      *
@@ -21,10 +18,9 @@ class EmailVerfiy extends Mailable
      * @param  string $pdfPath
      * @return void
      */
-    public function __construct($mailData,$email)
+    public function __construct($name)
     {
-        $this->mailData = $mailData;
-        $this->email = $email;
+        $this->name = $name;
     }
 
     /**
@@ -34,8 +30,8 @@ class EmailVerfiy extends Mailable
      */
     public function build()
     {
-        return $this->view('email.otpmail')
-            ->subject('Otp verfication');
+        return $this->view('email.thank-you')
+            ->subject('Thank You Submission');
     }
 
 }
