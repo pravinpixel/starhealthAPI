@@ -8,7 +8,9 @@ class EmployeeController extends Controller
   public function registerlist(Request $request)
   {
       $search = $request->input('search');
-      $status = $request->input('status');
+      $employee_name = $request->input('employee_name');
+      $employee_code = $request->input('employee_code');
+      $department = $request->input('department');
       $currentRouteName = request()->route()->getName();
       $perPage = 2;
       $query = Employee::query();
@@ -24,6 +26,17 @@ class EmployeeController extends Controller
       if ($currentRouteName) {
           $query->where('employee_status', $currentRouteName);
       }
+      if ($employee_name) {
+        $query->where('employee_name', $employee_name);
+       }
+       if ($employee_code) {
+        $query->where('employee_code', $employee_code);
+       }
+       if ($department) {
+        $query->where('department', $department);
+       }
+       
+       
       if ($currentRouteName == 'register') {
        $title='Register';
      }elseif($currentRouteName == 'shortlist'){

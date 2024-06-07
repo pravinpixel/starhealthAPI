@@ -49,15 +49,15 @@
         <!--end::Toolbar container-->
     </div>
 
-    <div id="kt_app_content_container" class="app-container container">
-        <div class="row">
+    <div class="row justify-content-between mx-5">
+        <div class="col-md-5">
             <h1 style="">Total submission</h1>
-            <div class="col-md-6" style="padding:20px">
+            <div style="padding:20px">
                 <a href="#">
                     <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
-                         style="width:74%;  background-color: #7dc0e7;background-image: linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);
-                         margin-left:80px;height:172px ! important;">
-                        <div style="justify-content: center; padding:13%; " class="card-body d-flex">
+                         style="background-color: #7dc0e7;background-image: 
+                         linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
+                        <div style="justify-content: center;" class="card-body d-flex">
                             <h2 style="color:white; "><br>
                                 <center><span class="badge badge-light ">{{ $customerartist ??'456' }}</span></center>
                             </h2>
@@ -65,72 +65,76 @@
                     </div>
                 </a>
             </div>
-            <div class="col-md-6" style="padding: 20px;margin-top:-51px;">
-                <h1 style="margin-bottom: 26px">Total Completed</h1>
-                <a href="#">
-                    <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
-                         style="width:74%; background-color: #7dc0e7;background-image: linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);
-                          margin-left:80px;height:172px ! important;">
-                        <div style="justify-content: center; padding:13%; " class="card-body d-flex">
-                            <h2 style="color:white; "> <br>
-                                <center><span class="badge badge-light ">{{ $business  ??'123'}}</span></center>
-                            </h2>
-                        </div>
-                    </div>
-                </a>
-            </div>
         </div>
-        <div class="row">
-            <h1 style="">Total Incompleted</h1>
-            <div class="col-md-6" style="padding:20px">
+        <div class="col-md-5">
+            <h1 style="">Total Completed</h1>
+            <div style="padding:20px">
                 <a href="#">
                     <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
-                         style="width:74%;  background-color: #7dc0e7;background-image: linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);
-                         margin-left:80px;height:172px ! important;">
-                        <div style="justify-content: center; padding:13%; " class="card-body d-flex">
+                         style="background-color: #7dc0e7;background-image: 
+                         linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
+                        <div style="justify-content: center;" class="card-body d-flex">
                             <h2 style="color:white; "><br>
-                                <center><span class="badge badge-light ">{{ $customerartist ??'453' }}</span></center>
-                            </h2>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-6" style="padding: 20px;margin-top:-51px;">
-                <h1 style="margin-bottom: 26px">Total Shortlisted</h1>
-                <a href="#">
-                    <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
-                         style="width:74%;  background-color: #7dc0e7;background-image: linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);
-                          margin-left:80px;height:172px ! important;">
-                        <div style="justify-content: center; padding:13%; " class="card-body d-flex">
-                            <h2 style="color:white; "> <br>
-                                <center><span class="badge badge-light ">{{ $business  ??'123'}}</span></center>
-                            </h2>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="row">
-            <h1 style="margin-left:482px;margin-top:30px">Final List</h1>
-            <div class="col-md-6" style="padding:20px">
-                <a href="#">
-                    <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
-                         style="width:74%;  background-color: #7dc0e7;background-image: linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);
-                         margin-left:378px;height:172px ! important;">
-                        <div style="justify-content: center; padding:13%; " class="card-body d-flex">
-                            <h2 style="color:white;"><br>
                                 <center><span class="badge badge-light ">{{ $customerartist ??'456' }}</span></center>
                             </h2>
                         </div>
                     </div>
                 </a>
             </div>
-            
-        </div>
         </div>
     </div>
-
-
+    <div class="row justify-content-between mx-5 my-4">
+        <div class="col-md-5">
+            <h1 style="">Total Incompleted</h1>
+            <div style="padding:20px">
+                <a href="#">
+                    <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
+                         style="background-color: #7dc0e7;background-image: 
+                         linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
+                        <div style="justify-content: center;" class="card-body d-flex">
+                            <h2 style="color:white; "><br>
+                                <center><span class="badge badge-light ">{{ $customerartist ??'456' }}</span></center>
+                            </h2>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <h1 style="">Total Shortlisted</h1>
+            <div style="padding:20px">
+                <a href="#">
+                    <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
+                         style="background-color: #7dc0e7;background-image: 
+                         linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
+                        <div style="justify-content: center;" class="card-body d-flex">
+                            <h2 style="color:white; "><br>
+                                <center><span class="badge badge-light ">{{ $customerartist ??'456' }}</span></center>
+                            </h2>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mx-5">
+        <div class="col-md-5">
+            <h1 class="text-center">Final List</h1>
+            <div style="padding:20px">
+                <a href="#">
+                    <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
+                         style="background-color: #7dc0e7;background-image: 
+                         linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
+                        <div style="justify-content: center;" class="card-body d-flex">
+                            <h2 style="color:white; "><br>
+                                <center><span class="badge badge-light ">{{ $customerartist ??'456' }}</span></center>
+                            </h2>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
