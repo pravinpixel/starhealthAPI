@@ -154,14 +154,14 @@
                 <td>
                     {{$employee->mobile_number}}
                 </td>
-                <td>
+                <td style="max-width: 35px">
                     {{$employee->email}}
                 </td>
                 <td>
                     {{$employee->state}}
                 </td>
                 <td>
-                    <img style="height:50px;wigth:35px !important;" src="{{$employee->profile_photo}}" alt="user"/>
+                    <img style="height:50px;wigth:35px !important;max-width:45px;" src="{{$employee->profile_photo}}" alt="user"/>
                 </td>
                 @if(in_array($title, ['Register', 'Shortlisted']))
                 <td>
