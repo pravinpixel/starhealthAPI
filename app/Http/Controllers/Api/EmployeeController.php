@@ -314,14 +314,14 @@ class EmployeeController extends Controller
                 //     $this->error = $validator->errors();
                 //     throw new \Exception('validation Error');
                 // }
-                $employee->employee_name = $request->input('employee_name');
-                $employee->dob = $request->input('dob');
-                $employee->department = $request->input('department');
-                $employee->designation = $request->input('designation');
-                $employee->state = $request->input('state');
-                $employee->city = $request->input('city'); 
-                $employee->employee_code = $request->input('employee_code');
-                $employee->mobile_number = $request->input('mobile_number');
+                $employee->employee_name = $request->input('employee_name') ?? $employee->employee_name;
+                $employee->dob = $request->input('dob') ?? $employee->dob;
+                $employee->department = $request->department ?? $employee->department;
+                $employee->designation = $request->designation ?? $employee->designation;
+                $employee->state = $request->input('state') ?? $employee->state;
+                $employee->city = $request->input('city') ?? $employee->city; 
+                $employee->employee_code = $request->input('employee_code') ?? $employee->employee_code;
+                $employee->mobile_number = $request->input('mobile_number') ?? $employee->mobile_number;
               
                 if ($request->hasFile('passport_photo')) {
                     if($employee->passport_photo != null){
