@@ -32,6 +32,10 @@
                           <span class="menu-title">Dashboard</span>
                         </a>
                 </div>
+                @php
+                 $name=Auth::user()->role->name;
+                @endphp
+                @if($name =='Super Admin')
                 <div class="menu-item">
                   <a class="menu-link {{(request()->is('user*')) ? 'active' : '' }}" href="{{url('user')}}">
                         <span class="menu-icon">
@@ -47,6 +51,7 @@
                         <span class="menu-title">User</span>
                       </a>
               </div>
+              @endif
                 <div class="menu-item">
                   <a class="menu-link {{(request()->is('employee/register-list*')) ? 'active' : '' }}" href="{{url('employee/register-list')}}">
                         <span class="menu-icon">

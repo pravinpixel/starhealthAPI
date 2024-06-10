@@ -144,13 +144,14 @@
           type: "POST",
           data:form_data,
           success: function (response) {
-            $('.field-error').text(" ");
+            $('.field-error').text('');
               toastr.success(response.message);
               window.location = "{{route('user.index')}}";
           },
           error: function (response) {
             console.log(response);
               $("#user_form").attr("disabled", false);
+              $('#user_form').find(".field-error").text('');
               $.each(response.responseJSON.errors, function (field_name, error) {
                   $('#' + field_name + '-error').text(error[0]);
               });
