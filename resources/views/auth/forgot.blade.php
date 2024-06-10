@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
  @section('style')
  <link href="{{asset('css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+ <link href="assets/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css"/>
  <link rel="stylesheet" href="{{ asset('css/style.css') }}"/>
  @show
 
@@ -68,6 +69,7 @@
     @section('script')
     <script>
         var submit_url="{{ route('forgot.save') }}";
+        var url="{{ route('index') }}";
     </script>
     <script>var defaultThemeMode = "light"; var themeMode; if ( document.documentElement ) { if ( document.documentElement.hasAttribute("data-theme-mode")) { themeMode = document.documentElement.getAttribute("data-theme-mode"); } else { if ( localStorage.getItem("data-theme") !== null ) { themeMode = localStorage.getItem("data-theme"); } else { themeMode = defaultThemeMode; } } if (themeMode === "system") { themeMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; } document.documentElement.setAttribute("data-theme", themeMode); }</script>
     <script src="{{ asset('plugins/global/plugins.bundle.js')}}"></script>
