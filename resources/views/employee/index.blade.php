@@ -153,12 +153,12 @@
                     {{$employee->state}}
                 </td>
                 <td>
-                    <img style="height:50px;wigth:35px !important;max-width:45px;" src="{{$employee->profile_photo}}" alt="user"/>
+                    <img style="height:50px;wigth:35px !important;max-width:45px;" src="{{$employee->profile_photo}}" alt=""/>
                 </td>
                 @if(in_array($title, ['Register', 'Shortlisted']))
                 <td>
                     <div class="form-check form-check-custom form-check-success form-check-solid">
-                        <input  class="form-check-input" id="select" name="select" type="checkbox" value="{{$employee->id}}" />
+                        <input style=" border: 2px solid #bcbcbc;" class="form-check-input" id="select" name="select" type="checkbox" value="{{$employee->id}}" />
                     </div>
                 </td>
             @endif
