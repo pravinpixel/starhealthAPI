@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Helpers\LogHelper;
 use App\Models\Department;
 use Carbon\Carbon;
+use App\Models\Designation;
 
 class EmployeeController extends Controller
 {
@@ -168,6 +169,15 @@ class EmployeeController extends Controller
         ];
         $user->department = $department;
     }
+    if($user->designation){
+        $designation = [
+            [
+                'id' => null,
+                'label' => $user->designation
+            ]
+        ];
+        $user->designation = $designation;
+    }
     
         return $this->returnSuccess($user, 'Employee data successfully retrieved');
     }
@@ -198,10 +208,17 @@ class EmployeeController extends Controller
                     throw new \Exception('validation Error');
                 }
                 $department = Department::where('name', $request->department)->first();
+                $designation = Designation::where('name', $request->designation)->first();
+
 
                 if (!$department) {
                     $data = new Department();
                     $data->name = $request->input('department');
+                    $data->save();
+                }
+                if (!$designation) {
+                    $data = new Designation();
+                    $data->name = $request->input('designation');
                     $data->save();
                 }
                 $employee->employee_name = $request->input('employee_name');
