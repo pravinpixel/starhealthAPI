@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Department;
 use App\Models\State;
 use App\Models\City;
+use App\Models\Designation;
 
 class EssientialController extends Controller
 {
@@ -14,6 +15,7 @@ class EssientialController extends Controller
     {
         $states = State::where('status', 1)->get(['id', 'name']);
         $departments = Department::where('status', 1)->get(['id', 'name']);
+        $designations = Designation::where('status', 1)->get(['id', 'name']);
         $states = $states->map(function ($state) {
             return [
                 'id' => $state->id,
@@ -26,9 +28,16 @@ class EssientialController extends Controller
                 'label' => $department->name,
             ];
         });
+        $designations = $designations->map(function ($designation) {
+            return [
+                 'id' => $designation->id,
+                'label' => $designation->name,
+            ];
+        });
         return $this->returnSuccess(
             [
                 'states' => $states,
+                'designations' => $designations,
                 'departments' => $departments,
             ],
             'Essential data retrieved successfully'
