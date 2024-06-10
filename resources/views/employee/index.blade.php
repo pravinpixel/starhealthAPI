@@ -106,68 +106,69 @@
         </div>
            @include('employee.filter')        
         <div class="card-body pt-0">
-         <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_customers_table">
-          <thead style="color: #3498db">
-           <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0" style="color:#3498db !important">
-           <th  class="min-w-115px">Employee Name</th>
-            <th class="min-w-125px">Employee Code</th>
-            <th class="min-w-125px">Department</th>
-            <th class="min-w-125px">Designation</th>
-            <th class="min-w-125px">Mobile</th>
-            <th class="min-w-125px">Email</th>
-            <th class="min-w-125px">State</th>       
-            <th class="min-w-115px">Uploaded Images</th>
-            @if(in_array($title, ['Register', 'Shortlisted']))
-            <th class="min-w-100px">Select</th>
-            @endif
-           </tr>
-          </thead>
-          <tbody class="fw-semibold text-gray-600">
-          @if($employees->isEmpty())
-        <tr>
-            <td colspan="9" class="text-center">No results found.</td>
-        </tr>
-          @else
-           @foreach($employees as $employee)
-           <tr>
-            <td>
-                {{$employee->employee_name}}
-                {{-- {{ $serialNumberStart++ }} --}}
-            </td>
-             <td>
-            {{$employee->employee_code}}
-            </td>
-            <td>
-                {{$employee->department}}
-                </td>
-                <td>
-                    {{$employee->designation}}
-                </td>
-                <td>
-                    {{$employee->mobile_number}}
-                </td>
-                <td style="max-width: 35px">
-                    {{$employee->email}}
-                </td>
-                <td>
-                    {{$employee->state}}
-                </td>
-                <td>
-                    <img style="height:50px;wigth:35px !important;max-width:45px;" src="{{$employee->profile_photo}}" alt=""/>
-                </td>
-                @if(in_array($title, ['Register', 'Shortlisted']))
-                <td>
-                    <div class="form-check form-check-custom form-check-success form-check-solid">
-                        <input style=" border: 2px solid #bcbcbc;" class="form-check-input" id="select" name="select" type="checkbox" value="{{$employee->id}}" />
-                    </div>
-                </td>
-            @endif
-            </tr>
-           @endforeach
-           @endif
-           </tbody> 
-          </table>
-          <!--end::Table-->
+          <div style="overflow-x:auto;">
+            <table style="width:100%;" class="table align-middle table-row-dashed fs-6 gy-5" id="kt_customers_table">
+              <thead style="color: #3498db">
+                          <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0" style="color:#3498db !important">
+                          <th  class="min-w-115px">Employee Name</th>
+                              <th class="min-w-125px">Employee Code</th>
+                              <th class="min-w-125px">Department</th>
+                              <th class="min-w-125px">Designation</th>
+                              <th class="min-w-125px">Mobile</th>
+                              <th class="min-w-125px">Email</th>
+                              <th class="min-w-125px">State</th>       
+                              <th class="min-w-115px">Uploaded Images</th>
+                              @if(in_array($title, ['Register', 'Shortlisted']))
+                              <th class="min-w-100px">Select</th>
+                              @endif
+                          </tr>
+                          </thead>
+                          <tbody class="fw-semibold text-gray-600">
+                              @if($employees->isEmpty())
+                                  <tr>
+                                      <td colspan="9" class="text-center">No results found.</td>
+                                  </tr>
+                              @else
+                              @foreach($employees as $employee)
+                              <tr>
+                                  <td>
+                                      {{$employee->employee_name}}
+                                      {{-- {{ $serialNumberStart++ }} --}}
+                                  </td>
+                                  <td>
+                                  {{$employee->employee_code}}
+                                  </td>
+                                  <td>
+                                      {{$employee->department}}
+                                      </td>
+                                      <td>
+                                          {{$employee->designation}}
+                                      </td>
+                                      <td>
+                                          {{$employee->mobile_number}}
+                                      </td>
+                                      <td style="max-width: 35px">
+                                          {{$employee->email}}
+                                      </td>
+                                      <td>
+                                          {{$employee->state}}
+                                      </td>
+                                      <td>
+                                          <img style="height:50px;wigth:35px !important;max-width:45px;" src="{{$employee->profile_photo}}" alt=""/>
+                                      </td>
+                                      @if(in_array($title, ['Register', 'Shortlisted']))
+                                      <td>
+                                          <div class="form-check form-check-custom form-check-success form-check-solid">
+                                              <input style=" border: 2px solid #bcbcbc;" class="form-check-input" id="select" name="select" type="checkbox" value="{{$employee->id}}" />
+                                          </div>
+                                      </td>
+                                  @endif
+                                  </tr>
+                              @endforeach
+                              @endif
+                          </tbody>    
+            </table>
+          </div>
           <div class="row">
             <div class="col-lg-4 col-md-6 col-sm-12">
                 <div class="show-pg">

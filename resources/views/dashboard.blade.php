@@ -59,7 +59,8 @@
                          linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
                         <div style="justify-content: center;" class="card-body d-flex">
                             <h2 style="color:white; "><br>
-                                <center><span style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light">{{ $sub_mission }}</span></center>
+                                <center><span style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light d-flex align-items-center justify-content-center">
+                                    {{ $sub_mission }}</span></center>
                             </h2>
                         </div>
                     </div>
@@ -75,7 +76,7 @@
                          linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
                         <div style="justify-content: center;" class="card-body d-flex">
                             <h2 style="color:white; "><br>
-                                <center><span style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light ">{{ $completed }}</span></center>
+                                <center><span style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light d-flex align-items-center justify-content-center">{{ $completed }}</span></center>
                             </h2>
                         </div>
                     </div>
@@ -93,7 +94,7 @@
                          linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
                         <div style="justify-content: center;" class="card-body d-flex">
                             <h2 style="color:white; "><br>
-                                <center><span  style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light ">{{ $in_completed  }}</span></center>
+                                <center><span  style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light d-flex align-items-center justify-content-center">{{ $in_completed  }}</span></center>
                             </h2>
                         </div>
                     </div>
@@ -109,7 +110,7 @@
                          linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
                         <div style="justify-content: center;" class="card-body d-flex">
                             <h2 style="color:white; "><br>
-                                <center><span style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light ">{{ $shortlist }}</span></center>
+                                <center><span style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light d-flex align-items-center justify-content-center">{{ $shortlist }}</span></center>
                             </h2>
                         </div>
                     </div>
@@ -127,7 +128,7 @@
                          linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
                         <div style="justify-content: center;" class="card-body d-flex">
                             <h2 style="color:white; "><br>
-                                <center><span style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light ">{{ $final_list  }}</span></center>
+                                <center><span style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light d-flex align-items-center justify-content-center">{{ $final_list  }}</span></center>
                             </h2>
                         </div>
                     </div>
