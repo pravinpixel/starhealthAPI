@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\UserController;
 
 #..login..
 Route::controller(AuthController::class)->group(function () {
@@ -28,4 +29,13 @@ Route::group(['middleware' => ['auth']], function () {
            Route::get('/final-list', 'registerlist')->name('final');
            Route::post('/select', 'statusselect')->name('select');
         });
+         #..user
+    Route::prefix('user')->controller(UserController::class)->group(function () {
+        Route::get('/', 'index')->name('user.index');
+        Route::get('create', 'create')->name('user.create');
+        Route::post('save', 'save')->name('user.save');
+        Route::get('edit/{id}', 'get')->name('user.get');
+        Route::post('/update', 'update')->name('user.update');
+        Route::delete('/{id}', 'delete')->name('user.delete');
+    });
 });

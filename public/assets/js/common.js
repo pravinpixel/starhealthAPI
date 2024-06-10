@@ -1,7 +1,6 @@
   $('#kt_forgot_in_submit').click(function () {
 
 let form_data = $("#forgot-form").serialize();
-console.log(form_data);
 $.ajax({
     url: submit_url,
     type: "POST",
