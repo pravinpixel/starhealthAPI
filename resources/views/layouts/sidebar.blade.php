@@ -18,7 +18,7 @@
         <div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper hover-scroll-overlay-y my-5" data-kt-scroll="true" data-kt-scroll-activate="true" data-kt-scroll-height="auto" data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer" data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
           <div class="menu menu-column menu-rounded menu-sub-indention px-3" id="#kt_app_sidebar_menu" data-kt-menu="true" data-kt-menu-expand="false">
                 <div class="menu-item">
-                    <a class="menu-link {{(request()->is('dashboard*')) ? 'active' : '' }}" href="{{url('dashboard')}}">
+                    <a style="" class="menu-link {{(request()->is('dashboard*')) ? 'active' : '' }}" href="{{url('dashboard')}}">
                           <span class="menu-icon">
                             <span class="svg-icon svg-icon-2">
                               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -29,7 +29,7 @@
                               </svg>
                             </span>
                           </span>
-                          <span class="menu-title">Dashboard</span>
+                          <span  style="color: white" class="menu-title">Dashboard</span>
                         </a>
                 </div>
                 @php
@@ -43,7 +43,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"/></svg>
                           </span>
                         </span>
-                        <span class="menu-title">User</span>
+                        <span style="color: white" class="menu-title">User</span>
                       </a>
               </div>
               @endif
@@ -59,7 +59,7 @@
                             </svg>
                           </span>
                         </span>
-                        <span class="menu-title">Register List</span>
+                        <span  style="color: white" class="menu-title">Register List</span>
                       </a>
               </div>
               <div class="menu-item">
@@ -74,7 +74,7 @@
                           </svg>
                         </span>
                       </span>
-                      <span class="menu-title">Shortlisted List</span>
+                      <span  style="color: white" class="menu-title">Shortlisted List</span>
                     </a>
             </div>
             <div class="menu-item">
@@ -89,7 +89,7 @@
                         </svg>
                       </span>
                     </span>
-                    <span class="menu-title">Final List</span>
+                    <span  style="color: white" class="menu-title">Final List</span>
                   </a>
              </div>
               <div>        

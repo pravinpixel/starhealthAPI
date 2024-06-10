@@ -17,6 +17,11 @@ body{
     height: 60%;
     margin-top: 8%;
 }
+.active .menu-title{
+  color:black !important;
+}
+
+
 
 .logo{
    margin-bottom: 10%;
