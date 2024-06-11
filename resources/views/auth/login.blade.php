@@ -74,9 +74,9 @@
                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                   </button>
                  </div>
-                 <div class="text-gray-500 text-center fw-semibold fs-6">
+                 {{-- <div class="text-gray-500 text-center fw-semibold fs-6">
                     <a href="{{url('forgot-password')}}" class="link-primary">Forgot password?</a>
-                    </div> 
+                    </div>  --}}
                   
                  </form>
           </div>

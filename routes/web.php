@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ChangePasswordController;
 
 #..login..
 Route::controller(AuthController::class)->group(function () {
@@ -37,5 +38,9 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('edit/{id}', 'get')->name('user.get');
         Route::post('/update', 'update')->name('user.update');
         Route::delete('/{id}', 'delete')->name('user.delete');
+    });
+    Route::prefix('change-password')->controller(ChangePasswordController::class)->group(function () {
+        Route::get('/', 'index')->name('change.password.get');
+        Route::post('updatepassword', 'updatepassword')->name('change-password');
     });
 });

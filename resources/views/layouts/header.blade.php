@@ -63,6 +63,9 @@ id="kt_app_header_menu" data-kt-menu="true">
     </div>
   </div>
   <div class="separator my-2"></div>
+  {{-- <div class="menu-item px-5">
+    <a href="{{ url('change-password') }}" class="menu-link px-5">Change Password</a>
+  </div> --}}
   <div class="menu-item px-5">
     <a class="menu-link px-5" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">Sign Out</a>
     <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
