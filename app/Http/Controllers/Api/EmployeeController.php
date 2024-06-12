@@ -30,9 +30,13 @@ class EmployeeController extends Controller
         try {
            
             $validator = Validator::make($request->all(), [
-                'email' => 'required|regex:/(.+)@(.+)\.(.+)/i|email',
+                'email' => [
+                    'required',
+                    'regex:/^([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)@(starhealth|starinsurance)\.in$/',
+                    'email'
+                ],
                 'token' => 'required'
-            ]);
+            ]); 
             if($validator->fails()) {
                 $this->error = $validator->errors();
                 throw new \Exception('validation Error');
@@ -78,7 +82,11 @@ class EmployeeController extends Controller
     public function resendOtp(Request $request){
         try {
         $validator = Validator::make($request->all(), [
-            'email' => 'required|regex:/(.+)@(.+)\.(.+)/i|email',
+            'email' => [
+                'required',
+                'regex:/^([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)@(starhealth|starinsurance)\.in$/',
+                'email'
+            ],
         ]);
         if($validator->fails()) {
             $this->error = $validator->errors();

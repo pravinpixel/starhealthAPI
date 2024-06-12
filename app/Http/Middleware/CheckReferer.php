@@ -17,8 +17,7 @@ class CheckReferer
     public function handle(Request $request, Closure $next)
     {
        
-        $allowedDomain = 'https://a143-103-104-48-68.ngrok-free.app'; // Replace with your allowed domain
-
+        $allowedDomain = env('ACCESS_URL'); // Replace with your allowed domain
         $referer = $request->headers->get('referer');
         $origin = $request->headers->get('origin');
         if (($referer && strpos($referer, $allowedDomain) === 0) || ($origin && $origin === $allowedDomain)) {
