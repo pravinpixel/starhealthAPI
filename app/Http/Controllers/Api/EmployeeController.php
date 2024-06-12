@@ -20,6 +20,7 @@ use Carbon\Carbon;
 use App\Models\Designation;
 use Tymon\JWTAuth\Token;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 
 class EmployeeController extends Controller
@@ -30,6 +31,7 @@ class EmployeeController extends Controller
            
             $validator = Validator::make($request->all(), [
                 'email' => 'required|regex:/(.+)@(.+)\.(.+)/i|email',
+                'token' => 'required'
             ]);
             if($validator->fails()) {
                 $this->error = $validator->errors();
@@ -39,12 +41,14 @@ class EmployeeController extends Controller
             if ($employee) {
                 $otp= $this->generateOtp($employee->id);
                 $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
+                $employee->token=$request->token;
                 $employee->save();
                 $data=explode('@', $employee->email);
                 Mail::to( $employee->email)->send(new EmailVerfiy($otp,$data[0]));
             }else{
                 $employee = new Employee();
                 $employee->email = $request->input('email');
+                $employee->token=$request->token;
                 $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
                 $employee->save();
                 $otp= $this->generateOtp($employee->id);
@@ -110,6 +114,7 @@ class EmployeeController extends Controller
             $validator = Validator::make($request->all(), [
                 'email' => 'required|regex:/(.+)@(.+)\.(.+)/i|email',
                 'otp' => 'required',
+                'token' => 'required',
             ]);
             
             if ($validator->fails()) {
@@ -127,11 +132,15 @@ class EmployeeController extends Controller
                 return $this->returnError('OTP has expired');
             }
             
+            if ($employee->token == $request->token) {
+                $employee->token=null;
+            }else{
+                return $this->returnError('Session tonken is wrong');
+            }
             // Verify OTP
             if ($employee->otp == $request->otp) {
+
                 $employee->otp_verified = true;
-                
-                // Set default status if not set
                 if (!$employee->status) {
                     $employee->status = 'basic';
                 }
@@ -182,38 +191,23 @@ class EmployeeController extends Controller
             return $this->returnError($e->getMessage());
         }
     }
-    public function isValidJwtToken($token) {
-        // Split token into parts
-        $tokenParts = explode('.', $token);
-        
-        // Check if token has three parts
-        if (count($tokenParts) !== 3) {
-            return false;
+    public function createRandomToken(Request $request) {
+        try {
+           
+            // ...
+            $token = Str::random(60);
+    
+            return $this->returnSuccess([
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => JWTAuth::factory()->getTTL() * 60
+            ], 'Random token create sucessfully');
+        } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+            // Log the exception for debugging
+            Log::error('JWT Exception: ' . $e->getMessage());
+    
+            return response()->json(['error' => 'Could not create token.'], 500);
         }
-        
-        // Function to check if a string is valid Base64Url
-        function isValidBase64Url($str) {
-            return (base64_decode(strtr($str, '-_', '+/'), true) !== false);
-        }
-        
-        // Validate each part
-        foreach ($tokenParts as $part) {
-            if (!isValidBase64Url($part)) {
-                return false;
-            }
-        }
-        
-        // Decode and parse JSON for header and payload
-        $decodedHeader = json_decode(base64_decode(strtr($tokenParts[0], '-_', '+/')), true);
-        $decodedPayload = json_decode(base64_decode(strtr($tokenParts[1], '-_', '+/')), true);
-        
-        // Check if JSON decoding was successful
-        if ($decodedHeader === null || $decodedPayload === null) {
-            return false;
-        }
-        
-        // Token format is valid
-        return true;
     }
     
     protected function respondWithToken($token)

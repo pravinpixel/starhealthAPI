@@ -9,6 +9,7 @@ Route::get('/', function () { return 'Welcome Star Health'; });
 Route::group([
    'middleware' => 'api',
 ], function () {
+Route::get('createRandomToken', [EmployeeController::class, 'createRandomToken'])->name('createRandomToken');
 Route::post('emailverfiy', [EmployeeController::class, 'emailverfiy'])->name('emailverfiy');
 Route::post('otp-verfiy', [EmployeeController::class, 'otpverfiy'])->name('otpverfiy');
 Route::post('resend-otp', [EmployeeController::class, 'resendOtp'])->name('resendOtp');
