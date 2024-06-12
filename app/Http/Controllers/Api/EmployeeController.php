@@ -41,14 +41,14 @@ class EmployeeController extends Controller
             if ($employee) {
                 $otp= $this->generateOtp($employee->id);
                 $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
-                $employee->token=$request->token;
+                $employee->session_token=$request->token;
                 $employee->save();
                 $data=explode('@', $employee->email);
                 Mail::to( $employee->email)->send(new EmailVerfiy($otp,$data[0]));
             }else{
                 $employee = new Employee();
                 $employee->email = $request->input('email');
-                $employee->token=$request->token;
+                $employee->session_token=$request->token;
                 $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
                 $employee->save();
                 $otp= $this->generateOtp($employee->id);
@@ -132,8 +132,8 @@ class EmployeeController extends Controller
                 return $this->returnError('OTP has expired');
             }
             
-            if ($employee->token == $request->token) {
-                $employee->token=null;
+            if ($employee->session_token == $request->token) {
+                $employee->session_token=null;
             }else{
                 return $this->returnError('Session tonken is wrong');
             }
