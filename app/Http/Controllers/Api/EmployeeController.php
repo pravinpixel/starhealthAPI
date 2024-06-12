@@ -18,6 +18,9 @@ use App\Helpers\LogHelper;
 use App\Models\Department;
 use Carbon\Carbon;
 use App\Models\Designation;
+use Tymon\JWTAuth\Token;
+use Illuminate\Support\Facades\Log;
+
 
 class EmployeeController extends Controller
 {
@@ -94,42 +97,125 @@ class EmployeeController extends Controller
         return $this->returnError($this->error ?? $e->getMessage());
     }
     }
+    
+    // Usage example:
+   
+    
     public function otpverfiy(Request $request)
     {
         try {
             DB::beginTransaction();
+            
+            // Validate request inputs
             $validator = Validator::make($request->all(), [
                 'email' => 'required|regex:/(.+)@(.+)\.(.+)/i|email',
                 'otp' => 'required',
             ]);
+            
             if ($validator->fails()) {
                 throw new \Exception('Validation Error');
             }
+            
+            // Fetch the employee by email
             $employee = Employee::where('email', $request->email)->first();
             if (!$employee) {
                 return $this->returnError('Employee not found');
             }
+            
+            // Check if OTP has expired
             if (Carbon::parse($employee->expired_date)->lt(Carbon::now())) {
                 return $this->returnError('OTP has expired');
             }
+            
+            // Verify OTP
             if ($employee->otp == $request->otp) {
-                $employee->otp_verified =true;
-                if(!$employee->status){
-                    $employee->status ='basic';
+                $employee->otp_verified = true;
+                
+                // Set default status if not set
+                if (!$employee->status) {
+                    $employee->status = 'basic';
                 }
+                
+                // Invalidate old token if exists
+                if ($employee->token) {
+                    $token = new Token($employee->token);
+                    
+                    // Log the token before invalidating
+                    Log::info('Attempting to invalidate token: ' . $employee->token);
+                    
+                    try {
+                        // Explicitly invalidate the token and blacklist it
+                        JWTAuth::setToken($token)->invalidate(true);
+                        
+                        // Log the successful invalidation
+                        Log::info('Token invalidated successfully.');
+                    } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+                        return $this->returnError('Token is already invalid');
+                    } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+                        // Log the specific JWT exception message
+                        return $this->returnError('JWT Exception: ' . $e->getMessage());
+                    } catch (\Exception $e) {
+                        // Log the general exception message
+                        return $this->returnError('General Exception: ' . $e->getMessage());
+                    }
+                    // Clear the old token
+                    $employee->token = null;
+                }
+                
+                // Generate new token
+                $newToken = JWTAuth::fromUser($employee);
+                $employee->token = $newToken;
+                
+                // Save employee data
                 $employee->save();
-                $token = JWTAuth::fromUser($employee);
+                
                 DB::commit();
-                return $this->respondWithToken($token);
+                return $this->respondWithToken($newToken);
             } else {
                 DB::rollback();
-                return $this->returnError('OTP is Wrong');
+                return $this->returnError('OTP is wrong');
             }
         } catch (\Throwable $e) {
             DB::rollback();
+            // Log the exception for debugging
+            Log::error('Exception in otpverfiy: ' . $e->getMessage());
             return $this->returnError($e->getMessage());
         }
     }
+    public function isValidJwtToken($token) {
+        // Split token into parts
+        $tokenParts = explode('.', $token);
+        
+        // Check if token has three parts
+        if (count($tokenParts) !== 3) {
+            return false;
+        }
+        
+        // Function to check if a string is valid Base64Url
+        function isValidBase64Url($str) {
+            return (base64_decode(strtr($str, '-_', '+/'), true) !== false);
+        }
+        
+        // Validate each part
+        foreach ($tokenParts as $part) {
+            if (!isValidBase64Url($part)) {
+                return false;
+            }
+        }
+        
+        // Decode and parse JSON for header and payload
+        $decodedHeader = json_decode(base64_decode(strtr($tokenParts[0], '-_', '+/')), true);
+        $decodedPayload = json_decode(base64_decode(strtr($tokenParts[1], '-_', '+/')), true);
+        
+        // Check if JSON decoding was successful
+        if ($decodedHeader === null || $decodedPayload === null) {
+            return false;
+        }
+        
+        // Token format is valid
+        return true;
+    }
+    
     protected function respondWithToken($token)
     {
         return $this->returnSuccess([

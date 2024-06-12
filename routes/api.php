@@ -6,12 +6,14 @@ use App\Http\Controllers\Api\EssientialController;
 
 
 Route::get('/', function () { return 'Welcome Star Health'; });
-
+Route::group([
+   'middleware' => 'api',
+], function () {
 Route::post('emailverfiy', [EmployeeController::class, 'emailverfiy'])->name('emailverfiy');
 Route::post('otp-verfiy', [EmployeeController::class, 'otpverfiy'])->name('otpverfiy');
 Route::post('resend-otp', [EmployeeController::class, 'resendOtp'])->name('resendOtp');
 
-
+});
 Route::group([
     'middleware' => 'auth:api',
 ], function () {
