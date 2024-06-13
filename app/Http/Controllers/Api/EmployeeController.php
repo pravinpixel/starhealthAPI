@@ -31,11 +31,11 @@ class EmployeeController extends Controller
         try {
            
             $validator = Validator::make($request->all(), [
-                'email' => [
-                    'required',
-                    'email',
-                    'regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@(starhealth|starinsurance)\.in$|^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@pixel-studios\.com$/'
-                ],
+                // 'email' => [
+                //     'required',
+                //     'email',
+                //     'regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@(starhealth|starinsurance)\.in$|^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@pixel-studios\.com$/'
+                // ],
                 'token' => 'required'
             ]); 
             if($validator->fails()) {
@@ -45,7 +45,7 @@ class EmployeeController extends Controller
             $employee = Employee::where('email', $request->email)->first();
             if ($employee) {
                 $otp= $this->generateOtp($employee->id);
-                $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
+                // $employee->expired_date = Carbon::now()->addMinutes(1)->format('Y-m-d H:i:s');
                 $employee->session_token=$request->token;
                 $employee->save();
                 $data=explode('@', $employee->email);
@@ -54,7 +54,7 @@ class EmployeeController extends Controller
                 $employee = new Employee();
                 $employee->email = $request->input('email');
                 $employee->session_token=$request->token;
-                $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
+                // $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
                 $employee->save();
                 $otp= $this->generateOtp($employee->id);
                 $data=explode('@', $employee->email);
@@ -77,6 +77,7 @@ class EmployeeController extends Controller
         $code = $otp->at($timestamp);
         $employee = Employee::find($id);
         $employee->otp=$code;
+        $employee->expired_date = Carbon::now()->addMinutes(1)->format('Y-m-d H:i:s');
         $employee->save();
         return $code;
     }
@@ -96,7 +97,7 @@ class EmployeeController extends Controller
         $employee = Employee::where('email', $request->email)->first();
         if ($employee) {
             $otp= $this->generateOtp($employee->id);
-            $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
+            // $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
             $employee->save();
             $data=explode('@', $employee->email);
             Mail::to( $employee->email)->send(new EmailVerfiy($otp,$data[0]));
