@@ -36,7 +36,7 @@ class EmployeeController extends Controller
                     'email',
                     'regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@(starhealth|starinsurance)\.in$|^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@pixel-studios\.com$/'
                 ],
-                'token' => 'required'
+                'token' => 'required|unique:employees',
             ]); 
             if($validator->fails()) {
                 $this->error = $validator->errors();
