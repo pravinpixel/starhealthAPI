@@ -339,7 +339,7 @@ class EmployeeController extends Controller
                 $employee->employee_code = $request->input('employee_code');
                 $employee->mobile_number = $request->input('mobile_number');
                 $employee->status = $request->input('status');
-               
+               $message='Employee created successfully';
             }elseif($request->status == "summary"){
                 if ($request->hasFile('passport_photo')) {
                     if($employee->passport_photo != null){
@@ -390,17 +390,19 @@ class EmployeeController extends Controller
                     $employee->family_photo = null;
                 }
                 $employee->status = $request->input('status');
+                $message='Employee updated successfully';
             }else{
                 $employee->status = $request->input('status');
                 $employee->employee_status ='register';
                 Mail::to( $employee->email)->send(new Thankyou($employee->employee_name));
+                $message = 'Employee submitted successfully';
             }
             $employee->save();
         } catch (\Throwable $e) {
             return $this->returnError($this->error ?? $e->getMessage());
         }
         return $this->returnSuccess(
-            $employee,'Employee created successfully');
+            $employee,$message);
     }
     public function employeelogout()
     {
