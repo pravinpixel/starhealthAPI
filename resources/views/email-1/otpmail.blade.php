@@ -1,4 +1,3 @@
-
 <html>
    <body style="background: #f5f8fa; margin-top: 50px;">
       <table border="0" cellpadding="0" cellspacing="0" align="center" style="font-weight: normal;border-collapse: collapse;border: 0;margin-left: auto;margin-right: auto;padding: 0;font-family: Arial, sans-serif;color: #555559;background-color: white; font-size: 16px;line-height: 26px;width:600px;">
