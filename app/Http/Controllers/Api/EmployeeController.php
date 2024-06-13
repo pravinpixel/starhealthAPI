@@ -132,8 +132,8 @@ class EmployeeController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => [
                 'required',
-                'regex:/^([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)@(starhealth|starinsurance)\.in$/',
-                'email'
+                'email',
+                'regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@(starhealth|starinsurance)\.in$|^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@pixel-studios\.com$/'
             ],
             'otp' => 'required|size:4',
             'token' => 'required',
