@@ -120,7 +120,11 @@ class EmployeeController extends Controller
             
             // Validate request inputs
             $validator = Validator::make($request->all(), [
-                'email' => 'required|regex:/(.+)@(.+)\.(.+)/i|email',
+               'email' => [
+                'required',
+                'regex:/^([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)@(starhealth|starinsurance)\.in$/',
+                'email'
+            ],
                 'otp' => 'required',
                 'token' => 'required',
             ]);

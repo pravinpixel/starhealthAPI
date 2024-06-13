@@ -34,6 +34,7 @@ class EmailVerfiy extends Mailable
      */
     public function build()
     {
+        
         return $this->view('email.otpmail')
             ->subject('Otp verfication');
     }
