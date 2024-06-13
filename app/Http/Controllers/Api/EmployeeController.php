@@ -345,18 +345,18 @@ class EmployeeController extends Controller
                 $employee->employee_code = $request->input('employee_code');
                 $employee->mobile_number = $request->input('mobile_number');
                 $employee->status = $request->input('status');
-               $message='Employee created successfully';
+               $message='Profile Details updated successfully';
             }elseif($request->status == "summary"){
-                $validator = Validator::make($request->all(), [
-                    'passport_photo' => 'required',
-                    'profile_photo' => 'required',
+            //     $validator = Validator::make($request->all(), [
+            //         'passport_photo' => 'required',
+            //         'profile_photo' => 'required',
         
-                ]
-            );
-                if ($validator->fails()) {
-                    $this->error = $validator->errors();
-                    throw new \Exception('validation Error');
-                }
+            //     ]
+            // );
+            //     if ($validator->fails()) {
+            //         $this->error = $validator->errors();
+            //         throw new \Exception('validation Error');
+            //     }
                 if ($request->hasFile('passport_photo')) {
                     if($employee->passport_photo != null){
                         $data=explode('storage/', $employee->passport_photo);
@@ -406,7 +406,7 @@ class EmployeeController extends Controller
                     $employee->family_photo = null;
                 }
                 $employee->status = $request->input('status');
-                $message='Employee updated successfully';
+                $message='Photo uploaded successfuly';
             }else{
                 $employee->status = $request->input('status');
                 $employee->employee_status ='register';
