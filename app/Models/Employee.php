@@ -15,6 +15,7 @@ class Employee extends Authenticatable implements JWTSubject
     // Define your model attributes and relationships here
     protected $hidden = [
         'otp',
+        'token',
         'state_id',
         'otp_verified',
         'otp_verified',

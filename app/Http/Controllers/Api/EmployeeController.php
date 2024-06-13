@@ -94,15 +94,19 @@ class EmployeeController extends Controller
                 'email',
                 'regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@(starhealth|starinsurance)\.in$|^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@pixel-studios\.com$/'
             ],
+            'token' => 'required|unique:employees',
         ]);
         if($validator->fails()) {
             $this->error = $validator->errors();
             throw new \Exception('validation Error');
         }
         $employee = Employee::where('email', $request->email)->first();
+        if ($employee->session_token != $request->token) {
+            Log::error('Session token mismatch for email: ' . $request->email);
+            return $this->returnError('Session token is wrong');
+        } 
         if ($employee) {
             $otp= $this->generateOtp($employee->id);
-            // $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
             $employee->save();
             $data=explode('@', $employee->email);
             Mail::to( $employee->email)->send(new EmailVerfiy($otp,$data[0]));
@@ -140,6 +144,7 @@ class EmployeeController extends Controller
         ]);
         
         if ($validator->fails()) {
+            $this->error = $validator->errors();
             Log::error('Validation Error: ' . json_encode($validator->errors()));
             throw new \Exception('Validation Error');
         }
@@ -253,34 +258,34 @@ class EmployeeController extends Controller
             ];
             $user->state = $state;
         }
-        if($user->city){
-        $city = [
-            [
-                'id' => null,
-                'label' => $user->city
-            ]
-        ];
-        $user->city = $city;
+    //     if($user->city){
+    //     $city = [
+    //         [
+    //             'id' => null,
+    //             'label' => $user->city
+    //         ]
+    //     ];
+    //     $user->city = $city;
        
-     }
-     if($user->department){
-        $department = [
-            [
-                'id' => null,
-                'label' => $user->department
-            ]
-        ];
-        $user->department = $department;
-    }
-    if($user->designation){
-        $designation = [
-            [
-                'id' => null,
-                'label' => $user->designation
-            ]
-        ];
-        $user->designation = $designation;
-    }
+    //  }
+    //  if($user->department){
+    //     $department = [
+    //         [
+    //             'id' => null,
+    //             'label' => $user->department
+    //         ]
+    //     ];
+    //     $user->department = $department;
+    // }
+    // if($user->designation){
+    //     $designation = [
+    //         [
+    //             'id' => null,
+    //             'label' => $user->designation
+    //         ]
+    //     ];
+    //     $user->designation = $designation;
+    // }
     
         return $this->returnSuccess($user, 'Employee data successfully retrieved');
     }
@@ -316,32 +321,42 @@ class EmployeeController extends Controller
                     $this->error = $validator->errors();
                     throw new \Exception('validation Error');
                 }
-                $department = Department::where('name', $request->department)->first();
-                $designation = Designation::where('name', $request->designation)->first();
+                // $department = Department::where('name', $request->department)->first();
+                // $designation = Designation::where('name', $request->designation)->first();
 
 
-                if (!$department) {
-                    $data = new Department();
-                    $data->name = $request->input('department');
-                    $data->save();
-                }
-                if (!$designation) {
-                    $data = new Designation();
-                    $data->name = $request->input('designation');
-                    $data->save();
-                }
+                // if (!$department) {
+                //     $data = new Department();
+                //     $data->name = $request->input('department');
+                //     $data->save();
+                // }
+                // if (!$designation) {
+                //     $data = new Designation();
+                //     $data->name = $request->input('designation');
+                //     $data->save();
+                // }
                 $employee->employee_name = $request->input('employee_name');
                 $employee->dob = $request->input('dob');
                 $employee->department = $request->input('department');
                 $employee->designation = $request->input('designation');
                 $employee->state = $request->input('state');
-                $employee->state_id = $request->input('state_id');
+                // $employee->state_id = $request->input('state_id');
                 $employee->city = $request->input('city'); 
                 $employee->employee_code = $request->input('employee_code');
                 $employee->mobile_number = $request->input('mobile_number');
                 $employee->status = $request->input('status');
                $message='Employee created successfully';
             }elseif($request->status == "summary"){
+                $validator = Validator::make($request->all(), [
+                    'passport_photo' => 'required',
+                    'profile_photo' => 'required',
+        
+                ]
+            );
+                if ($validator->fails()) {
+                    $this->error = $validator->errors();
+                    throw new \Exception('validation Error');
+                }
                 if ($request->hasFile('passport_photo')) {
                     if($employee->passport_photo != null){
                         $data=explode('storage/', $employee->passport_photo);
