@@ -335,10 +335,8 @@ $(document).ready(function () {
             type: "GET",
             dataType: 'html',
             success: function (response) {
-                console.log(response);
                 $('#kt_customers_table tbody').html($(response).find('#kt_customers_table tbody').html());
                 $('#pagination-links').html($(response).find('#pagination-links').html());
-                attachEventListeners();
             },
             error: function () {
                 console.error('Error loading table data.');
