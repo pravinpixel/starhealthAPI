@@ -19,7 +19,7 @@
 				  <tr>
                      <td valign="center" align="center" style="border-collapse: collapse;border: 0;margin: 0;padding: 10px;-webkit-text-size-adjust: none;color: #222;font-family: Arial, sans-serif;font-size: 15px;line-height: 26px;background-color:#FFF; text-align: left;">
                         Dear <strong>{{ucfirst($email)}},</strong><br/><br/>
-						<strong>{{$mailData}}</strong> is the OTP (One-Time Password) to log in to participate in the <strong>Faces of Star Health campaign</strong>. Please do not share this OTP with anyone. It will be valid for only 5 minutes. Kindly re-generate it after expiry, if required.<br/><br/>
+						<strong>{{$mailData}}</strong> is the OTP (One-Time Password) to log in to participate in the <strong>Faces of Star Health campaign</strong>. Please do not share this OTP with anyone. It will be valid for only 60 seconds. Kindly re-generate it after expiry, if required.<br/><br/>
 						If you did not initiate this registration, please ignore this email or contact our support team immediately.<br/><br/>						
 						<strong>Yours Sincerely,<br/>SHAI Team</strong>
                      </td>
