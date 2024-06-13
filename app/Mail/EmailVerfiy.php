@@ -36,7 +36,7 @@ class EmailVerfiy extends Mailable
     {
         
         return $this->view('email.otpmail')
-            ->subject('Otp verfication');
+            ->subject('Faces of Star Health');
     }
 
 }

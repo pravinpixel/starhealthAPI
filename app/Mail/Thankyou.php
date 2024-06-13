@@ -31,7 +31,7 @@ class Thankyou extends Mailable
     public function build()
     {
         return $this->view('email.thank-you')
-            ->subject('Thank You Submission');
+            ->subject('Thank You for Submission');
     }
 
 }
