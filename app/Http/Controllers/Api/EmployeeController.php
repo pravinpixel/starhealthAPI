@@ -50,6 +50,9 @@ class EmployeeController extends Controller
                 $employee->save();
                 $data=explode('@', $employee->email);
                 Mail::to( $employee->email)->send(new EmailVerfiy($otp,$data[0]));
+                $employee = Employee::find($employee->id);
+                $employee->expired_date = Carbon::now()->addMinutes(1)->addSeconds(10)->format('Y-m-d H:i:s');
+                $employee->save();
             }else{
                 $employee = new Employee();
                 $employee->email = $request->input('email');
@@ -59,6 +62,9 @@ class EmployeeController extends Controller
                 $otp= $this->generateOtp($employee->id);
                 $data=explode('@', $employee->email);
                 Mail::to( $employee->email)->send(new EmailVerfiy($otp,$data[0]));
+                $employee = Employee::find($employee->id);
+                $employee->expired_date = Carbon::now()->addMinutes(1)->addSeconds(10)->format('Y-m-d H:i:s');
+                $employee->save();
             }
             LogHelper::AddLog('Employee',$employee->id,'Otp Send',$otp,'OTP genarate this '.$employee->email);
             return $this->returnSuccess(
@@ -77,7 +83,6 @@ class EmployeeController extends Controller
         $code = $otp->at($timestamp);
         $employee = Employee::find($id);
         $employee->otp=$code;
-        $employee->expired_date = Carbon::now()->addMinutes(1)->format('Y-m-d H:i:s');
         $employee->save();
         return $code;
     }
@@ -101,6 +106,9 @@ class EmployeeController extends Controller
             $employee->save();
             $data=explode('@', $employee->email);
             Mail::to( $employee->email)->send(new EmailVerfiy($otp,$data[0]));
+            $employee = Employee::find($employee->id);
+            $employee->expired_date = Carbon::now()->addMinutes(1)->addSeconds(10)->format('Y-m-d H:i:s');
+            $employee->save();
            }else{
             return $this->returnError('Employee not found');
         }
