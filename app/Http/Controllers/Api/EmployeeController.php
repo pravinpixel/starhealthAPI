@@ -31,11 +31,11 @@ class EmployeeController extends Controller
         try {
            
             $validator = Validator::make($request->all(), [
-                // 'email' => [
-                //     'required',
-                //     'email',
-                //     'regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@(starhealth|starinsurance)\.in$|^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@pixel-studios\.com$/'
-                // ],
+                'email' => [
+                    'required',
+                    'email',
+                    'regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@(starhealth|starinsurance)\.in$|^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@pixel-studios\.com$/'
+                ],
                 'token' => 'required'
             ]); 
             if($validator->fails()) {
