@@ -21,6 +21,7 @@ use App\Models\Designation;
 use Tymon\JWTAuth\Token;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 
 class EmployeeController extends Controller
@@ -32,8 +33,8 @@ class EmployeeController extends Controller
             $validator = Validator::make($request->all(), [
                 'email' => [
                     'required',
-                    'regex:/^([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)@(starhealth|starinsurance)\.in$/',
-                    'email'
+                    'email',
+                    'regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@(starhealth|starinsurance)\.in$|^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@pixel-studios\.com$/'
                 ],
                 'token' => 'required'
             ]); 
@@ -84,8 +85,8 @@ class EmployeeController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => [
                 'required',
-                'regex:/^([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)@(starhealth|starinsurance)\.in$/',
-                'email'
+                'email',
+                'regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@(starhealth|starinsurance)\.in$|^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@pixel-studios\.com$/'
             ],
         ]);
         if($validator->fails()) {
@@ -125,7 +126,7 @@ class EmployeeController extends Controller
                 'regex:/^([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)@(starhealth|starinsurance)\.in$/',
                 'email'
             ],
-                'otp' => 'required',
+               'otp' => 'required|size:4',
                 'token' => 'required',
             ]);
             
@@ -194,7 +195,7 @@ class EmployeeController extends Controller
                 return $this->respondWithToken($newToken);
             } else {
                 DB::rollback();
-                return $this->returnError('OTP is wrong');
+                return $this->returnError('Enter Valid OTP');
             }
         } catch (\Throwable $e) {
             DB::rollback();
@@ -283,18 +284,24 @@ class EmployeeController extends Controller
             if($request->status == "upload"){
                 $validator = Validator::make($request->all(), [
                     'employee_name' => 'required|string|max:100',
-                    'employee_code' => 'required|string|max:100',
+                    'employee_code' => 'required|string|max:10',
                     'mobile_number' => [
                         'required',
-                        'unique:employees,mobile_number,'.$id,
-                      ],
+                        'size:10',
+                        Rule::unique('employees', 'mobile_number')->ignore($id),
+                    ],
                       'dob' => 'required|date|max:100',
                       'department' => 'required|string|max:100',
                       'designation' => 'required|string|max:100',
                       'state' => 'required|string|max:100',
                       'city' => 'required|string|max:100',
         
-                ]);
+                ],
+                [
+                    'mobile_number.unique' => 'This Number is Already Registered',
+                    'mobile_number.size' => 'Enter 10 Digit Mobile Number',
+                ]
+            );
                 if ($validator->fails()) {
                     $this->error = $validator->errors();
                     throw new \Exception('validation Error');
