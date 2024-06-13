@@ -31,7 +31,7 @@ data-kt-swapper-mode="{default: 'append', lg: 'prepend'}"
 data-kt-swapper-parent="{default: '#kt_app_body', lg: '#kt_app_header_wrapper'}">
 <div class="menu-title mt-2">
         <h3 class="mt-5">
-           StartHelath
+           StarHelath
         </h3>
     </div>
 <div
