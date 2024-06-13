@@ -124,101 +124,95 @@ class EmployeeController extends Controller
    
     
     public function otpverfiy(Request $request)
-    {
-        try {
-            DB::beginTransaction();
-            
-            // Validate request inputs
-            $validator = Validator::make($request->all(), [
-                'email' => [
-                    'required',
-                    'regex:/^([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)@(starhealth|starinsurance)\.in$/',
-                    'email'
-                ],
-                'otp' => 'required|size:4',
-                'token' => 'required',
-            ]);
-            
-            if ($validator->fails()) {
-                Log::error('Validation Error: ' . json_encode($validator->errors()));
-                throw new \Exception('Validation Error');
-            }
-            
-            // Fetch the employee by email
-            $employee = Employee::where('email', $request->email)->first();
-            if (!$employee) {
-                Log::error('Employee not found for email: ' . $request->email);
-                return $this->returnError('Employee not found');
-            }
-            
-            // Check if OTP has expired
-            if (Carbon::parse($employee->expired_date)->lt(Carbon::now())) {
-                Log::error('OTP has expired for email: ' . $request->email);
-                return $this->returnError('OTP has expired');
-            }
-            
-            if ($employee->session_token != $request->token) {
-                Log::error('Session token mismatch for email: ' . $request->email);
-                return $this->returnError('Session token is wrong');
-            } else {
-                $employee->session_token = null;
-            }
-            
-            // Verify OTP
-            if ($employee->otp == $request->otp) {
-                $employee->otp_verified = true;
-                if (!$employee->status) {
-                    $employee->status = 'basic';
-                }
-                
-                // Invalidate old token if exists
-                if ($employee->token) {
-                    $token = $employee->token;
-                    Log::info('Attempting to invalidate token: ' . $token);
-                    
-                    try {
-                        // Check token structure before invalidation
-                        if (count(explode('.', $token)) !== 3) {
-                            throw new \Exception('Invalid token structure');
-                        }
-    
-                        JWTAuth::setToken($token)->invalidate(true);
-                        Log::info('Token invalidated successfully for email: ' . $request->email);
-                    } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
-                        Log::error('Token invalidation error for email: ' . $request->email . ' - ' . $e->getMessage());
-                        return $this->returnError('Token is already invalid');
-                    } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-                        Log::error('JWT Exception for email: ' . $request->email . ' - ' . $e->getMessage());
-                        return $this->returnError('JWT Exception: ' . $e->getMessage());
-                    } catch (\Exception $e) {
-                        Log::error('General Exception during token invalidation for email: ' . $request->email . ' - ' . $e->getMessage());
-                        return $this->returnError('General Exception: ' . $e->getMessage());
-                    }
-                    $employee->token = null;
-                }
-                
-                // Generate new token
-                $newToken = JWTAuth::fromUser($employee);
-                $employee->token = $newToken;
-                
-                // Save employee data
-                $employee->save();
-                
-                DB::commit();
-                Log::info('OTP verified and new token generated for email: ' . $request->email);
-                return $this->respondWithToken($newToken);
-            } else {
-                DB::rollback();
-                Log::error('Invalid OTP entered for email: ' . $request->email);
-                return $this->returnError('Enter Valid OTP');
-            }
-        } catch (\Throwable $e) {
-            DB::rollback();
-            Log::error('Exception in otpverfiy: ' . $e->getMessage());
-            return $this->returnError($e->getMessage());
+{
+    try {
+        DB::beginTransaction();
+        
+        // Validate request inputs
+        $validator = Validator::make($request->all(), [
+            'email' => [
+                'required',
+                'regex:/^([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)@(starhealth|starinsurance)\.in$/',
+                'email'
+            ],
+            'otp' => 'required|size:4',
+            'token' => 'required',
+        ]);
+        
+        if ($validator->fails()) {
+            Log::error('Validation Error: ' . json_encode($validator->errors()));
+            throw new \Exception('Validation Error');
         }
+        
+        // Fetch the employee by email
+        $employee = Employee::where('email', $request->email)->first();
+        if (!$employee) {
+            Log::error('Employee not found for email: ' . $request->email);
+            return $this->returnError('Employee not found');
+        }
+        
+        // Check if OTP has expired
+        if (Carbon::parse($employee->expired_date)->lt(Carbon::now())) {
+            Log::error('OTP has expired for email: ' . $request->email);
+            return $this->returnError('OTP has expired');
+        }
+        
+        if ($employee->session_token != $request->token) {
+            Log::error('Session token mismatch for email: ' . $request->email);
+            return $this->returnError('Session token is wrong');
+        } else {
+            $employee->session_token = null;
+        }
+        
+        // Verify OTP
+        if ($employee->otp == $request->otp) {
+            $employee->otp_verified = true;
+            if (!$employee->status) {
+                $employee->status = 'basic';
+            }
+            
+            // Invalidate old token if exists
+            if ($employee->token) {
+                $token = new Token($employee->token);
+                Log::info('Attempting to invalidate token: ' . $employee->token);
+                
+                try {
+                    JWTAuth::setToken($token)->invalidate(true);
+                    Log::info('Token invalidated successfully for email: ' . $request->email);
+                } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
+                    Log::error('Token invalidation error for email: ' . $request->email . ' - ' . $e->getMessage());
+                    return $this->returnError('Token is already invalid');
+                } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
+                    Log::error('JWT Exception for email: ' . $request->email . ' - ' . $e->getMessage());
+                    return $this->returnError('JWT Exception: ' . $e->getMessage());
+                } catch (\Exception $e) {
+                    Log::error('General Exception during token invalidation for email: ' . $request->email . ' - ' . $e->getMessage());
+                    return $this->returnError('General Exception: ' . $e->getMessage());
+                }
+                $employee->token = null;
+            }
+            
+            // Generate new token
+            $newToken = JWTAuth::fromUser($employee);
+            $employee->token = $newToken;
+            
+            // Save employee data
+            $employee->save();
+            
+            DB::commit();
+            Log::info('OTP verified and new token generated for email: ' . $request->email);
+            return $this->respondWithToken($newToken);
+        } else {
+            DB::rollback();
+            Log::error('Invalid OTP entered for email: ' . $request->email);
+            return $this->returnError('Enter Valid OTP');
+        }
+    } catch (\Throwable $e) {
+        DB::rollback();
+        Log::error('Exception in otpverfiy: ' . $e->getMessage());
+        return $this->returnError($e->getMessage());
     }
-    
+}
 
     public function createRandomToken(Request $request) {
         try {
