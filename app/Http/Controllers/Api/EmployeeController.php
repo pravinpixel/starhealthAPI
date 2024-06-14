@@ -357,17 +357,36 @@ class EmployeeController extends Controller
             //         $this->error = $validator->errors();
             //         throw new \Exception('validation Error');
             //     }
-                if ($request->hasFile('passport_photo')) {
-                    if($employee->passport_photo != null){
-                        $data=explode('storage/', $employee->passport_photo);
-                        if(file_exists(storage_path('app/public/'.$data[1]))) {
-                           unlink(storage_path('app/public/'.$data[1]));
-                       }
+                if ($request->hasFile('passport_photo')) {    
+                    $validator = Validator::make($request->all(), [
+                        'passport_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+                    ]);
+                    if ($validator->fails()) {
+                                $this->error = $validator->errors();
+                                throw new \Exception('validation Error');
                     }
+                    if($employee->passport_photo != null){
+                    $data=explode('storage/', $employee->passport_photo);
+                    if(file_exists(storage_path('app/public/'.$data[1]))) {
+                       unlink(storage_path('app/public/'.$data[1]));
+                   }   
+                  }         
                     $passport_photo=$request->passport_photo;
                     $fileName = "passport_photo_" . uniqid() . "_" . time() . "." . $passport_photo->extension();
                     $path = $passport_photo->move(storage_path("app/public/employee/"), $fileName);
                     $employee->passport_photo = 'employee/' . $fileName;
+                }elseif($employee->passport_photo && $request->passport_photo){
+                    $data=explode('storage/', $employee->passport_photo);
+                    $employee->passport_photo =$data[1];
+                }
+                else{
+                    if($employee->passport_photo){
+                        $data=explode('storage/', $employee->passport_photo);
+                        if(file_exists(storage_path('app/public/'.$data[1]))) {
+                           unlink(storage_path('app/public/'.$data[1]));
+                       }   
+                    }
+                    $employee->passport_photo = null;
                 }
                 // if ($request->hasFile('profile_photo')) {
                 //     if($employee->profile_photo != null){
@@ -381,7 +400,14 @@ class EmployeeController extends Controller
                 //     $path = $profile_photo->move(storage_path("app/public/employee/"), $fileName);
                 //     $employee->profile_photo = 'employee/' . $fileName;
                 // }
-                if ($request->hasFile('profile_photo')) {    
+                if ($request->hasFile('profile_photo')) {   
+                    $validator = Validator::make($request->all(), [
+                        'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+                    ]);
+                    if ($validator->fails()) {
+                                $this->error = $validator->errors();
+                                throw new \Exception('validation Error');
+                    } 
                     if($employee->profile_photo != null){
                     $data=explode('storage/', $employee->profile_photo);
                     if(file_exists(storage_path('app/public/'.$data[1]))) {
@@ -406,7 +432,14 @@ class EmployeeController extends Controller
                     $employee->profile_photo = null;
                 }
 
-                if ($request->hasFile('family_photo')) {    
+                if ($request->hasFile('family_photo')) {   
+                    $validator = Validator::make($request->all(), [
+                        'family_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+                    ]);
+                    if ($validator->fails()) {
+                                $this->error = $validator->errors();
+                                throw new \Exception('validation Error');
+                    }  
                     if($employee->family_photo != null){
                     $data=explode('storage/', $employee->family_photo);
                     if(file_exists(storage_path('app/public/'.$data[1]))) {
@@ -491,29 +524,53 @@ class EmployeeController extends Controller
                 $employee->employee_code = $request->input('employee_code') ?? $employee->employee_code;
                 $employee->mobile_number = $request->input('mobile_number') ?? $employee->mobile_number;
               
-                if ($request->hasFile('passport_photo')) {
+                if ($request->hasFile('passport_photo')) {    
                     if($employee->passport_photo != null){
-                        $data=explode('storage/', $employee->passport_photo);
-                        if(file_exists(storage_path('app/public/'.$data[1]))) {
-                           unlink(storage_path('app/public/'.$data[1]));
-                       }
-                    }
+                    $data=explode('storage/', $employee->passport_photo);
+                    if(file_exists(storage_path('app/public/'.$data[1]))) {
+                       unlink(storage_path('app/public/'.$data[1]));
+                   }   
+                  }         
                     $passport_photo=$request->passport_photo;
                     $fileName = "passport_photo_" . uniqid() . "_" . time() . "." . $passport_photo->extension();
                     $path = $passport_photo->move(storage_path("app/public/employee/"), $fileName);
                     $employee->passport_photo = 'employee/' . $fileName;
+                }elseif($employee->passport_photo && $request->passport_photo){
+                    $data=explode('storage/', $employee->passport_photo);
+                    $employee->passport_photo =$data[1];
                 }
-                if ($request->hasFile('profile_photo')) {
+                else{
+                    if($employee->passport_photo){
+                        $data=explode('storage/', $employee->passport_photo);
+                        if(file_exists(storage_path('app/public/'.$data[1]))) {
+                           unlink(storage_path('app/public/'.$data[1]));
+                       }   
+                    }
+                    $employee->passport_photo = null;
+                }
+                if ($request->hasFile('profile_photo')) {    
                     if($employee->profile_photo != null){
                     $data=explode('storage/', $employee->profile_photo);
-                     if(file_exists(storage_path('app/public/'.$data[1]))) {
-                        unlink(storage_path('app/public/'.$data[1]));
-                    }
-                }
+                    if(file_exists(storage_path('app/public/'.$data[1]))) {
+                       unlink(storage_path('app/public/'.$data[1]));
+                   }   
+                  }         
                     $profile_photo=$request->profile_photo;
                     $fileName = "profile_photo_" . uniqid() . "_" . time() . "." . $profile_photo->extension();
                     $path = $profile_photo->move(storage_path("app/public/employee/"), $fileName);
                     $employee->profile_photo = 'employee/' . $fileName;
+                }elseif($employee->profile_photo && $request->profile_photo){
+                    $data=explode('storage/', $employee->profile_photo);
+                    $employee->profile_photo =$data[1];
+                }
+                else{
+                    if($employee->profile_photo){
+                        $data=explode('storage/', $employee->profile_photo);
+                        if(file_exists(storage_path('app/public/'.$data[1]))) {
+                           unlink(storage_path('app/public/'.$data[1]));
+                       }   
+                    }
+                    $employee->profile_photo = null;
                 }
                 if ($request->hasFile('family_photo')) {    
                     if($employee->family_photo != null){
