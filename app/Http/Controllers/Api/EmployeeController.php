@@ -542,19 +542,20 @@ class EmployeeController extends Controller
                     $fileName = "passport_photo_" . uniqid() . "_" . time() . "." . $passport_photo->extension();
                     $path = $passport_photo->move(storage_path("app/public/employee/"), $fileName);
                     $employee->passport_photo = 'employee/' . $fileName;
-                }elseif($employee->passport_photo && $request->passport_photo){
-                    $data=explode('storage/', $employee->passport_photo);
-                    $employee->passport_photo =$data[1];
-                }
-                else{
-                    if($employee->passport_photo){
-                        $data=explode('storage/', $employee->passport_photo);
-                        if(file_exists(storage_path('app/public/'.$data[1]))) {
-                           unlink(storage_path('app/public/'.$data[1]));
-                       }   
-                    }
-                    $employee->passport_photo = null;
-                }
+                 }
+                // elseif($employee->passport_photo && $request->passport_photo){
+                //     $data=explode('storage/', $employee->passport_photo);
+                //     $employee->passport_photo =$data[1];
+                // }
+                // else{
+                //     if($employee->passport_photo){
+                //         $data=explode('storage/', $employee->passport_photo);
+                //         if(file_exists(storage_path('app/public/'.$data[1]))) {
+                //            unlink(storage_path('app/public/'.$data[1]));
+                //        }   
+                //     }
+                //     $employee->passport_photo = null;
+                // }
                 if ($request->hasFile('profile_photo')) {   
                     $validator = Validator::make($request->all(), [
                         'profile_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
@@ -573,19 +574,20 @@ class EmployeeController extends Controller
                     $fileName = "profile_photo_" . uniqid() . "_" . time() . "." . $profile_photo->extension();
                     $path = $profile_photo->move(storage_path("app/public/employee/"), $fileName);
                     $employee->profile_photo = 'employee/' . $fileName;
-                }elseif($employee->profile_photo && $request->profile_photo){
-                    $data=explode('storage/', $employee->profile_photo);
-                    $employee->profile_photo =$data[1];
                 }
-                else{
-                    if($employee->profile_photo){
-                        $data=explode('storage/', $employee->profile_photo);
-                        if(file_exists(storage_path('app/public/'.$data[1]))) {
-                           unlink(storage_path('app/public/'.$data[1]));
-                       }   
-                    }
-                    $employee->profile_photo = null;
-                }
+                // elseif($employee->profile_photo && $request->profile_photo){
+                //     $data=explode('storage/', $employee->profile_photo);
+                //     $employee->profile_photo =$data[1];
+                // }
+                // else{
+                //     if($employee->profile_photo){
+                //         $data=explode('storage/', $employee->profile_photo);
+                //         if(file_exists(storage_path('app/public/'.$data[1]))) {
+                //            unlink(storage_path('app/public/'.$data[1]));
+                //        }   
+                //     }
+                //     $employee->profile_photo = null;
+                // }
                 if ($request->hasFile('family_photo')) {   
                     $validator = Validator::make($request->all(), [
                         'family_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
@@ -604,19 +606,20 @@ class EmployeeController extends Controller
                     $fileName = "family_photo_" . uniqid() . "_" . time() . "." . $family_photo->extension();
                     $path = $family_photo->move(storage_path("app/public/employee/"), $fileName);
                     $employee->family_photo = 'employee/' . $fileName;
-                }elseif($employee->family_photo && $request->family_photo){
-                    $data=explode('storage/', $employee->family_photo);
-                    $employee->family_photo =$data[1];
                 }
-                else{
-                    if($employee->family_photo){
-                        $data=explode('storage/', $employee->family_photo);
-                        if(file_exists(storage_path('app/public/'.$data[1]))) {
-                           unlink(storage_path('app/public/'.$data[1]));
-                       }   
-                    }
-                    $employee->family_photo = null;
-                }
+                // elseif($employee->family_photo && $request->family_photo){
+                //     $data=explode('storage/', $employee->family_photo);
+                //     $employee->family_photo =$data[1];
+                // }
+                // else{
+                //     if($employee->family_photo){
+                //         $data=explode('storage/', $employee->family_photo);
+                //         if(file_exists(storage_path('app/public/'.$data[1]))) {
+                //            unlink(storage_path('app/public/'.$data[1]));
+                //        }   
+                //     }
+                //     $employee->family_photo = null;
+                // }
                  $employee->save();
         } catch (\Throwable $e) {
             return $this->returnError($this->error ?? $e->getMessage());
