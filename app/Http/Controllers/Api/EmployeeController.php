@@ -543,10 +543,17 @@ class EmployeeController extends Controller
                     $path = $passport_photo->move(storage_path("app/public/employee/"), $fileName);
                     $employee->passport_photo = 'employee/' . $fileName;
                  }
-                // elseif($employee->passport_photo && $request->passport_photo){
-                //     $data=explode('storage/', $employee->passport_photo);
-                //     $employee->passport_photo =$data[1];
-                // }
+                elseif($employee->passport_photo && $request->passport_photo){
+                    $data=explode('storage/', $employee->passport_photo);
+                    $employee->passport_photo =$data[1];
+                }elseif($employee->passport_photo && $request->passport_photo == null){
+                    $data=explode('storage/', $employee->passport_photo);
+                    if(file_exists(storage_path('app/public/'.$data[1]))) {
+                       unlink(storage_path('app/public/'.$data[1]));
+                       
+                   }   
+                   $employee->passport_photo = null;
+                }
                 // else{
                 //     if($employee->passport_photo){
                 //         $data=explode('storage/', $employee->passport_photo);
@@ -575,10 +582,17 @@ class EmployeeController extends Controller
                     $path = $profile_photo->move(storage_path("app/public/employee/"), $fileName);
                     $employee->profile_photo = 'employee/' . $fileName;
                 }
-                // elseif($employee->profile_photo && $request->profile_photo){
-                //     $data=explode('storage/', $employee->profile_photo);
-                //     $employee->profile_photo =$data[1];
-                // }
+                elseif($employee->profile_photo && $request->profile_photo){
+                    $data=explode('storage/', $employee->profile_photo);
+                    $employee->profile_photo =$data[1];
+                }elseif($employee->profile_photo && $request->profile_photo == null){
+                    $data=explode('storage/', $employee->profile_photo);
+                    if(file_exists(storage_path('app/public/'.$data[1]))) {
+                       unlink(storage_path('app/public/'.$data[1]));
+                       
+                   }   
+                   $employee->profile_photo = null;
+                }
                 // else{
                 //     if($employee->profile_photo){
                 //         $data=explode('storage/', $employee->profile_photo);
@@ -607,18 +621,27 @@ class EmployeeController extends Controller
                     $path = $family_photo->move(storage_path("app/public/employee/"), $fileName);
                     $employee->family_photo = 'employee/' . $fileName;
                 }
-                // elseif($employee->family_photo && $request->family_photo){
-                //     $data=explode('storage/', $employee->family_photo);
-                //     $employee->family_photo =$data[1];
-                // }
+                elseif($employee->family_photo && $request->family_photo){
+                    $data=explode('storage/', $employee->family_photo);
+                    $employee->family_photo =$data[1];
+                }
+                elseif($employee->family_photo && $request->family_photo == null){
+                    $data=explode('storage/', $employee->family_photo);
+                    if(file_exists(storage_path('app/public/'.$data[1]))) {
+                       unlink(storage_path('app/public/'.$data[1]));
+                       
+                   }   
+                   $employee->family_photo = null;
+                }
                 // else{
                 //     if($employee->family_photo){
                 //         $data=explode('storage/', $employee->family_photo);
                 //         if(file_exists(storage_path('app/public/'.$data[1]))) {
                 //            unlink(storage_path('app/public/'.$data[1]));
+                //            $employee->family_photo = null;
                 //        }   
                 //     }
-                //     $employee->family_photo = null;
+                   
                 // }
                  $employee->save();
         } catch (\Throwable $e) {
