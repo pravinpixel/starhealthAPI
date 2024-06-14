@@ -523,7 +523,7 @@ class EmployeeController extends Controller
                 $employee->city = $request->input('city') ?? $employee->city; 
                 $employee->employee_code = $request->input('employee_code') ?? $employee->employee_code;
                 $employee->mobile_number = $request->input('mobile_number') ?? $employee->mobile_number;
-              if(!$request->input('employee_name') && !$request->input('status') ){
+              if(!$request->input('employee_name') && !$request->input('status') == 'completed'){
                 if ($request->hasFile('passport_photo')) {   
                     $validator = Validator::make($request->all(), [
                         'passport_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
