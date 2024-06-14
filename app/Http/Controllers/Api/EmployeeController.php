@@ -359,7 +359,7 @@ class EmployeeController extends Controller
             //     }
                 if ($request->hasFile('passport_photo')) {    
                     $validator = Validator::make($request->all(), [
-                        'passport_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+                        'passport_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
                     ]);
                     if ($validator->fails()) {
                                 $this->error = $validator->errors();
@@ -402,7 +402,7 @@ class EmployeeController extends Controller
                 // }
                 if ($request->hasFile('profile_photo')) {   
                     $validator = Validator::make($request->all(), [
-                        'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+                        'profile_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
                     ]);
                     if ($validator->fails()) {
                                 $this->error = $validator->errors();
@@ -434,7 +434,7 @@ class EmployeeController extends Controller
 
                 if ($request->hasFile('family_photo')) {   
                     $validator = Validator::make($request->all(), [
-                        'family_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+                        'family_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
                     ]);
                     if ($validator->fails()) {
                                 $this->error = $validator->errors();
@@ -524,7 +524,14 @@ class EmployeeController extends Controller
                 $employee->employee_code = $request->input('employee_code') ?? $employee->employee_code;
                 $employee->mobile_number = $request->input('mobile_number') ?? $employee->mobile_number;
               
-                if ($request->hasFile('passport_photo')) {    
+                if ($request->hasFile('passport_photo')) {   
+                    $validator = Validator::make($request->all(), [
+                        'passport_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
+                    ]);
+                    if ($validator->fails()) {
+                                $this->error = $validator->errors();
+                                throw new \Exception('validation Error');
+                    }   
                     if($employee->passport_photo != null){
                     $data=explode('storage/', $employee->passport_photo);
                     if(file_exists(storage_path('app/public/'.$data[1]))) {
@@ -548,7 +555,14 @@ class EmployeeController extends Controller
                     }
                     $employee->passport_photo = null;
                 }
-                if ($request->hasFile('profile_photo')) {    
+                if ($request->hasFile('profile_photo')) {   
+                    $validator = Validator::make($request->all(), [
+                        'profile_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
+                    ]);
+                    if ($validator->fails()) {
+                                $this->error = $validator->errors();
+                                throw new \Exception('validation Error');
+                    }    
                     if($employee->profile_photo != null){
                     $data=explode('storage/', $employee->profile_photo);
                     if(file_exists(storage_path('app/public/'.$data[1]))) {
@@ -572,7 +586,14 @@ class EmployeeController extends Controller
                     }
                     $employee->profile_photo = null;
                 }
-                if ($request->hasFile('family_photo')) {    
+                if ($request->hasFile('family_photo')) {   
+                    $validator = Validator::make($request->all(), [
+                        'family_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
+                    ]);
+                    if ($validator->fails()) {
+                                $this->error = $validator->errors();
+                                throw new \Exception('validation Error');
+                    }     
                     if($employee->family_photo != null){
                     $data=explode('storage/', $employee->family_photo);
                     if(file_exists(storage_path('app/public/'.$data[1]))) {
