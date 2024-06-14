@@ -469,7 +469,7 @@ class EmployeeController extends Controller
                 $employee->status = $request->input('status');
                 $employee->employee_status ='register';
                 Mail::to( $employee->email)->send(new Thankyou($employee->employee_name));
-                $message = 'Employee submitted successfully';
+                $message = 'Profile Registered successfully';
             }
             $employee->save();
         } catch (\Throwable $e) {
@@ -601,6 +601,6 @@ class EmployeeController extends Controller
             return $this->returnError($this->error ?? $e->getMessage());
         }
         return $this->returnSuccess(
-            $employee,'Employee updated successfully');
+            $employee,'Profile updated successfully');
     }
 }
