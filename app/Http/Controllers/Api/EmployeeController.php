@@ -369,18 +369,43 @@ class EmployeeController extends Controller
                     $path = $passport_photo->move(storage_path("app/public/employee/"), $fileName);
                     $employee->passport_photo = 'employee/' . $fileName;
                 }
-                if ($request->hasFile('profile_photo')) {
+                // if ($request->hasFile('profile_photo')) {
+                //     if($employee->profile_photo != null){
+                //     $data=explode('storage/', $employee->profile_photo);
+                //      if(file_exists(storage_path('app/public/'.$data[1]))) {
+                //         unlink(storage_path('app/public/'.$data[1]));
+                //     }
+                // }
+                //     $profile_photo=$request->profile_photo;
+                //     $fileName = "profile_photo_" . uniqid() . "_" . time() . "." . $profile_photo->extension();
+                //     $path = $profile_photo->move(storage_path("app/public/employee/"), $fileName);
+                //     $employee->profile_photo = 'employee/' . $fileName;
+                // }
+                if ($request->hasFile('profile_photo')) {    
                     if($employee->profile_photo != null){
                     $data=explode('storage/', $employee->profile_photo);
-                     if(file_exists(storage_path('app/public/'.$data[1]))) {
-                        unlink(storage_path('app/public/'.$data[1]));
-                    }
-                }
+                    if(file_exists(storage_path('app/public/'.$data[1]))) {
+                       unlink(storage_path('app/public/'.$data[1]));
+                   }   
+                  }         
                     $profile_photo=$request->profile_photo;
                     $fileName = "profile_photo_" . uniqid() . "_" . time() . "." . $profile_photo->extension();
                     $path = $profile_photo->move(storage_path("app/public/employee/"), $fileName);
                     $employee->profile_photo = 'employee/' . $fileName;
+                }elseif($employee->profile_photo && $request->profile_photo){
+                    $data=explode('storage/', $employee->profile_photo);
+                    $employee->profile_photo =$data[1];
                 }
+                else{
+                    if($employee->profile_photo){
+                        $data=explode('storage/', $employee->profile_photo);
+                        if(file_exists(storage_path('app/public/'.$data[1]))) {
+                           unlink(storage_path('app/public/'.$data[1]));
+                       }   
+                    }
+                    $employee->profile_photo = null;
+                }
+
                 if ($request->hasFile('family_photo')) {    
                     if($employee->family_photo != null){
                     $data=explode('storage/', $employee->family_photo);
