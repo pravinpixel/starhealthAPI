@@ -500,7 +500,10 @@ class EmployeeController extends Controller
                         'nullable',
                         'unique:employees,mobile_number,'.$id,
                       ],
-                ]);
+                    ], [
+                        'mobile_number.unique' => 'This Number is Already Registered',
+                    ]
+            );
                 if ($validator->fails()) {
                     $this->error = $validator->errors();
                     throw new \Exception('validation Error');
