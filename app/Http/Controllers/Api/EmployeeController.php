@@ -272,7 +272,7 @@ class EmployeeController extends Controller
             return $this->returnSuccess([
                 'access_token' => $token,
                 'token_type' => 'bearer',
-                'expires_in' => JWTAuth::factory()->getTTL() * 60
+                'expires_in' => JWTAuth::factory()->getTTL()
             ], 'Random token create sucessfully');
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
             // Log the exception for debugging
