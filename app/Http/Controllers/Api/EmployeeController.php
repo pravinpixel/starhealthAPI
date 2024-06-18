@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Helpers\LogHelper;
 use App\Models\Department;
 use Carbon\Carbon;
-use App\Models\Designation;
+use App\Models\GenarateOtp;
 use Tymon\JWTAuth\Token;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -44,8 +44,20 @@ class EmployeeController extends Controller
             }
             $employee = Employee::where('email', $request->email)->first();
             if ($employee) {
+                $oneMinuteAgo = Carbon::now()->subMinute();
+            $oneHourAgo = Carbon::now()->subHour();
+            
+            // Count OTPs generated within the last minute
+            $onemiutecount = GenarateOtp::where('email', $employee->email)
+                                         ->where('created_at', '>=', $oneMinuteAgo)
+                                         ->count();
+            
+            // Count OTPs generated within the last hour
+            $onehourcount = GenarateOtp::where('email', $employee->email)
+                                        ->where('created_at', '>=', $oneHourAgo)
+                                        ->count(); 
+            if($onemiutecount < 1 && $onehourcount < 5 ){
                 $otp= $this->generateOtp($employee->id);
-                // $employee->expired_date = Carbon::now()->addMinutes(1)->format('Y-m-d H:i:s');
                 $employee->session_token=$request->token;
                 $employee->save();
                 $data=explode('@', $employee->email);
@@ -53,11 +65,18 @@ class EmployeeController extends Controller
                 $employee = Employee::find($employee->id);
                 $employee->expired_date = Carbon::now()->addMinutes(1)->format('Y-m-d H:i:s');
                 $employee->save();
+                $otpstore =new GenarateOtp();
+                $otpstore->email=$employee->email;
+                $otpstore->otp=$employee->otp;
+                $otpstore->save();
+                }else{
+                    return $this->returnError('Your otp limit reached.Please try after somethime.');
+                    }
+
             }else{
                 $employee = new Employee();
                 $employee->email = $request->input('email');
                 $employee->session_token=$request->token;
-                // $employee->expired_date = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
                 $employee->save();
                 $otp= $this->generateOtp($employee->id);
                 $data=explode('@', $employee->email);
@@ -65,6 +84,10 @@ class EmployeeController extends Controller
                 $employee = Employee::find($employee->id);
                 $employee->expired_date = Carbon::now()->addMinutes(1)->format('Y-m-d H:i:s');
                 $employee->save();
+                $otpstore =new GenarateOtp();
+                $otpstore->email=$employee->email;
+                $otpstore->otp=$employee->otp;
+                $otpstore->save();
             }
             LogHelper::AddLog('Employee',$employee->id,'Otp Send',$otp,'OTP genarate this '.$employee->email);
             return $this->returnSuccess(
@@ -106,17 +129,38 @@ class EmployeeController extends Controller
             return $this->returnError('Session token is wrong');
         } 
         if ($employee) {
-            $otp= $this->generateOtp($employee->id);
-            $employee->save();
-            $data=explode('@', $employee->email);
-            Mail::to( $employee->email)->send(new EmailVerfiy($otp,$data[0]));
-            $employee = Employee::find($employee->id);
-            $employee->expired_date = Carbon::now()->addMinutes(1)->format('Y-m-d H:i:s');
-            $employee->save();
+            $oneMinuteAgo = Carbon::now()->subMinute();
+            $oneHourAgo = Carbon::now()->subHour();
+            
+            // Count OTPs generated within the last minute
+            $onemiutecount = GenarateOtp::where('email', $employee->email)
+                                         ->where('created_at', '>=', $oneMinuteAgo)
+                                         ->count();
+            
+            // Count OTPs generated within the last hour
+            $onehourcount = GenarateOtp::where('email', $employee->email)
+                                        ->where('created_at', '>=', $oneHourAgo)
+                                        ->count(); 
+                                                   
+            if($onemiutecount < 1 && $onehourcount < 5){
+                    $otp= $this->generateOtp($employee->id);
+                    $employee->save();
+                    $data=explode('@', $employee->email);
+                    Mail::to( $employee->email)->send(new EmailVerfiy($otp,$data[0]));
+                    $employee = Employee::find($employee->id);
+                    $employee->expired_date = Carbon::now()->addMinutes(1)->format('Y-m-d H:i:s');
+                    $employee->save();
+                    $otpstore =new GenarateOtp();
+                    $otpstore->email=$employee->email;
+                    $otpstore->otp=$employee->otp;
+                    $otpstore->save();
+                    LogHelper::AddLog('Employee',$employee->id,'Otp Send',$otp,' Resend OTP genarate this '.$employee->email);
+                }else{
+                    return $this->returnError('Your otp limit reached.Please try after somethime.');
+                }
            }else{
             return $this->returnError('Employee not found');
         }
-        LogHelper::AddLog('Employee',$employee->id,'Otp Send',$otp,' Resend OTP genarate this '.$employee->email);
         return $this->returnSuccess(
            [],'Resend OTP send successfully');
     } catch (\Throwable $e) {
