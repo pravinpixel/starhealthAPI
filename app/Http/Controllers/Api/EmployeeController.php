@@ -405,6 +405,17 @@ class EmployeeController extends Controller
                     $validator = Validator::make($request->all(), [
                         'passport_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
                     ]);
+                    $validator->after(function ($validator) use ($request) {
+                        if ($request->file('passport_photo')) {
+                            $fileName = $request->file('passport_photo')->getClientOriginalName();
+                            $extension = $request->file('passport_photo')->getClientOriginalExtension();
+                
+                            // Check if the file name contains more than one extension separator
+                            if (substr_count($fileName, '.') > 1) {
+                                $validator->errors()->add('passport_photo', 'Double file extension is not allowed.');
+                            }
+                        }
+                    });
                     if ($validator->fails()) {
                                 $this->error = $validator->errors();
                                 throw new \Exception('validation Error');
@@ -448,6 +459,17 @@ class EmployeeController extends Controller
                     $validator = Validator::make($request->all(), [
                         'profile_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
                     ]);
+                    $validator->after(function ($validator) use ($request) {
+                        if ($request->file('profile_photo')) {
+                            $fileName = $request->file('profile_photo')->getClientOriginalName();
+                            $extension = $request->file('profile_photo')->getClientOriginalExtension();
+                
+                            // Check if the file name contains more than one extension separator
+                            if (substr_count($fileName, '.') > 1) {
+                                $validator->errors()->add('profile_photo', 'Double file extension is not allowed.');
+                            }
+                        }
+                    });
                     if ($validator->fails()) {
                                 $this->error = $validator->errors();
                                 throw new \Exception('validation Error');
@@ -480,6 +502,17 @@ class EmployeeController extends Controller
                     $validator = Validator::make($request->all(), [
                         'family_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
                     ]);
+                    $validator->after(function ($validator) use ($request) {
+                        if ($request->file('family_photo')) {
+                            $fileName = $request->file('family_photo')->getClientOriginalName();
+                            $extension = $request->file('family_photo')->getClientOriginalExtension();
+                
+                            // Check if the file name contains more than one extension separator
+                            if (substr_count($fileName, '.') > 1) {
+                                $validator->errors()->add('family_photo', 'Double file extension is not allowed.');
+                            }
+                        }
+                    });
                     if ($validator->fails()) {
                                 $this->error = $validator->errors();
                                 throw new \Exception('validation Error');
