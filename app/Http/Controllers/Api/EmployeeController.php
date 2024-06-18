@@ -342,29 +342,90 @@ class EmployeeController extends Controller
             $employee=Employee::find($id);
             if($request->status == "upload"){
                 $validator = Validator::make($request->all(), [
-                    'employee_name' => 'required|string|max:100',
-                    'employee_code' => 'required|string|max:10',
+                    'employee_name' => [
+                        'required', 
+                        'string', 
+                        'max:100',
+                        function ($attribute, $value, $fail) {
+                            if ($value !== strip_tags($value)) {
+                                $fail('The ' . $attribute . ' field must not contain HTML tags.');
+                            }
+                            if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $value)) {
+                                $fail('The ' . $attribute . ' field must not contain special characters.');
+                            }
+                        },
+                    ],
+                    'employee_code' => 'required|integer|max:9999999999',
                     'mobile_number' => [
                         'required',
-                        'size:10',
+                        'digits:10',
                         Rule::unique('employees', 'mobile_number')->ignore($id),
                     ],
-                      'dob' => 'required|date|max:100',
-                      'department' => 'required|string|max:100',
-                      'designation' => 'required|string|max:100',
-                      'state' => 'required|string|max:100',
-                      'city' => 'required|string|max:100',
-        
-                ],
-                [
+                    'dob' => 'required|date',
+                    'department' => [
+                        'required', 
+                        'string', 
+                        'max:100',
+                        function ($attribute, $value, $fail) {
+                            if ($value !== strip_tags($value)) {
+                                $fail('The ' . $attribute . ' field must not contain HTML tags.');
+                            }
+                            if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $value)) {
+                                $fail('The ' . $attribute . ' field must not contain special characters.');
+                            }
+                        },
+                    ],
+                    'designation' => [
+                        'required', 
+                        'string', 
+                        'max:100',
+                        function ($attribute, $value, $fail) {
+                            if ($value !== strip_tags($value)) {
+                                $fail('The ' . $attribute . ' field must not contain HTML tags.');
+                            }
+                            if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $value)) {
+                                $fail('The ' . $attribute . ' field must not contain special characters.');
+                            }
+                        },
+                    ],
+                    'state' => [
+                        'required', 
+                        'string', 
+                        'max:100',
+                        function ($attribute, $value, $fail) {
+                            if ($value !== strip_tags($value)) {
+                                $fail('The ' . $attribute . ' field must not contain HTML tags.');
+                            }
+                            if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $value)) {
+                                $fail('The ' . $attribute . ' field must not contain special characters.');
+                            }
+                        },
+                    ],
+                    'city' => [
+                        'required', 
+                        'string', 
+                        'max:100',
+                        function ($attribute, $value, $fail) {
+                            if ($value !== strip_tags($value)) {
+                                $fail('The ' . $attribute . ' field must not contain HTML tags.');
+                            }
+                            if (preg_match('/[\'^£$%&*()}{@#~?><>,|=_+¬-]/', $value)) {
+                                $fail('The ' . $attribute . ' field must not contain special characters.');
+                            }
+                        },
+                    ],
+                ], [
                     'mobile_number.unique' => 'This Number is Already Registered',
-                    'mobile_number.size' => 'Enter 10 Digit Mobile Number',
-                ]
-            );
+                    'mobile_number.digits' => 'Enter a 10 Digit Mobile Number',
+                    'employee_code.integer' => 'Employee code must be an integer.',
+                    'employee_code.max' => 'Employee code must not exceed 10 digits.'
+                ]);
+            
                 if ($validator->fails()) {
                     $this->error = $validator->errors();
-                    throw new \Exception('validation Error');
+                    throw new \Exception('Validation Error');
                 }
+            
                 // $department = Department::where('name', $request->department)->first();
                 // $designation = Designation::where('name', $request->designation)->first();
 
