@@ -56,7 +56,7 @@ class EmployeeController extends Controller
             $onehourcount = GenarateOtp::where('email', $employee->email)
                                         ->where('created_at', '>=', $oneHourAgo)
                                         ->count(); 
-            if($onemiutecount < 1 && $onehourcount < 5 ){
+            if($onemiutecount < 3 && $onehourcount < 30 ){
                 $otp= $this->generateOtp($employee->id);
                 $employee->session_token=$request->token;
                 $employee->save();
@@ -142,7 +142,7 @@ class EmployeeController extends Controller
                                         ->where('created_at', '>=', $oneHourAgo)
                                         ->count(); 
                                                    
-            if($onemiutecount < 1 && $onehourcount < 5){
+            if($onemiutecount < 3 && $onehourcount < 30){
                     $otp= $this->generateOtp($employee->id);
                     $employee->save();
                     $data=explode('@', $employee->email);
