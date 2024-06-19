@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['GET, POST, PUT, DELETE, OPTIONS'],
 
-    'allowed_origins' => ['http://127.0.0.1:4000'],
+    'allowed_origins' => [env('ACCESS_URL')],
 
     'allowed_origins_patterns' => [],
 
