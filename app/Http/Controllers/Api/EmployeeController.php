@@ -308,35 +308,6 @@ class EmployeeController extends Controller
             ];
             $user->state = $state;
         }
-    //     if($user->city){
-    //     $city = [
-    //         [
-    //             'id' => null,
-    //             'label' => $user->city
-    //         ]
-    //     ];
-    //     $user->city = $city;
-       
-    //  }
-    //  if($user->department){
-    //     $department = [
-    //         [
-    //             'id' => null,
-    //             'label' => $user->department
-    //         ]
-    //     ];
-    //     $user->department = $department;
-    // }
-    // if($user->designation){
-    //     $designation = [
-    //         [
-    //             'id' => null,
-    //             'label' => $user->designation
-    //         ]
-    //     ];
-    //     $user->designation = $designation;
-    // }
-    
         return $this->returnSuccess($user, 'Employee data successfully retrieved');
     }
     public function save(Request $request)
