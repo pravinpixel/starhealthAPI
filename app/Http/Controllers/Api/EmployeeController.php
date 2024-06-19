@@ -339,7 +339,6 @@ class EmployeeController extends Controller
     
         return $this->returnSuccess($user, 'Employee data successfully retrieved');
     }
-    
     public function save(Request $request)
     {
         try {
@@ -361,7 +360,7 @@ class EmployeeController extends Controller
                             }
                         },
                     ],
-                    'employee_code' => 'required|integer|max:9999999999',
+                    'employee_code' => 'required|string|max:10',
                     'mobile_number' => [
                         'required',
                         'digits:10',
@@ -791,5 +790,162 @@ class EmployeeController extends Controller
         }
         return $this->returnSuccess(
             $employee,'Profile updated successfully');
+    }
+    public function saveLogout(Request $request)
+    {
+        try {
+            $user=Auth::guard('api')->user(); 
+            $id = $user->id;
+            $employee=Employee::find($id);
+            if($request->status == "upload"){
+                $employee->employee_name = $request->input('employee_name');
+                $employee->dob = $request->input('dob');
+                $employee->department = $request->input('department');
+                $employee->designation = $request->input('designation');
+                $employee->state = $request->input('state');
+                $employee->city = $request->input('city'); 
+                $employee->employee_code = $request->input('employee_code');
+                $employee->mobile_number = $request->input('mobile_number');
+                $employee->status = $request->input('status');
+               $message='Profile Details updated successfully';
+               JWTAuth::invalidate(JWTAuth::getToken());
+            }else{
+                if ($request->hasFile('passport_photo')) {    
+                    $validator = Validator::make($request->all(), [
+                        'passport_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
+                    ]);
+                    $validator->after(function ($validator) use ($request) {
+                        if ($request->file('passport_photo')) {
+                            $fileName = $request->file('passport_photo')->getClientOriginalName();
+                            $extension = $request->file('passport_photo')->getClientOriginalExtension();
+                
+                            // Check if the file name contains more than one extension separator
+                            if (substr_count($fileName, '.') > 1) {
+                                $validator->errors()->add('passport_photo', 'Double file extension is not allowed.');
+                            }
+                        }
+                    });
+                    if ($validator->fails()) {
+                                $this->error = $validator->errors();
+                                throw new \Exception('validation Error');
+                    }
+                    if($employee->passport_photo != null){
+                    $data=explode('storage/', $employee->passport_photo);
+                    if(file_exists(storage_path('app/public/'.$data[1]))) {
+                       unlink(storage_path('app/public/'.$data[1]));
+                   }   
+                  }         
+                    $passport_photo=$request->passport_photo;
+                    $fileName = "passport_photo_" . uniqid() . "_" . time() . "." . $passport_photo->extension();
+                    $path = $passport_photo->move(storage_path("app/public/employee/"), $fileName);
+                    $employee->passport_photo = 'employee/' . $fileName;
+                }elseif($employee->passport_photo && $request->passport_photo){
+                    $data=explode('storage/', $employee->passport_photo);
+                    $employee->passport_photo =$data[1];
+                }
+                else{
+                    if($employee->passport_photo){
+                        $data=explode('storage/', $employee->passport_photo);
+                        if(file_exists(storage_path('app/public/'.$data[1]))) {
+                           unlink(storage_path('app/public/'.$data[1]));
+                       }   
+                    }
+                    $employee->passport_photo = null;
+                }
+                if ($request->hasFile('profile_photo')) {   
+                    $validator = Validator::make($request->all(), [
+                        'profile_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
+                    ]);
+                    $validator->after(function ($validator) use ($request) {
+                        if ($request->file('profile_photo')) {
+                            $fileName = $request->file('profile_photo')->getClientOriginalName();
+                            $extension = $request->file('profile_photo')->getClientOriginalExtension();
+                
+                            // Check if the file name contains more than one extension separator
+                            if (substr_count($fileName, '.') > 1) {
+                                $validator->errors()->add('profile_photo', 'Double file extension is not allowed.');
+                            }
+                        }
+                    });
+                    if ($validator->fails()) {
+                                $this->error = $validator->errors();
+                                throw new \Exception('validation Error');
+                    } 
+                    if($employee->profile_photo != null){
+                    $data=explode('storage/', $employee->profile_photo);
+                    if(file_exists(storage_path('app/public/'.$data[1]))) {
+                       unlink(storage_path('app/public/'.$data[1]));
+                   }   
+                  }         
+                    $profile_photo=$request->profile_photo;
+                    $fileName = "profile_photo_" . uniqid() . "_" . time() . "." . $profile_photo->extension();
+                    $path = $profile_photo->move(storage_path("app/public/employee/"), $fileName);
+                    $employee->profile_photo = 'employee/' . $fileName;
+                }elseif($employee->profile_photo && $request->profile_photo){
+                    $data=explode('storage/', $employee->profile_photo);
+                    $employee->profile_photo =$data[1];
+                }
+                else{
+                    if($employee->profile_photo){
+                        $data=explode('storage/', $employee->profile_photo);
+                        if(file_exists(storage_path('app/public/'.$data[1]))) {
+                           unlink(storage_path('app/public/'.$data[1]));
+                       }   
+                    }
+                    $employee->profile_photo = null;
+                }
+
+                if ($request->hasFile('family_photo')) {   
+                    $validator = Validator::make($request->all(), [
+                        'family_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
+                    ]);
+                    $validator->after(function ($validator) use ($request) {
+                        if ($request->file('family_photo')) {
+                            $fileName = $request->file('family_photo')->getClientOriginalName();
+                            $extension = $request->file('family_photo')->getClientOriginalExtension();
+                
+                            // Check if the file name contains more than one extension separator
+                            if (substr_count($fileName, '.') > 1) {
+                                $validator->errors()->add('family_photo', 'Double file extension is not allowed.');
+                            }
+                        }
+                    });
+                    if ($validator->fails()) {
+                                $this->error = $validator->errors();
+                                throw new \Exception('validation Error');
+                    }  
+                    if($employee->family_photo != null){
+                    $data=explode('storage/', $employee->family_photo);
+                    if(file_exists(storage_path('app/public/'.$data[1]))) {
+                       unlink(storage_path('app/public/'.$data[1]));
+                   }   
+                  }         
+                    $family_photo=$request->family_photo;
+                    $fileName = "family_photo_" . uniqid() . "_" . time() . "." . $family_photo->extension();
+                    $path = $family_photo->move(storage_path("app/public/employee/"), $fileName);
+                    $employee->family_photo = 'employee/' . $fileName;
+                }elseif($employee->family_photo && $request->family_photo){
+                    $data=explode('storage/', $employee->family_photo);
+                    $employee->family_photo =$data[1];
+                }
+                else{
+                    if($employee->family_photo){
+                        $data=explode('storage/', $employee->family_photo);
+                        if(file_exists(storage_path('app/public/'.$data[1]))) {
+                           unlink(storage_path('app/public/'.$data[1]));
+                       }   
+                    }
+                    $employee->family_photo = null;
+                }
+                $employee->status = $request->input('status');
+                $message='Photo uploaded successfuly';
+                JWTAuth::invalidate(JWTAuth::getToken());
+            }
+            $employee->save();
+        } catch (\Throwable $e) {
+            return $this->returnError($this->error ?? $e->getMessage());
+        }
+        return $this->returnSuccess(
+            $employee,$message);
     }
 }
