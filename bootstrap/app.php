@@ -1,7 +1,6 @@
 <?php
 use App\Http\Middleware\JWTExceptionHandler;
 use App\Http\Middleware\CheckReferer;
-use App\Http\Middleware\Cors;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,9 +15,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->group('api', [
             CheckReferer::class,
-        ]);
-        $middleware->group('cors', [
-            Cors::class,
         ]);
         $middleware->group('auth:api', [
             JWTExceptionHandler::class,

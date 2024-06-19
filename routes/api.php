@@ -4,9 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\EmployeeController;
 use App\Http\Controllers\Api\EssientialController;
 
-Route::group([
-   'middleware' => 'cors',
-], function () {
+
 Route::get('/', function () { return 'Welcome Star Health'; });
 Route::group([
    'middleware' => 'api',
@@ -32,6 +30,4 @@ Route::group([
         Route::get('/', 'getdata')->name('getdata');
         Route::get('/{id}', 'getCity')->name('getCity');
      });
-});
-
 });
