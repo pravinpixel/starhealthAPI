@@ -7,13 +7,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject; // Corrected namespace for JWTSubject
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 class Employee extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable,SoftDeletes;
 
     // Define your model attributes and relationships here
     protected $hidden = [
+        'token',
         'otp',
         'state_id',
         'otp_verified',
@@ -39,20 +41,35 @@ class Employee extends Authenticatable implements JWTSubject
         if ($value === null) {
             return null;
         }
-        return config('app.image_url') . $value;
+        try {
+            $file =  Storage::disk('s3')->temporaryUrl($value, now()->addMinutes(60));
+            return $file;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
     public function getFamilyPhotoAttribute($value)
     {
         if ($value === null) {
             return null;
         }
-        return config('app.image_url') . $value;
+        try {
+            $file =  Storage::disk('s3')->temporaryUrl($value, now()->addMinutes(60));
+            return $file;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
     public function getProfilePhotoAttribute($value)
     {
         if ($value === null) {
             return null;
         }
-        return config('app.image_url') . $value;
+        try {
+            $file =  Storage::disk('s3')->temporaryUrl($value, now()->addMinutes(60));
+            return $file;
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 }
