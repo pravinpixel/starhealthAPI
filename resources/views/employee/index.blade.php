@@ -155,7 +155,7 @@
                                           {{$employee->designation}}
                                       </td>
                                       <td>
-                                        <img style="height: 50px; width: 35px; max-width: 45px; cursor: pointer;" data-id="{{$employee->id}}" id="kt_help_toggle" src="{{$employee->profile_photo}}" alt="">
+                                        <img style="height: 50px; width: 35px; max-width: 45px; cursor: pointer;" data-id="{{$employee->id}}" id="kt_help_toggle" src="{{$employee->profile}}" alt="">
                                     </td>                                    
                                       @if(in_array($title, ['Register', 'Shortlisted']))
                                       <td>
@@ -436,13 +436,13 @@
             let imageUrl = '';
             switch (index) {
                 case 0:
-                    imageUrl = employee.profile_photo;
+                    imageUrl = employee.profile;
                     break;
                 case 1:
-                    imageUrl = employee.family_photo;
+                    imageUrl = employee.family;
                     break;
                 case 2:
-                    imageUrl = employee.passport_photo;
+                    imageUrl = employee.passport;
                     break;
             }
             if (imageUrl) {
