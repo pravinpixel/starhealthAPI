@@ -21,7 +21,7 @@
                     <a style="" class="menu-link {{(request()->is('dashboard*')) ? 'active' : '' }}" href="{{url('dashboard')}}">
                           <span class="menu-icon">
                             <span class="svg-icon svg-icon-2">
-                              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <svg  style="color:black" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
                                 <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
                                 <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
@@ -51,7 +51,7 @@
                   <a class="menu-link {{(request()->is('employee/register-list*')) ? 'active' : '' }}" href="{{url('employee/register-list')}}">
                         <span class="menu-icon">
                           <span class="svg-icon svg-icon-2">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg style="color:black" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                               <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
                               <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
                               <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
@@ -66,7 +66,7 @@
                 <a class="menu-link {{(request()->is('employee/short-list*')) ? 'active' : '' }}" href="{{url('employee/short-list')}}">
                       <span class="menu-icon">
                         <span class="svg-icon svg-icon-2">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <svg style="color:black" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
                             <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
                             <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />
@@ -81,7 +81,7 @@
               <a class="menu-link {{(request()->is('employee/final-list*')) ? 'active' : '' }}" href="{{url('employee/final-list')}}">
                     <span class="menu-icon">
                       <span class="svg-icon svg-icon-2">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg style="color:black" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <rect x="2" y="2" width="9" height="9" rx="2" fill="currentColor" />
                           <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="currentColor" />
                           <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="currentColor" />

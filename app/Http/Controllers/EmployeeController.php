@@ -10,9 +10,10 @@ class EmployeeController extends Controller
   public function registerlist(Request $request)
   {
     $search = $request->input('search');
-    $employee_name = $request->input('employee_name');
-    $employee_code = $request->input('employee_code');
+    $designation = $request->input('designation');
+    $state = $request->input('state');
     $department = $request->input('department');
+    $city = $request->input('city');
     $currentRouteName = request()->route()->getName();
     $perPage = 10;
     $query = Employee::query();
@@ -28,16 +29,18 @@ class EmployeeController extends Controller
     if ($currentRouteName) {
       $query->where('employee_status', $currentRouteName);
     }
-    if ($employee_name) {
-      $query->where('employee_name', $employee_name);
+    if ($designation) {
+      $query->where('designation', $designation);
     }
-    if ($employee_code) {
-      $query->where('employee_code', $employee_code);
+    if ($state) {
+      $query->where('state', $state);
     }
     if ($department) {
       $query->where('department', $department);
     }
-
+    if ($city) {
+      $query->where('city', $city);
+    }
 
     if ($currentRouteName == 'register') {
       $title = 'Register';
@@ -46,6 +49,7 @@ class EmployeeController extends Controller
     } else {
       $title = 'Final';
     }
+   
     $employees = $query->orderBy('id', 'desc')->paginate($perPage);
     $currentPage = $employees->currentPage();
     $serialNumberStart = ($currentPage - 1) * $perPage + 1;
@@ -71,6 +75,16 @@ class EmployeeController extends Controller
         $employee->update();
       }
       return response()->json(['message' => 'Employee Selected Finallist', 'data' => $employee]);
+    } catch (\Exception $e) {
+      return response()->json(['status' => false, 'errors' => $e->getMessage()], 422);
+    }
+  }
+  public function view(Request $request)
+  {
+    $id = $request->id;
+    try {
+      $employee = Employee::find($id);
+      return response()->json(['message' => 'Employee data', 'data' => $employee]);
     } catch (\Exception $e) {
       return response()->json(['status' => false, 'errors' => $e->getMessage()], 422);
     }

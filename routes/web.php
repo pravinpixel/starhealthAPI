@@ -29,6 +29,7 @@ Route::group(['middleware' => ['auth']], function () {
            Route::get('/short-list', 'registerlist')->name('shortlist');
            Route::get('/final-list', 'registerlist')->name('final');
            Route::post('/select', 'statusselect')->name('select');
+           Route::get('/view', 'view')->name('view');
         });
          #..user
     Route::prefix('user')->controller(UserController::class)->group(function () {
