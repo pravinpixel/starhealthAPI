@@ -14,7 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-    'image_url' => env('APP_URL') . '/storage/',
+    'image_url' =>'https://' . env('AWS_BUCKET').'.s3.' . env('AWS_DEFAULT_REGION').'.amazonaws.com/' ,
 
     /*
     |--------------------------------------------------------------------------

@@ -15,7 +15,6 @@ class Employee extends Authenticatable implements JWTSubject
 
     // Define your model attributes and relationships here
     protected $hidden = [
-        'token',
         'otp',
         'state_id',
         'otp_verified',
@@ -25,7 +24,51 @@ class Employee extends Authenticatable implements JWTSubject
         'created_at',
         'updated_at',
         'deleted_at',
+        'passportUrl'
     ];
+    protected $appends = ['passport','profile','family'];
+    public function getPassportAttribute()
+    {
+        if ($this->passport_photo === null) {
+            return null;
+        }
+               $data=explode('.com/', $this->passport_photo);
+        try {
+            $value = Storage::disk('s3')->get($data[1]);
+            return 'data:image/jpeg;base64,' . base64_encode($value);
+        } catch (\Exception $e) {
+            Log::error('Error retrieving S3 object: ' . $e->getMessage());
+            return null;
+        }
+    } 
+    public function getProfileAttribute()
+    {
+        if ($this->profile_photo === null) {
+            return null;
+        }
+               $data=explode('.com/', $this->profile_photo);
+        try {
+            $value = Storage::disk('s3')->get($data[1]);
+            return 'data:image/jpeg;base64,' . base64_encode($value);
+        } catch (\Exception $e) {
+            return null;
+        }
+    } 
+    public function getFamilyAttribute()
+    {
+        if ($this->family_photo === null) {
+            return null;
+        }
+               $data=explode('.com/', $this->family_photo);
+        try {
+            $value = Storage::disk('s3')->get($data[1]);
+            return 'data:image/jpeg;base64,' . base64_encode($value);
+        } catch (\Exception $e) {
+            return null;
+        }
+    } 
+
+    
 
     public function getJWTIdentifier()
     {
@@ -41,35 +84,20 @@ class Employee extends Authenticatable implements JWTSubject
         if ($value === null) {
             return null;
         }
-        try {
-            $file =  Storage::disk('s3')->temporaryUrl($value, now()->addMinutes(60));
-            return $file;
-        } catch (\Exception $e) {
-            return null;
-        }
+        return config('app.image_url') . $value;
     }
     public function getFamilyPhotoAttribute($value)
     {
         if ($value === null) {
             return null;
         }
-        try {
-            $file =  Storage::disk('s3')->temporaryUrl($value, now()->addMinutes(60));
-            return $file;
-        } catch (\Exception $e) {
-            return null;
-        }
+        return config('app.image_url') . $value;
     }
     public function getProfilePhotoAttribute($value)
     {
         if ($value === null) {
             return null;
         }
-        try {
-            $file =  Storage::disk('s3')->temporaryUrl($value, now()->addMinutes(60));
-            return $file;
-        } catch (\Exception $e) {
-            return null;
-        }
+        return config('app.image_url') . $value;
     }
 }
