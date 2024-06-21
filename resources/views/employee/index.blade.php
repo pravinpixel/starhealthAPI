@@ -124,7 +124,7 @@
                               <th class="min-w-125px">City</th>
                               <th class="min-w-125px">Department</th>
                               <th class="min-w-125px">Designation</th>       
-                              <th class="min-w-115px">Uploaded Images</th>
+                              <th class="min-w-115px">View Images</th>
                               @if(in_array($title, ['Register', 'Shortlisted']))
                               <th class="min-w-100px">Select</th>
                               @endif
@@ -162,8 +162,10 @@
                                           {{$employee->designation}}
                                       </td>
                                       <td>
-                                        <img style="height: 50px; width: 35px; max-width: 45px; cursor: pointer;" data-id="{{$employee->id}}" id="kt_help_toggle" src="{{$employee->profile}}" alt="">
-                                    </td>                                    
+                                        <a class="btn btn-icon btn-active-primary btn-light-primary mx-1 w-30px h-30px moreimages" data-family="{{$employee->family}}" data-profile="{{$employee->profile}}"  data-passport="{{$employee->passport}}">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                    </td>                                
                                       @if(in_array($title, ['Register', 'Shortlisted']))
                                       <td>
                                           <div class="form-check form-check-custom form-check-success form-check-solid">
@@ -197,106 +199,12 @@
 <input type="hidden" name="routename" id="routename" value="{{route( Route::currentRouteName()) }}">
 <input type="hidden" name="title" id="title" value="{{$title}}">
 
-	<!--begin::Help drawer-->
-           
-        <div
-    id="kt_help"
-    class="bg-white"
-    data-kt-drawer="true"
-    data-kt-drawer-activate="true"
-    data-kt-drawer-toggle="#kt_help_toggle"
-    data-kt-drawer-close="#kt_help_close"
-    data-kt-drawer-overlay="false"
-    data-kt-drawer-permanent="true"
-    data-kt-drawer-width="{default:'300px', 'md': '500px'}"
->
-        <div class="card shadow-none rounded-0 w-100">
-                <div class="card-header" id="kt_help_header">
-                    <h5 class="card-title fw-semibold text-gray-600">Employee Images</h5>
-                    <div class="card-toolbar">
-                        <button type="button" class="btn btn-sm btn-icon explore-btn-dismiss me-n5" id="kt_help_close">
-                            <span class="svg-icon svg-icon-2">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
-                                    <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="currentColor" />
-                                </svg>
-                            </span>
-                        </button>
-                    </div>
-                </div>
-                <div class="card-body" id="kt_help_body">
-                    <div id="kt_help_scroll" class="hover-scroll-overlay-y" ...>
-                        <div class="col-md-12 row mb-6 fv-row">
-                            <div class="col-md-3 mt-4">
-                                <label class="form-label">Profile Image</label>
-                            </div>
-                            <div class="col-md-7">
-                                <div class="card-body text-center pt-0">
-                                    <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-                                        <div class="image-input-wrapper w-150px h-150px"></div>
-                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                            data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
-                                            <i class="bi bi-x fs-2"></i>
-                                        </span>
-                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                            data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
-                                            <i class="bi bi-x fs-2"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 row mb-6 fv-row">
-                            <div class="col-md-3 mt-4">
-                                <label class="form-label">Family Photo</label>
-                            </div>
-                            <div class="col-md-7">
-                                <div class="card-body text-center pt-0">
-                                    <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-                                        <div class="image-input-wrapper w-150px h-150px"></div>
-                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                            data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
-                                            <i class="bi bi-x fs-2"></i>
-                                        </span>
-                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                            data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
-                                            <i class="bi bi-x fs-2"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 row mb-6 fv-row">
-                            <div class="col-md-3 mt-4">
-                                <label class="form-label">Passport Photo</label>
-                            </div>
-                            <div class="col-md-7">
-                                <div class="card-body text-center pt-0">
-                                    <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-                                        <div class="image-input-wrapper w-150px h-150px"></div>
-                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                            data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel avatar">
-                                            <i class="bi bi-x fs-2"></i>
-                                        </span>
-                                        <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
-                                            data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove avatar">
-                                            <i class="bi bi-x fs-2"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
 @endsection
 @section('script')
     @parent
-
 <script>
  $(document).ready(function () {
+
             var routename = $('#routename').val();
            
             $('#searchInput').keyup(function () {
@@ -329,13 +237,15 @@
             });      
                 selectstatus(array);
             });
-            $(document).on('click', '#kt_help_toggle', function (e) {
-                var id = $(this).attr("data-id");
-                Imageview(id);
+            $(document).on('click', '.moreimages', function (e) {
+                e.preventDefault();
+                let family = $(this).attr('data-family');
+                let profile = $(this).attr('data-profile');
+                let passport = $(this).attr('data-passport');
+                var lightbox = new FsLightbox();
+                lightbox.props.sources = [family,profile,passport];
+                lightbox.open();
             });
-            $(document).on('click', '#kt_help_close', function (e) {
-            clearDrawerImages();
-               });
             $(window).on('beforeunload', function() {
               $('#searchInput').val('');
               $('[name="designation"]').val('');
@@ -411,54 +321,6 @@
             }
         });     
     }
-    function Imageview(id) {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: "{{ route('view') }}",
-            type: "GET",
-            data: {
-                id: id,
-            },
-            success: function (response) {
-                if (response.data) {
-                    const employee = response.data;
-                    // Update the drawer with new images
-                    updateDrawerImages(employee);
-                } else {
-                    console.log('No employee data received');
-                }
-            },
-            error: function (response) {
-                console.log(response.message);
-            }
-    });
-}
-    function updateDrawerImages(employee) {
-        $('#kt_help_body .image-input').each(function (index) {
-            let imageUrl = '';
-            switch (index) {
-                case 0:
-                    imageUrl = employee.profile;
-                    break;
-                case 1:
-                    imageUrl = employee.family;
-                    break;
-                case 2:
-                    imageUrl = employee.passport;
-                    break;
-            }
-            if (imageUrl) {
-                $(this).css('background-image', 'url(' + imageUrl + ')');
-            }
-        });
-    }
-    function clearDrawerImages() {
-       $('#kt_help_body .image-input').css('background-image', '');
-      }
 });
 </script>
 @endsection
