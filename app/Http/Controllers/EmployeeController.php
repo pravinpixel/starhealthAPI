@@ -62,23 +62,56 @@ class EmployeeController extends Controller
   }
   public function statusselect(Request $request)
   {
-    $id = $request->id;
-    $pagename = $request->pagename;
-    try {
-      $employee = Employee::find($id);
-      if ($pagename == 'Register') {
-        $employee->employee_status = 'shortlist';
-        $employee->update();
-        return response()->json(['message' => 'Employee Selected Shortlist', 'data' => $employee]);
-      } else {
-        $employee->employee_status = 'final';
-        $employee->update();
+      $ids = $request->id;  // Expecting an array of IDs
+      $pagename = $request->pagename;
+  
+      try {
+          // Initialize an array to store the results
+          $shortlistedEmployees = [];
+          $finalizedEmployees = [];
+          
+          foreach ($ids as $id) {
+              $employee = Employee::find($id);
+  
+              if (!$employee) {
+                  // Skip this iteration if employee is not found
+                  continue;
+              }
+  
+              if ($pagename == 'Register') {
+                  $employee->employee_status = 'shortlist';
+                  $employee->update();
+                  $shortlistedEmployees[] = $employee;  // Collect updated employee data
+              } else {
+                  $employee->employee_status = 'final';
+                  $employee->update();
+                  $finalizedEmployees[] = $employee;  // Collect updated employee data
+              }
+          }
+  
+          // Prepare the response messages
+          $responseMessages = [];
+          if (!empty($shortlistedEmployees)) {
+              $responseMessages[] = 'Employees Selected Shortlist';
+          }
+          if (!empty($finalizedEmployees)) {
+              $responseMessages[] = 'Employees Selected Finallist';
+          }
+  
+          return response()->json([
+              'message' => $responseMessages,
+              'shortlisted' => $shortlistedEmployees,
+              'finalized' => $finalizedEmployees
+          ]);
+  
+      } catch (\Exception $e) {
+          return response()->json([
+              'status' => false,
+              'errors' => $e->getMessage()
+          ], 422);
       }
-      return response()->json(['message' => 'Employee Selected Finallist', 'data' => $employee]);
-    } catch (\Exception $e) {
-      return response()->json(['status' => false, 'errors' => $e->getMessage()], 422);
-    }
   }
+  
   public function view(Request $request)
   {
     $id = $request->id;

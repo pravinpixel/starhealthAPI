@@ -97,11 +97,18 @@
          <input type="text" id="searchInput" class="form-control form-control-solid w-350px ps-15" placeholder="Search {{$title}} list" />
         </div>
        </div>
-       <div class="card-toolbar">
+       <div class="card-toolbar" style="gap: 25px">
+        @if(in_array($title, ['Register', 'Shortlisted']))
+        <div>
+            <button type="submit" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Select</button>
+        </div>
+        @endif
+        <div>
         <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="tooltip" id="filter_panel">
             <i class="fa-solid fa-filter"><span class="path1"></span><span class="path2"></span></i>
             Filter
         </button>  
+    </div>
      </div>
         </div>
            @include('employee.filter')        
@@ -315,8 +322,12 @@
             $(document).on('click', '#filter_panel', function (e) {
                 $("#filter_sub").toggle();
             });
-            $(document).on('click', '#select', function (e) {
-                selectstatus(this);
+            $(document).on('click', '#selectbutton', function (e) {
+                let array = []; 
+                $("input:checkbox[name=select]:checked").each(function() { 
+                array.push($(this).val()); 
+            });      
+                selectstatus(array);
             });
             $(document).on('click', '#kt_help_toggle', function (e) {
                 var id = $(this).attr("data-id");
@@ -338,7 +349,6 @@
             var state = $('[name="state"]').val();
             var city = $('[name="city"]').val();
             var department = $('[name="department"]').val();
-            console.log(department);
             loadTableData(searchTerm, designation,state,department,city,page);
       }
        updateTableData();
@@ -378,11 +388,8 @@
                }
            });
        }
-    function selectstatus(checkbox) {
-            var isChecked = $(checkbox).is(':checked');
-            var value = $(checkbox).val();
+    function selectstatus(array) {
             var pagename = $('#title').val();
-        if(isChecked == true){
           $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -392,7 +399,7 @@
             url:"{{ route('select') }}" ,
             type: "POST",
             data: {
-                id: value,
+                id: array,
                 pagename:pagename,
             },
             success: function (response) {
@@ -402,8 +409,7 @@
             error: function (response) {
               console.log(response.message);
             }
-        });
-        }     
+        });     
     }
     function Imageview(id) {
         $.ajaxSetup({
