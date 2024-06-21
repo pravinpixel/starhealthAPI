@@ -92,10 +92,10 @@ class EmployeeController extends Controller
           // Prepare the response messages
           $responseMessages = [];
           if (!empty($shortlistedEmployees)) {
-              $responseMessages[] = 'Employees Selected Shortlist';
+              $responseMessages[] = 'Selected Employee is Shortlisted';
           }
           if (!empty($finalizedEmployees)) {
-              $responseMessages[] = 'Employees Selected Finallist';
+              $responseMessages[] = 'Selected Employee is Finallisted';
           }
   
           return response()->json([
