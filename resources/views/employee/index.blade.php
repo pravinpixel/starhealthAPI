@@ -231,12 +231,19 @@
                 $("#filter_sub").toggle();
             });
             $(document).on('click', '#selectbutton', function (e) {
-                let array = []; 
-                $("input:checkbox[name=select]:checked").each(function() { 
-                array.push($(this).val()); 
-            });      
-                selectstatus(array);
+                    $('#pageLoader').fadeIn();
+                    let array = []; 
+                    $("input:checkbox[name=select]:checked").each(function() { 
+                        array.push($(this).val()); 
+                    });      
+
+                    if(array.length === 0) {
+                        $('#pageLoader').fadeOut();
+                    } else {
+                        selectstatus(array);
+                    }
             });
+
             $(document).on('click', '.moreimages', function (e) {
                 e.preventDefault();
                 let family = $(this).attr('data-family');
@@ -314,9 +321,13 @@
             },
             success: function (response) {
                 toastr.success(response.message);
-                refreshTableContent()
+                $('#pageLoader').fadeOut(function () {
+                   refreshTableContent();
+               });
+             
             },
             error: function (response) {
+                $('#pageLoader').fadeOut();
               console.log(response.message);
             }
         });     
