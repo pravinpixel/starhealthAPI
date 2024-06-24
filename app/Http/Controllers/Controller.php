@@ -12,11 +12,12 @@ class Controller extends BaseController
 
     public $error;
 
-    public function returnError($errors = false, $message = 'Error', $code = 400)
+    public function returnError($errors = false, $message = 'Error', $code = 400 ,$statuscode ='')
     {
         return response([
             'success' => false,
             'message' => $message,
+            'statuscode' => $statuscode,
             'error' => $errors
         ], $code);
     }
