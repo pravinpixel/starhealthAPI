@@ -10,7 +10,7 @@
                      <td valign="center" align="center" style="border-collapse: collapse;border: 0;margin: 0;padding: 10px;-webkit-text-size-adjust: none;color: #FFFF;font-family: Arial, sans-serif;font-size: 16px;line-height: 26px;background-color:#1e329d; text-align: center;">
 						<table border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
 							<tr>
-								<td style="display: flex !important;justify-content:flex-start !important;"><img style="padding-top: 14px;"  src="https://admin.designonline.in/uploads/1717749846425-image_2024_06_07T08_41_46_257Z.png" width="162" height="71" /></td>
+								<td style="display: flex !important;justify-content:flex-start !important;"><img style="padding-top: 14px;"  src="{{ asset('images/email_image.png') }}" width="162" height="71" /></td>
 								<td style="text-align: right;"><img src="https://admin.designonline.in/uploads/1717749846425-image_2024_06_07T08_41_46_253Z.png" width="100" height="100"/></td>
 							</tr>
 						</table>                        
