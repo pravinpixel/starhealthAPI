@@ -57,19 +57,20 @@ class Employee extends Authenticatable implements JWTSubject
     public function getFamilyAttribute()
     {
         if ($this->family_photo === null) {
-            return null;
+            return null; 
         }
-               $data=explode('.com/', $this->family_photo);
+        $data = explode('.com/', $this->family_photo);
         try {
-            $value = Storage::disk('s3')->get($data[1]);
-            return 'data:image/jpeg;base64,' . base64_encode($value);
+            $value = Storage::disk('s3')->get($data[1]); 
+            if ($value) {
+                return 'data:image/jpeg;base64,' . base64_encode($value);
+            } else {
+                return null;
+            }
         } catch (\Exception $e) {
             return null;
         }
-    } 
-
-    
-
+    }
     public function getJWTIdentifier()
     {
         return $this->getKey();

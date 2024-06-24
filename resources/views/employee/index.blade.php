@@ -250,9 +250,16 @@
                 let profile = $(this).attr('data-profile');
                 let passport = $(this).attr('data-passport');
                 var lightbox = new FsLightbox();
-                lightbox.props.sources = [family,profile,passport];
+                var sources = [profile, passport].filter(function(source) {
+                    return source !== "";
+                });
+                if (family !== "") {
+                    sources.unshift(family);
+                }
+                lightbox.props.sources = sources;
                 lightbox.open();
             });
+
             $(window).on('beforeunload', function() {
               $('#searchInput').val('');
               $('[name="designation"]').val('');
