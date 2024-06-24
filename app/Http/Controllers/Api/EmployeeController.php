@@ -45,7 +45,7 @@ class EmployeeController extends Controller
             $employee = Employee::where('email', $request->email)->first();
             if ($employee) {
                 if($employee->employee_status == "completed"){
-                    return $this->returnError('We had already received your entry and it is in review now',401);
+                    return $this->returnError('We had already received your entry and it is in review now');
                 }
                 $oneMinuteAgo = Carbon::now()->subMinute();
             $oneHourAgo = Carbon::now()->subHour();
