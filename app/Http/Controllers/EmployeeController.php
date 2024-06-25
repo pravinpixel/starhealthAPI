@@ -43,11 +43,11 @@ class EmployeeController extends Controller
     }
 
     if ($currentRouteName == 'register') {
-      $title = 'Register';
+      $title = 'Enrollment';
     } elseif ($currentRouteName == 'shortlist') {
       $title = 'Shortlisted';
     } else {
-      $title = 'Final';
+      $title = 'Finalist';
     }
    
     $employees = $query->orderBy('id', 'desc')->paginate($perPage);
@@ -78,7 +78,7 @@ class EmployeeController extends Controller
                   continue;
               }
   
-              if ($pagename == 'Register') {
+              if ($pagename == 'Enrollment') {
                   $employee->employee_status = 'shortlist';
                   $employee->update();
                   $shortlistedEmployees[] = $employee;  // Collect updated employee data
@@ -92,10 +92,10 @@ class EmployeeController extends Controller
           // Prepare the response messages
           $responseMessages = [];
           if (!empty($shortlistedEmployees)) {
-              $responseMessages[] = 'Selected Employee is Shortlisted';
+              $responseMessages[] = 'Selected Employee is Shortlist';
           }
           if (!empty($finalizedEmployees)) {
-              $responseMessages[] = 'Selected Employee is Finallisted';
+              $responseMessages[] = 'Selected Employee is Finalist';
           }
   
           return response()->json([

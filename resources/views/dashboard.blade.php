@@ -120,7 +120,7 @@
     </div>
     <div class="row justify-content-center mx-5">
         <div class="col-md-5">
-            <h1 class="text-center">Final List</h1>
+            <h1 class="text-center">Finalist</h1>
             <div style="padding:20px">
                 <a href="#">
                     <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"

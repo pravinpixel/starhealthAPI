@@ -43,7 +43,7 @@
    <div id="kt_app_toolbar_container" class="app-container container-xxl d-flex flex-stack">
     <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
      <!--begin::Title-->
-     <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{$title}} List</h1>
+     <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">{{$title}}</h1>
      <!--end::Title-->
      <!--begin::Breadcrumb-->
      <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -58,7 +58,7 @@
       </li>
       <!--end::Item-->
       <!--begin::Item-->
-      <li class="breadcrumb-item text-muted">{{$title}} List</li>
+      <li class="breadcrumb-item text-muted">{{$title}}</li>
       <!--end::Item-->
      </ul>
      <!--end::Breadcrumb-->
@@ -94,11 +94,11 @@
            <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="currentColor" />
           </svg>
          </span>
-         <input type="text" id="searchInput" class="form-control form-control-solid w-350px ps-15" placeholder="Search {{$title}} list" />
+         <input type="text" id="searchInput" class="form-control form-control-solid w-350px ps-15" placeholder="Search {{$title}}" />
         </div>
        </div>
        <div class="card-toolbar" style="gap: 25px">
-        @if(in_array($title, ['Register', 'Shortlisted']))
+        @if(in_array($title, ['Enrollment', 'Shortlisted']))
         <div>
             <button type="submit" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Select</button>
         </div>
@@ -125,7 +125,7 @@
                               <th class="min-w-125px">Department</th>
                               <th class="min-w-125px">Designation</th>       
                               <th class="min-w-115px">View Images</th>
-                              @if(in_array($title, ['Register', 'Shortlisted']))
+                              @if(in_array($title, ['Enrollment', 'Shortlisted']))
                               <th class="min-w-100px">Select</th>
                               @endif
                           </tr>
@@ -166,7 +166,7 @@
                                             <i class="fa fa-eye"></i>
                                         </a>
                                     </td>                                
-                                      @if(in_array($title, ['Register', 'Shortlisted']))
+                                      @if(in_array($title, ['Enrollment', 'Shortlisted']))
                                       <td>
                                           <div class="form-check form-check-custom form-check-success form-check-solid">
                                               <input style=" border: 2px solid #bcbcbc;" class="form-check-input" id="select" name="select" type="checkbox" value="{{$employee->id}}" />

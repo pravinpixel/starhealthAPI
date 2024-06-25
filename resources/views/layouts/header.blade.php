@@ -30,8 +30,8 @@ data-kt-drawer-toggle="#kt_app_header_menu_toggle" data-kt-swapper="true"
 data-kt-swapper-mode="{default: 'append', lg: 'prepend'}"
 data-kt-swapper-parent="{default: '#kt_app_body', lg: '#kt_app_header_wrapper'}">
 <div class="menu-title mt-2">
-        <h3 class="mt-5" style="width:182px">
-           The face of starhealth
+        <h3 class="mt-5" style="width:287px">
+           The Face of Star Health
         </h3>
     </div>
 <div

@@ -2,7 +2,7 @@
 <div class="card-title">
         <div class="row ">
             <div class="w-250px me-3">
-                <select class="form-select" data-control="select2" data-placeholder="Select Department" name="department">
+                <select class="form-select" data-allow-clear="true" data-control="select2" data-placeholder="Select Department" name="department">
                     <option value="">Select Department</option>
                     @php
                         $uniqueDepartments = $employees->pluck('department')->unique(function ($department) {
@@ -16,7 +16,7 @@
                 
                </div>
             <div class="w-250px me-3">
-                <select class="form-select select2Box" data-control="select2" data-placeholder="Select Designation" name="designation">
+                <select class="form-select select2Box" data-allow-clear="true" data-control="select2" data-placeholder="Select Designation" name="designation">
                     <option value="">Select Designation</option>
                     @php
                         $uniqueDesignations = $employees->pluck('designation')->unique(function ($designation) {
@@ -30,7 +30,7 @@
                 
                </div>
                <div class="w-250px me-3">
-                <select class="form-select" data-control="select2" data-placeholder="Select State" name="state">
+                <select class="form-select" data-allow-clear="true" data-control="select2" data-placeholder="Select State" name="state">
                     <option value="">Select State</option>
                     @php
                         $uniqueStates = $employees->pluck('state')->unique(function ($state) {
@@ -44,7 +44,7 @@
                 
                </div>
                <div class="w-250px me-3">
-                <select class="form-select" data-control="select2" data-placeholder="Select City" name="city">
+                <select class="form-select" data-allow-clear="true" data-control="select2" data-placeholder="Select City" name="city">
                     <option value="">Select City</option>
                     @php
                         $uniqueCities = $employees->pluck('city')->unique(function ($city) {
