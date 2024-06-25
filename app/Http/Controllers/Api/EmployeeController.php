@@ -34,7 +34,7 @@ class EmployeeController extends Controller
                 'email' => [
                     'required',
                     'email',
-                    'regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@(starhealth|starinsurance)\.in$|^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@pixel-studios\.com$/'
+                    'regex:/^[a-zA-Z0-9._%+-]+@(starhealth|starinsurance)\.in$|^[a-zA-Z0-9._%+-]+@pixel-studios\.com$/'
                 ],
                 'token' => 'required|unique:employees',
             ]); 
@@ -118,7 +118,7 @@ class EmployeeController extends Controller
             'email' => [
                 'required',
                 'email',
-                'regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@(starhealth|starinsurance)\.in$|^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@pixel-studios\.com$/'
+                'regex:/^[a-zA-Z0-9._%+-]+@(starhealth|starinsurance)\.in$|^[a-zA-Z0-9._%+-]+@pixel-studios\.com$/'
             ],
             'token' => 'required|unique:employees',
         ]);
@@ -184,7 +184,7 @@ class EmployeeController extends Controller
                 'email' => [
                     'required',
                     'email',
-                    'regex:/^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@(starhealth|starinsurance)\.in$|^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@pixel-studios\.com$/'
+                    'regex:/^[a-zA-Z0-9._%+-]+@(starhealth|starinsurance)\.in$|^[a-zA-Z0-9._%+-]+@pixel-studios\.com$/'
                 ],
                 'otp' => 'required|size:4',
                 'token' => 'required',
