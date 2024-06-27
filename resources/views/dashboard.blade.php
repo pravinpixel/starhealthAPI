@@ -68,7 +68,7 @@
             </div>
         </div>
         <div class="col-md-5">
-            <h1 style="">Total Completed</h1>
+            <h1 style="">Enrollment</h1>
             <div style="padding:20px">
                 <a href="#">
                     <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
@@ -86,7 +86,7 @@
     </div>
     <div class="row justify-content-between mx-5 my-4">
         <div class="col-md-5">
-            <h1 style="">Total Incompleted</h1>
+            <h1 style="">Total Incomplete</h1>
             <div style="padding:20px">
                 <a href="#">
                     <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
@@ -94,7 +94,7 @@
                          linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
                         <div style="justify-content: center;" class="card-body d-flex">
                             <h2 style="color:white; "><br>
-                                <center><span  style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light d-flex align-items-center justify-content-center">{{ $in_completed  }}</span></center>
+                                <center><span  style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light d-flex align-items-center justify-content-center">{{ $sub_mission - $completed }}</span></center>
                             </h2>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
             </div>
         </div>
         <div class="col-md-5">
-            <h1 style="">Total Shortlisted</h1>
+            <h1 style="">Shortlisted</h1>
             <div style="padding:20px">
                 <a href="#">
                     <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
