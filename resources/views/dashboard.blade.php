@@ -5,6 +5,20 @@
 @section('style')
     @parent
     <style>
+        table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+th {
+ font-size: 16px
+}
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
         .box {
             transition: transform .6s;
 
@@ -34,108 +48,78 @@
                 <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
                     Dashboard</h1>
             </div>
-            <!--end::Page title-->
-            <!--begin::Actions-->
-            <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <!--begin::Filter menu-->
-                <div class="m-0">
-                    <!--begin::Menu toggle-->
-                    <!--end::Menu 1-->
-                </div>
-                <!--end::Filter menu-->
-            </div>
-            <!--end::Actions-->
+            <!--end::Page title-->    
         </div>
         <!--end::Toolbar container-->
     </div>
-
-    <div class="row justify-content-between mx-5">
-        <div class="col-md-5">
-            <h1 style="">Total submission</h1>
-            <div style="padding:20px">
-                <a href="#">
-                    <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
-                         style="background-color: #7dc0e7;background-image: 
-                         linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
-                        <div style="justify-content: center;" class="card-body d-flex">
-                            <h2 style="color:white; "><br>
-                                <center><span style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light d-flex align-items-center justify-content-center">
-                                    {{ $sub_mission }}</span></center>
-                            </h2>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <h1 style="">Enrollment</h1>
-            <div style="padding:20px">
-                <a href="#">
-                    <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
-                         style="background-color: #7dc0e7;background-image: 
-                         linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
-                        <div style="justify-content: center;" class="card-body d-flex">
-                            <h2 style="color:white; "><br>
-                                <center><span style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light d-flex align-items-center justify-content-center">{{ $completed }}</span></center>
-                            </h2>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-between mx-5 my-4">
-        <div class="col-md-5">
-            <h1 style="">Total Incomplete</h1>
-            <div style="padding:20px">
-                <a href="#">
-                    <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
-                         style="background-color: #7dc0e7;background-image: 
-                         linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
-                        <div style="justify-content: center;" class="card-body d-flex">
-                            <h2 style="color:white; "><br>
-                                <center><span  style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light d-flex align-items-center justify-content-center">{{ $sub_mission - $completed }}</span></center>
-                            </h2>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-md-5">
-            <h1 style="">Shortlisted</h1>
-            <div style="padding:20px">
-                <a href="#">
-                    <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
-                         style="background-color: #7dc0e7;background-image: 
-                         linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
-                        <div style="justify-content: center;" class="card-body d-flex">
-                            <h2 style="color:white; "><br>
-                                <center><span style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light d-flex align-items-center justify-content-center">{{ $shortlist }}</span></center>
-                            </h2>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center mx-5">
-        <div class="col-md-5">
-            <h1 class="text-center">Finalist</h1>
-            <div style="padding:20px">
-                <a href="#">
-                    <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100 box"
-                         style="background-color: #7dc0e7;background-image: 
-                         linear-gradient(62deg,#293A83 24%,#7dc0e7 79%);height:172px ! important;">
-                        <div style="justify-content: center;" class="card-body d-flex">
-                            <h2 style="color:white; "><br>
-                                <center><span style="height: 50px;width:50px;font-size: 29px;" class="badge badge-light d-flex align-items-center justify-content-center">{{ $final_list  }}</span></center>
-                            </h2>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
+<div id="kt_app_content" class="app-content flex-column-fluid">
+    <div id="kt_app_content_container" class="app-container container">
+         <div class="card">
+              <div class="card-header border-3 pt-6">
+                    <div class="card-body pt-0">
+                        <div class="row mt-12 mb-12"  style="display: flex;justify-content:space-between;">
+                            <div class="col-md-6">
+                                <table>
+                                    <tr>
+                                    <th>As on date</th>
+                                    <th></th>
+                                    </tr>
+                                    <tr>
+                                    <td>Total submission</td>
+                                    <td>{{$sub_mission}}</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Enrollment</td>
+                                    <td>{{$completed}}</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Total Incomplete</td>
+                                    <td>{{$sub_mission - $completed }}</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Shortlisted</td>
+                                    <td>{{$shortlist}}</td>
+                                    </tr>
+                                    <tr>
+                                    <td>Finalist</td>
+                                    <td>{{$final_list}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-md-6">
+                                        <table>
+                                            <tr>
+                                                <th>{{ date('M d Y') }}</th>
+                                                <th></th>
+                                            </tr>
+                                            <tr>
+                                            <td>Total submission</td>
+                                            <td>{{$today_sub_mission}}</td>
+                                            </tr>
+                                            <tr>
+                                            <td>Enrollment</td>
+                                            <td>{{$today_completed}}</td>
+                                            </tr>
+                                            <tr>
+                                            <td>Total Incomplete</td>
+                                            <td>{{ $today_sub_mission - $today_completed}}</td>
+                                            </tr>
+                                            <tr>
+                                            <td>Shortlisted</td>
+                                            <td>{{$today_shortlist}}</td>
+                                            </tr>
+                                            <tr>
+                                            <td>Finalist</td>
+                                            <td>{{$today_final_list}}</td>
+                                            </tr>
+                                        </table>
+                            </div>
+                   </div>
+                </div>
+         </div>
+     </div>
+  </div> 
+</div>
 @endsection
 
 @section('script')

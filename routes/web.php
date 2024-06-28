@@ -12,7 +12,7 @@ use App\Http\Controllers\ChangePasswordController;
 Route::controller(AuthController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('login', 'loginpage')->name('login.page');
-    Route::post('loginsave', 'login')->name('login');
+    Route::post('loginsave', 'loginsave')->name('loginsave');
 });
 
 #..forgot password..

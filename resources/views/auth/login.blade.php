@@ -33,7 +33,7 @@
 
       <div class="flex-row-fluid d-flex flex-center justfiy-content-xl-first p-10">
           <div class="d-flex flex-center p-15 shadow-sm bg-body rounded w-100 w-md-550px mx-auto ms-xl-20">
-              <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate" method="post" action="{{ route('login') }}">
+              <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate" method="post" action="{{ route('loginsave') }}">
                 @csrf
                 <div class="text-center mb-11">
                  <!--begin::Title-->

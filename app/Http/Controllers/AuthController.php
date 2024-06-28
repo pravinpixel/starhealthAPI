@@ -20,7 +20,7 @@ class AuthController extends Controller
     }
     
 
-    public function login(Request $request)
+    public function loginsave(Request $request)
     {
         $validator = $request->validate([
             'email' => 'required|email',
