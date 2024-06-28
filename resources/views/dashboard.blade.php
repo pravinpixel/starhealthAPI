@@ -77,11 +77,11 @@ td, th {
                                     <td>{{$sub_mission - $completed }}</td>
                                     </tr>
                                     <tr>
-                                    <td>Shortlisted</td>
+                                    <td>Total Shortlisted</td>
                                     <td>{{$shortlist}}</td>
                                     </tr>
                                     <tr>
-                                    <td>Finalist</td>
+                                    <td>Total Finalist</td>
                                     <td>{{$final_list}}</td>
                                     </tr>
                                 </table>
@@ -105,11 +105,11 @@ td, th {
                                             <td>{{ $today_sub_mission - $today_completed}}</td>
                                             </tr>
                                             <tr>
-                                            <td>Shortlisted</td>
+                                            <td>Total Shortlisted</td>
                                             <td>{{$today_shortlist}}</td>
                                             </tr>
                                             <tr>
-                                            <td>Finalist</td>
+                                            <td>Total Finalist</td>
                                             <td>{{$today_final_list}}</td>
                                             </tr>
                                         </table>
