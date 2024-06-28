@@ -81,7 +81,7 @@
                           </svg>
                           </span>
                         </span>
-                        <span  style="color: white" class="menu-title">Enrollment</span>
+                        <span  style="color: white" class="menu-title">Submitted</span>
                       </a>
               </div>
               <div class="menu-item">

@@ -43,7 +43,7 @@ class EmployeeController extends Controller
     }
 
     if ($currentRouteName == 'register') {
-      $title = 'Enrollment';
+      $title = 'Submitted';
     } elseif ($currentRouteName == 'shortlist') {
       $title = 'Shortlisted';
     } else {
@@ -78,7 +78,7 @@ class EmployeeController extends Controller
                   continue;
               }
   
-              if ($pagename == 'Enrollment') {
+              if ($pagename == 'Submitted') {
                   $employee->employee_status = 'shortlist';
                   $employee->update();
                   $shortlistedEmployees[] = $employee;  // Collect updated employee data

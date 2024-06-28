@@ -98,7 +98,7 @@
         </div>
        </div>
        <div class="card-toolbar" style="gap: 25px">
-        @if(in_array($title, ['Enrollment', 'Shortlisted']))
+        @if(in_array($title, ['Submitted', 'Shortlisted']))
         <div>
             <button type="submit" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Select</button>
         </div>
@@ -125,7 +125,7 @@
                               <th class="min-w-125px">Department</th>
                               <th class="min-w-125px">Designation</th>       
                               <th class="min-w-115px">View Images</th>
-                              @if(in_array($title, ['Enrollment', 'Shortlisted']))
+                              @if(in_array($title, ['Submitted', 'Shortlisted']))
                               <th class="min-w-100px">Select</th>
                               @endif
                           </tr>
@@ -166,7 +166,7 @@
                                             <i class="fa fa-eye"></i>
                                         </a>
                                     </td>                                
-                                      @if(in_array($title, ['Enrollment', 'Shortlisted']))
+                                      @if(in_array($title, ['Submitted', 'Shortlisted']))
                                       <td>
                                           <div class="form-check form-check-custom form-check-success form-check-solid">
                                               <input style=" border: 2px solid #bcbcbc;" class="form-check-input" id="select" name="select" type="checkbox" value="{{$employee->id}}" />
