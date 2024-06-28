@@ -69,11 +69,11 @@ td, th {
                                     <td>{{$sub_mission}}</td>
                                     </tr>
                                     <tr>
-                                    <td>Enrollment</td>
+                                    <td>Total Submission Completed</td>
                                     <td>{{$completed}}</td>
                                     </tr>
                                     <tr>
-                                    <td>Total Submission Completed</td>
+                                    <td>Total Incomplete</td>
                                     <td>{{$sub_mission - $completed }}</td>
                                     </tr>
                                     <tr>
