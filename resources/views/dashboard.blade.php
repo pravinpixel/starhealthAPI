@@ -65,7 +65,7 @@ td, th {
                                     <th></th>
                                     </tr>
                                     <tr>
-                                    <td>Total submission</td>
+                                    <td>Total Enrollment</td>
                                     <td>{{$sub_mission}}</td>
                                     </tr>
                                     <tr>
@@ -73,7 +73,7 @@ td, th {
                                     <td>{{$completed}}</td>
                                     </tr>
                                     <tr>
-                                    <td>Total Incomplete</td>
+                                    <td>Total Submission Completed</td>
                                     <td>{{$sub_mission - $completed }}</td>
                                     </tr>
                                     <tr>
@@ -93,11 +93,11 @@ td, th {
                                                 <th></th>
                                             </tr>
                                             <tr>
-                                            <td>Total submission</td>
+                                            <td>Total Enrollment</td>
                                             <td>{{$today_sub_mission}}</td>
                                             </tr>
                                             <tr>
-                                            <td>Enrollment</td>
+                                            <td>Total Submission Completed</td>
                                             <td>{{$today_completed}}</td>
                                             </tr>
                                             <tr>
