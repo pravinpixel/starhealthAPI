@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\EssientialController;
 
 
 Route::get('/', function () { return 'Welcome Star Health'; });
+Route::get('/view/{id}', [EmployeeController::class, 'view']);
 Route::group([
    'middleware' => 'api',
 ], function () {

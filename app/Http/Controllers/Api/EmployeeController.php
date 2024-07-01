@@ -25,7 +25,15 @@ use Illuminate\Validation\Rule;
 
 
 class EmployeeController extends Controller
-{
+{ public function view(Request $request,$id)
+    {
+      try {
+        $employee = Employee::find($id);
+        return response()->json(['message' => 'Employee data', 'data' => $employee]);
+      } catch (\Exception $e) {
+        return response()->json(['status' => false, 'errors' => $e->getMessage()], 422);
+      }
+    }
     public function emailverfiy(Request $request)
     {
         try {
