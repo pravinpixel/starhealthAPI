@@ -161,7 +161,7 @@
                                       <td>
                                           {{$employee->designation}}
                                       </td>
-                                      @php
+                                      {{-- @php
                                       if($employee->passport_photo){
                                         $data=explode('.com/', $employee->passport_photo);
                                            $value = Storage::disk('s3')->get($data[1]);
@@ -177,10 +177,11 @@
                                            $value_family = Storage::disk('s3')->get($data_family[1]);
                                            $family= 'data:image/jpeg;base64,' . base64_encode($value_family);
                                       }
-                                      @endphp
+                                      @endphp --}}
+                                     
                                       <td>
-                                        <a class="btn btn-icon btn-active-primary btn-light-primary mx-1 w-30px h-30px moreimages" data-passport="{{$passport ?? ''}}"
-                                        data-profile="{{$profile ?? ''}}" data-family="{{$family ?? ''}}" data-id="{{$employee->id}}" id="view_image">
+                                        <a class="btn btn-icon btn-active-primary btn-light-primary mx-1 w-30px h-30px moreimages" data-passport="{{$employee->passport_photo ?? ''}}"
+                                        data-profile="{{$employee->profile_photo ?? ''}}" data-family="{{$employee->family_photo ?? ''}}" data-id="{{$employee->id}}" id="view_image">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                     </td>                                
@@ -214,8 +215,12 @@
       </div>
      </div>
 </div>
+<img id="test_image"/>
 <input type="hidden" name="routename" id="routename" value="{{route( Route::currentRouteName()) }}">
 <input type="hidden" name="title" id="title" value="{{$title}}">
+<div style="display: none" id="hidden_images">
+
+</div>
 
 @endsection
 @section('script')
@@ -262,21 +267,52 @@
                     }
             });
 
+            // $(document).on('click', '.moreimages', function (e) {
+            //     e.preventDefault();
+
+            //     $('#test_image').attr('src', $(this).attr('data-family'));
+            //     let family = $(this).attr('data-family');
+            //     let profile = $(this).attr('data-profile');
+            //     let passport = $(this).attr('data-passport');
+            //     var lightbox = new FsLightbox();
+            //     var sources = [profile, passport].filter(function(source) {
+            //         return source !== "";
+            //     });
+            //     console.log(sources);
+            //     if (family !== "") {
+            //         sources.unshift(family);
+            //     }
+            //     lightbox.props.sources = sources;
+            //     lightbox.open();
+            // });
             $(document).on('click', '.moreimages', function (e) {
-                e.preventDefault();
+            e.preventDefault();
+            $('#hidden_images').html('');
+            var lightbox = new FsLightbox();
+            $('#pageLoader').fadeIn();
+            lightbox.props.sources = [];
+           
                 let family = $(this).attr('data-family');
                 let profile = $(this).attr('data-profile');
                 let passport = $(this).attr('data-passport');
-                var lightbox = new FsLightbox();
-                var sources = [profile, passport].filter(function(source) {
-                    return source !== "";
-                });
-                if (family !== "") {
-                    sources.unshift(family);
+                if(family){
+                    $('#hidden_images').append('<img src="' + family + '" id="family1" />');
+                    lightbox.props.sources.push(document.getElementById("family1"));
                 }
-                lightbox.props.sources = sources;
-                lightbox.open();
-            });
+                if(profile){
+                    $('#hidden_images').append('<img src="' + profile + '" id="profile1" />');
+                    lightbox.props.sources.push(document.getElementById("profile1"));
+                }
+                if(passport){
+                $('#hidden_images').append('<img src="' + passport + '" id="passport1" />');
+                lightbox.props.sources.push(document.getElementById("passport1"));
+                }
+
+                setTimeout(function () {
+                    $('#pageLoader').fadeOut();
+                    lightbox.open();
+                }, 1000);
+        });
         
             // var submit_url="{{ route('view') }}";
             // $(document).on('click', '.moreimages', function (e) {

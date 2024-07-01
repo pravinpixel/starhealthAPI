@@ -9,6 +9,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject; // Corrected namespace for JWTSubject
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Aws\S3\S3Client;
 class Employee extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable,SoftDeletes;
@@ -85,20 +86,75 @@ class Employee extends Authenticatable implements JWTSubject
         if ($value === null) {
             return null;
         }
-        return config('app.image_url') . $value;
+       
+        $s3Client = new S3Client([
+            'region'  =>  env('AWS_DEFAULT_REGION'),
+            'version' => 'latest',
+            'credentials' => [
+                'key'    => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            ],
+        ]);
+        $bucket = env('AWS_BUCKET');
+        $key =$value;
+        $cmd = $s3Client->getCommand('GetObject', [
+            'Bucket' => $bucket,
+            'Key'    => $key
+        ]);
+
+        $request = $s3Client->createPresignedRequest($cmd, '+20 minutes');
+        $presignedUrl1 = (string) $request->getUri();
+        return $presignedUrl1;
     }
     public function getFamilyPhotoAttribute($value)
     {
         if ($value === null) {
             return null;
         }
-        return config('app.image_url') . $value;
+        
+        $s3Client = new S3Client([
+            'region'  =>  env('AWS_DEFAULT_REGION'),
+            'version' => 'latest',
+            'credentials' => [
+                'key'    => env('AWS_ACCESS_KEY_ID'),
+                'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            ],
+        ]);
+        $bucket = env('AWS_BUCKET');
+        $key =$value;
+        $cmd = $s3Client->getCommand('GetObject', [
+            'Bucket' => $bucket,
+            'Key'    => $key
+        ]);
+
+$request = $s3Client->createPresignedRequest($cmd, '+20 minutes');
+$presignedUrl = (string) $request->getUri();
+return $presignedUrl;
     }
     public function getProfilePhotoAttribute($value)
     {
         if ($value === null) {
             return null;
         }
-        return config('app.image_url') . $value;
+
+                        $s3Client = new S3Client([
+                        'region'  =>  env('AWS_DEFAULT_REGION'),
+                        'version' => 'latest',
+                        'credentials' => [
+                            'key'    => env('AWS_ACCESS_KEY_ID'),
+                            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+                        ],
+                    ]);
+                    $bucket = env('AWS_BUCKET');
+                    $key =$value;
+                    $cmd = $s3Client->getCommand('GetObject', [
+                        'Bucket' => $bucket,
+                        'Key'    => $key
+                    ]);
+
+            $request = $s3Client->createPresignedRequest($cmd, '+20 minutes');
+            $presignedUrl = (string) $request->getUri();
+            return $presignedUrl;
+ 
     }
 }
