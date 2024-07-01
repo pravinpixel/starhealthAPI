@@ -111,7 +111,6 @@ class EmployeeController extends Controller
           ], 422);
       }
   }
-  
   public function view(Request $request)
   {
     $id = $request->id;
