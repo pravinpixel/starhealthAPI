@@ -27,7 +27,7 @@ class EmployeeController extends Controller
       });
     }
     if ($currentRouteName) {
-      $query->where('employee_status', $currentRouteName)->whereNotNull('profile_photo')->whereNotNull('passport_photo');
+      $query->where('status','completed')->where('employee_status', $currentRouteName)->whereNotNull('profile_photo')->whereNotNull('passport_photo');
     }
     if ($designation) {
       $query->where('designation', $designation);
