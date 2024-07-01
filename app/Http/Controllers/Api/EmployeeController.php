@@ -506,9 +506,9 @@ class EmployeeController extends Controller
                     $employee->family_photo = $filePath;
                 }
                 $employee->status = $request->input('status');
-                if( !$employee->profile_photo || !$employee->passport_photo){
-                    return $this->returnError('please check employee profile photo and passport photo');
-                }
+                // if( !$employee->profile_photo || !$employee->passport_photo){
+                //     return $this->returnError('please check employee profile photo and passport photo');
+                // }
                 $message='Photo uploaded successfuly';
             }else{
                 $employee->status = $request->input('status');
