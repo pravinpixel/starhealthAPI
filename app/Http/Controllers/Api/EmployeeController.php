@@ -466,12 +466,6 @@ class EmployeeController extends Controller
                                 $this->error = $validator->errors();
                                 throw new \Exception('validation Error');
                     } 
-                    if($employee->profile_photo != null){
-                        $data=explode('.com/', $employee->profile_photo);
-                        if (Storage::disk('s3')->exists($data[1])) {
-                            Storage::disk('s3')->delete($data[1]);
-                        }
-                  }         
                     $profile_photo=$request->profile_photo;
                     $fileName = "profile_photo_" . uniqid() . "_" . time() . "." . $profile_photo->extension();
                     $filePath = 'employee/' . $fileName;
@@ -496,13 +490,7 @@ class EmployeeController extends Controller
                     if ($validator->fails()) {
                                 $this->error = $validator->errors();
                                 throw new \Exception('validation Error');
-                    }  
-                    if($employee->family_photo != null){
-                        $data=explode('.com/', $employee->family_photo);
-                        if (Storage::disk('s3')->exists($data[1])) {
-                            Storage::disk('s3')->delete($data[1]);
-                        }
-                  }         
+                    }   
                     $family_photo=$request->family_photo;
                     $fileName = "family_photo_" . uniqid() . "_" . time() . "." . $family_photo->extension();
                     $filePath = 'employee/' . $fileName;
