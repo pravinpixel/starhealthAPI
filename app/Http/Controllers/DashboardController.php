@@ -12,9 +12,9 @@ class DashboardController extends Controller
     {
         $sub_mission = Employee::count();
         $final_list = Employee::where('employee_status','final')->count();
-        $completed = Employee::where('status','completed')->whereNotNull('profile_photo')->whereNotNull('passport_photo')->count();
+        $completed = Employee::where('status','completed')->where('employee_status','register')->whereNotNull('profile_photo')->whereNotNull('passport_photo')->count();
         $in_completed = Employee::whereIn('status',['basic','upload','summary'])->count();
-        $shortlist = Employee::where('employee_status','shortlist')->count();
+        $shortlist = Employee::where('employee_status','shortlist')->whereNotNull('profile_photo')->whereNotNull('passport_photo')->count();
         $today_sub_mission = Employee::whereDate('created_at', Carbon::today())->count();
         $today_completed = Employee::whereDate('created_at', Carbon::today())->where('status','completed')->count();
         $today_final_list = Employee::whereDate('created_at', Carbon::today())->where('employee_status','final')->count();
