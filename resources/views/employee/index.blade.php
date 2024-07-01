@@ -162,19 +162,25 @@
                                           {{$employee->designation}}
                                       </td>
                                       @php
-                                           $data=explode('.com/', $employee->passport_photo);
+                                      if($employee->passport_photo){
+                                        $data=explode('.com/', $employee->passport_photo);
                                            $value = Storage::disk('s3')->get($data[1]);
                                            $passport= 'data:image/jpeg;base64,' . base64_encode($value);
-                                           $data_profile=explode('.com/', $employee->profile_photo);
+                                      }
+                                      if($employee->profile_photo){
+                                        $data_profile=explode('.com/', $employee->profile_photo);
                                            $value_profile = Storage::disk('s3')->get($data_profile[1]);
                                            $profile= 'data:image/jpeg;base64,' . base64_encode($value_profile);
+                                      }
+                                      if($employee->family_photo){
                                            $data_family=explode('.com/', $employee->family_photo);
                                            $value_family = Storage::disk('s3')->get($data_family[1]);
                                            $family= 'data:image/jpeg;base64,' . base64_encode($value_family);
+                                      }
                                       @endphp
                                       <td>
-                                        <a class="btn btn-icon btn-active-primary btn-light-primary mx-1 w-30px h-30px moreimages" data-passport="{{$passport}}"
-                                        data-profile="{{$profile}}" data-family="{{$family}}" data-id="{{$employee->id}}" id="view_image">
+                                        <a class="btn btn-icon btn-active-primary btn-light-primary mx-1 w-30px h-30px moreimages" data-passport="{{$passport ?? ''}}"
+                                        data-profile="{{$profile ?? ''}}" data-family="{{$family ?? ''}}" data-id="{{$employee->id}}" id="view_image">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                     </td>                                
