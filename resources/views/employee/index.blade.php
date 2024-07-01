@@ -161,8 +161,20 @@
                                       <td>
                                           {{$employee->designation}}
                                       </td>
+                                      @php
+                                           $data=explode('.com/', $employee->passport_photo);
+                                           $value = Storage::disk('s3')->get($data[1]);
+                                           $passport= 'data:image/jpeg;base64,' . base64_encode($value);
+                                           $data_profile=explode('.com/', $employee->profile_photo);
+                                           $value_profile = Storage::disk('s3')->get($data_profile[1]);
+                                           $profile= 'data:image/jpeg;base64,' . base64_encode($value_profile);
+                                           $data_family=explode('.com/', $employee->family_photo);
+                                           $value_family = Storage::disk('s3')->get($data_family[1]);
+                                           $family= 'data:image/jpeg;base64,' . base64_encode($value_family);
+                                      @endphp
                                       <td>
-                                        <a class="btn btn-icon btn-active-primary btn-light-primary mx-1 w-30px h-30px moreimages" data-id="{{$employee->id}}" id="view_image">
+                                        <a class="btn btn-icon btn-active-primary btn-light-primary mx-1 w-30px h-30px moreimages" data-passport="{{$passport}}"
+                                        data-profile="{{$profile}}" data-family="{{$family}}" data-id="{{$employee->id}}" id="view_image">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                     </td>                                
@@ -244,56 +256,56 @@
                     }
             });
 
-            // $(document).on('click', '.moreimages', function (e) {
-            //     e.preventDefault();
-            //     let family = $(this).attr('data-family');
-            //     let profile = $(this).attr('data-profile');
-            //     let passport = $(this).attr('data-passport');
-            //     var lightbox = new FsLightbox();
-            //     var sources = [profile, passport].filter(function(source) {
-            //         return source !== "";
-            //     });
-            //     if (family !== "") {
-            //         sources.unshift(family);
-            //     }
-            //     lightbox.props.sources = sources;
-            //     lightbox.open();
-            // });
-        
-            var submit_url="{{ route('view') }}";
             $(document).on('click', '.moreimages', function (e) {
-                    event.preventDefault();
-                    // $('#pageLoader').fadeIn();
-                    let id = $(this).attr('data-id');
-                    $.ajax({
-                        url: submit_url,
-                        data:{
-                            id:id,
-                        },
-                        type:"Get",
-                        success: function (res) {
-                            var response=res.data;
-                            let family =response.family;
-                            let profile = response.profile;
-                            let passport = response.passport;
-                            var lightbox = new FsLightbox();
-                            var sources = [profile, passport].filter(function(source) {
-                                return source !== "";
-                            });
-                            if (family !== "") {
-                                sources.unshift(family);
-                            }
-                            console.log(sources);
-                            lightbox.props.sources = sources;
-                            lightbox.open();
-                        },
-                        error: function (response) {
-                            $.each(response.responseJSON.error, function (field_name, error) {
-                                $('#' + field_name + '-error').text(error[0]);
-                            });
-                        }
-                    });
-                   });
+                e.preventDefault();
+                let family = $(this).attr('data-family');
+                let profile = $(this).attr('data-profile');
+                let passport = $(this).attr('data-passport');
+                var lightbox = new FsLightbox();
+                var sources = [profile, passport].filter(function(source) {
+                    return source !== "";
+                });
+                if (family !== "") {
+                    sources.unshift(family);
+                }
+                lightbox.props.sources = sources;
+                lightbox.open();
+            });
+        
+            // var submit_url="{{ route('view') }}";
+            // $(document).on('click', '.moreimages', function (e) {
+            //         event.preventDefault();
+            //         // $('#pageLoader').fadeIn();
+            //         let id = $(this).attr('data-id');
+            //         $.ajax({
+            //             url: submit_url,
+            //             data:{
+            //                 id:id,
+            //             },
+            //             type:"Get",
+            //             success: function (res) {
+            //                 var response=res.data;
+            //                 let family =response.family;
+            //                 let profile = response.profile;
+            //                 let passport = response.passport;
+            //                 var lightbox = new FsLightbox();
+            //                 var sources = [profile, passport].filter(function(source) {
+            //                     return source !== "";
+            //                 });
+            //                 if (family !== "") {
+            //                     sources.unshift(family);
+            //                 }
+            //                 console.log(sources);
+            //                 lightbox.props.sources = sources;
+            //                 lightbox.open();
+            //             },
+            //             error: function (response) {
+            //                 $.each(response.responseJSON.error, function (field_name, error) {
+            //                     $('#' + field_name + '-error').text(error[0]);
+            //                 });
+            //             }
+            //         });
+            //        });
             $(window).on('beforeunload', function() {
               $('#searchInput').val('');
               $('[name="designation"]').val('');
