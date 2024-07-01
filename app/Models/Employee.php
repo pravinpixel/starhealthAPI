@@ -91,7 +91,7 @@ class Employee extends Authenticatable implements JWTSubject
             'region'  =>  env('AWS_DEFAULT_REGION'),
             'version' => 'latest',
             'credentials' => [
-                'key'    => env('AWS_ACCESS_KEY_ID'),
+                'key'    => 'AKIAY3JMP4UPPHQH2C6E',
                 'secret' => env('AWS_SECRET_ACCESS_KEY'),
             ],
         ]);
