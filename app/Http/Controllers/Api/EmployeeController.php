@@ -442,7 +442,7 @@ class EmployeeController extends Controller
                         }
                   }         
                     $passport_photo=$request->passport_photo;
-                    $fileName = "passport_photo_" . uniqid() . "_" . time() . "." . $passport_photo->getClientOriginalExtension();
+                    $fileName = "passport_photo_" .  $employee->id . "_" . time() . "." . $passport_photo->getClientOriginalExtension();
                       $filePath = 'employee/' . $fileName;
                     Storage::disk('s3')->put($filePath, file_get_contents($passport_photo));
                     $employee->passport_photo = $filePath;
@@ -467,7 +467,7 @@ class EmployeeController extends Controller
                                 throw new \Exception('validation Error');
                     } 
                     $profile_photo=$request->profile_photo;
-                    $fileName = "profile_photo_" . uniqid() . "_" . time() . "." . $profile_photo->extension();
+                    $fileName = "profile_photo_" .$employee->id. "_" . time() . "." . $profile_photo->extension();
                     $filePath = 'employee/' . $fileName;
                     Storage::disk('s3')->put($filePath, file_get_contents($profile_photo));
                     $employee->profile_photo = $filePath;
@@ -492,7 +492,7 @@ class EmployeeController extends Controller
                                 throw new \Exception('validation Error');
                     }   
                     $family_photo=$request->family_photo;
-                    $fileName = "family_photo_" . uniqid() . "_" . time() . "." . $family_photo->extension();
+                    $fileName = "family_photo_" . $employee->id. "_" . time() . "." . $family_photo->extension();
                     $filePath = 'employee/' . $fileName;
                     Storage::disk('s3')->put($filePath, file_get_contents($family_photo));
                     $employee->family_photo = $filePath;
