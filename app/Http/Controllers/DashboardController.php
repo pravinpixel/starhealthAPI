@@ -11,16 +11,14 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $basic=Employee::where('status','basic')->count();
-        // $profile_stage=Employee::where('status','upload')->
-        //          whereNull('passport_photo')->whereNull('profile_photo')->count();
-        // $basic=$basic_total + $profile_stage;
-        $no_upoloads=Employee::where('status','upload')->whereNull('passport_photo')->whereNull('profile_photo')->count();
-        $passportcount=Employee::where('status','upload')
+        $basic_=Employee::whereNotIn('status',['basic','upload','summary','completed'])->count();
+        $no_upoloads=Employee::whereIn('status',['basic','upload','summary'])->whereNull('passport_photo')->whereNull('profile_photo')->count();
+        $passportcount=Employee::whereIn('status',['upload'])
                         ->where(function($query){
                             $query->whereNotNull('passport_photo')
                             ->whereNull('profile_photo');
                         })->count();
-                        $profilecount=Employee::where('status','upload')
+                        $profilecount=Employee::whereIn('status',['upload'])
                         ->where(function($query){
                             $query->whereNotNull('profile_photo')
                             ->whereNull('passport_photo');
