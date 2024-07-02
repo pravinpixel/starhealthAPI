@@ -77,6 +77,20 @@ td, th {
                                     <td>{{$sub_mission - $completed }}</td>
                                     </tr>
                                     <tr>
+                                        <td>Total Basic</td>
+                                        <td>{{$basic }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total No Uploades</td>
+                                        <td>{{$no_upoloads }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Total Partial Uploades</td>
+                                        <td>{{$partial_upoloads }}</td>
+                                    </tr>
+
+
+                                    <tr>
                                     <td>Total Shortlisted</td>
                                     <td>{{$shortlist}}</td>
                                     </tr>
@@ -103,6 +117,18 @@ td, th {
                                             <tr>
                                             <td>Total Incomplete</td>
                                             <td>{{ $today_sub_mission - $today_completed}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total Basic</td>
+                                                <td>{{$today_basic }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total No Uploades</td>
+                                                <td>{{$today_no_upoloads }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total Partial Uploades</td>
+                                                <td>{{$today_partial_upoloads }}</td>
                                             </tr>
                                             <tr>
                                             <td>Total Shortlisted</td>

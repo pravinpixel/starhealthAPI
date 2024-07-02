@@ -10,6 +10,22 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        $basic=Employee::where('status','basic')->count();
+        $no_upoloads=Employee::where('status','upload')->whereNotNull('passport_photo')->whereNotNull('profile_photo')->count();
+        $partial_upoloads=Employee::where('status','upload')
+                        ->where(function($query){
+                            $query->whereNotNull('passport_photo')
+                            ->orwhereNotNull('profile_photo');
+                        })->count();
+        $today_basic=Employee::whereDate('created_at', Carbon::today())->where('status','basic')->count();
+        $today_no_upoloads=Employee::whereDate('created_at', Carbon::today())->where('status','upload')->whereNotNull('passport_photo')->whereNotNull('profile_photo')->count();
+        $today_partial_upoloads=Employee::whereDate('created_at', Carbon::today())->where('status','upload')
+                        ->where(function($query){
+                            $query->whereNotNull('passport_photo')
+                            ->orwhereNotNull('profile_photo');
+                        })->count();
+
+
         $sub_mission = Employee::count();
         $final_list = Employee::where('employee_status','final')->where('status','completed')->count();
         $completed = Employee::where('status','completed')->whereNotNull('profile_photo')->whereNotNull('passport_photo')->count();
@@ -21,6 +37,12 @@ class DashboardController extends Controller
         $today_shortlist = Employee::whereDate('created_at', Carbon::today())->where('employee_status','shortlist')->count();
 
          return view('dashboard',[
+            'basic'=>$basic,
+            'no_upoloads'=>$no_upoloads,
+            'partial_upoloads'=>$partial_upoloads,
+            'today_basic'=>$today_basic,
+            'today_no_upoloads'=>$today_no_upoloads,
+            'today_partial_upoloads'=>$today_partial_upoloads,
             'in_completed'=>$in_completed,
             'sub_mission'=>$sub_mission,
             'completed'=>$completed,
