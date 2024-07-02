@@ -11,12 +11,21 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $basic=Employee::where('status','basic')->count();
-        $no_upoloads=Employee::where('status','upload')->whereNotNull('passport_photo')->whereNotNull('profile_photo')->count();
-        $partial_upoloads=Employee::where('status','upload')
+        // $profile_stage=Employee::where('status','upload')->
+        //          whereNull('passport_photo')->whereNull('profile_photo')->count();
+        // $basic=$basic_total + $profile_stage;
+        $no_upoloads=Employee::where('status','upload')->whereNull('passport_photo')->whereNull('profile_photo')->count();
+        $passportcount=Employee::where('status','upload')
                         ->where(function($query){
                             $query->whereNotNull('passport_photo')
-                            ->orwhereNotNull('profile_photo');
+                            ->whereNull('profile_photo');
                         })->count();
+                        $profilecount=Employee::where('status','upload')
+                        ->where(function($query){
+                            $query->whereNotNull('profile_photo')
+                            ->whereNull('passport_photo');
+                        })->count();
+                        $partial_upoloads = $passportcount + $profilecount;
         $today_basic=Employee::whereDate('created_at', Carbon::today())->where('status','basic')->count();
         $today_no_upoloads=Employee::whereDate('created_at', Carbon::today())->where('status','upload')->whereNotNull('passport_photo')->whereNotNull('profile_photo')->count();
         $today_partial_upoloads=Employee::whereDate('created_at', Carbon::today())->where('status','upload')
