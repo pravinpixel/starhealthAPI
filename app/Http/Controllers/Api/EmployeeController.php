@@ -504,6 +504,8 @@ class EmployeeController extends Controller
                     $filePath = 'employee/' . $fileName;
                     Storage::disk('s3')->put($filePath, file_get_contents($family_photo));
                     $employee->family_photo = $filePath;
+                }elseif($request->family_photo == null){
+                    $employee->family_photo = null;
                 }
                 $employee->status = $request->input('status');
                 // if( !$employee->profile_photo || !$employee->passport_photo){
@@ -624,7 +626,9 @@ class EmployeeController extends Controller
                     $filePath = 'employee/' . $fileName;
                     Storage::disk('s3')->put($filePath, file_get_contents($family_photo));
                     $employee->family_photo = $filePath;
-                }   
+                }   elseif($request->family_photo == null){
+                    $employee->family_photo = null;
+                }
             }
             }
                  $employee->save();
