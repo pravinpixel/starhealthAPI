@@ -81,11 +81,11 @@ td, th {
                                         <td>{{$basic }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Total No Uploades</td>
+                                        <td>Total No Uploads</td>
                                         <td>{{$no_upoloads }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Total Partial Uploades</td>
+                                        <td>Total Partial Uploads</td>
                                         <td>{{$partial_upoloads }}</td>
                                     </tr>
 
@@ -123,11 +123,11 @@ td, th {
                                                 <td>{{$today_basic }}</td>
                                             </tr>
                                             <tr>
-                                                <td>Total No Uploades</td>
+                                                <td>Total No Uploads</td>
                                                 <td>{{$today_no_upoloads }}</td>
                                             </tr>
                                             <tr>
-                                                <td>Total Partial Uploades</td>
+                                                <td>Total Partial Uploads</td>
                                                 <td>{{$today_partial_upoloads }}</td>
                                             </tr>
                                             <tr>
