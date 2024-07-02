@@ -454,6 +454,8 @@ class EmployeeController extends Controller
                       $filePath = 'employee/' . $fileName;
                     Storage::disk('s3')->put($filePath, file_get_contents($passport_photo));
                     $employee->passport_photo = $filePath;
+                }elseif($request->passport_photo == null){
+                    $employee->passport_photo = null;
                 }
                 if ($request->hasFile('profile_photo')) {   
                     $validator = Validator::make($request->all(), [
@@ -479,6 +481,8 @@ class EmployeeController extends Controller
                     $filePath = 'employee/' . $fileName;
                     Storage::disk('s3')->put($filePath, file_get_contents($profile_photo));
                     $employee->profile_photo = $filePath;
+                }elseif($request->profile_photo == null){
+                    $employee->profile_photo = null;
                 }
                 if ($request->hasFile('family_photo')) {   
                     $validator = Validator::make($request->all(), [
@@ -586,7 +590,9 @@ class EmployeeController extends Controller
                     $filePath = 'employee/' . $fileName;
                     Storage::disk('s3')->put($filePath, file_get_contents($passport_photo));
                     $employee->passport_photo = $filePath;
-                 }
+                 }elseif($request->passport_photo == null){
+                    $employee->passport_photo = null;
+                }
                 if ($request->hasFile('profile_photo')) {   
                     $validator = Validator::make($request->all(), [
                         'profile_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
@@ -606,6 +612,8 @@ class EmployeeController extends Controller
                     $filePath = 'employee/' . $fileName;
                     Storage::disk('s3')->put($filePath, file_get_contents($profile_photo));
                     $employee->profile_photo = $filePath;
+                }elseif($request->profile_photo == null){
+                    $employee->profile_photo = null;
                 }
                 if ($request->hasFile('family_photo')) {   
                     $validator = Validator::make($request->all(), [
