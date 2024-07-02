@@ -24,7 +24,7 @@ class DashboardController extends Controller
                         })->count();
                         $partial_upoloads = $passportcount + $profilecount;
         $today_basic=Employee::whereDate('created_at', Carbon::today())->where('status','basic')->count();
-        $today_no_upoloads=Employee::whereDate('created_at', Carbon::today())->whereIn('status',['basic','upload','summary'])->wherNull('passport_photo')->whereNull('profile_photo')->count();
+        $today_no_upoloads=Employee::whereDate('created_at', Carbon::today())->whereIn('status',['basic','upload','summary'])->whereNull('passport_photo')->whereNull('profile_photo')->count();
         $today_passportcount=Employee::whereIn('status',['upload'])
                         ->where(function($query){
                             $query->whereNotNull('passport_photo')
