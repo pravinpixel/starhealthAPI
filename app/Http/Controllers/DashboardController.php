@@ -11,7 +11,6 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $basic=Employee::where('status','basic')->count();
-        $basic_=Employee::whereNotIn('status',['basic','upload','summary','completed'])->count();
         $no_upoloads=Employee::whereIn('status',['basic','upload','summary'])->whereNull('passport_photo')->whereNull('profile_photo')->count();
         $passportcount=Employee::whereIn('status',['upload'])
                         ->where(function($query){
@@ -25,14 +24,18 @@ class DashboardController extends Controller
                         })->count();
                         $partial_upoloads = $passportcount + $profilecount;
         $today_basic=Employee::whereDate('created_at', Carbon::today())->where('status','basic')->count();
-        $today_no_upoloads=Employee::whereDate('created_at', Carbon::today())->where('status','upload')->whereNotNull('passport_photo')->whereNotNull('profile_photo')->count();
-        $today_partial_upoloads=Employee::whereDate('created_at', Carbon::today())->where('status','upload')
+        $today_no_upoloads=Employee::whereDate('created_at', Carbon::today())->whereIn('status',['basic','upload','summary'])->wherNull('passport_photo')->whereNull('profile_photo')->count();
+        $today_passportcount=Employee::whereIn('status',['upload'])
                         ->where(function($query){
                             $query->whereNotNull('passport_photo')
-                            ->orwhereNotNull('profile_photo');
+                            ->whereNull('profile_photo');
                         })->count();
-
-
+                        $today_profilecount=Employee::whereIn('status',['upload'])
+                        ->where(function($query){
+                            $query->whereNotNull('profile_photo')
+                            ->whereNull('passport_photo');
+                        })->count();
+                        $today_partial_upoloads = $today_passportcount + $today_passportcount;
         $sub_mission = Employee::count();
         $final_list = Employee::where('employee_status','final')->where('status','completed')->count();
         $completed = Employee::where('status','completed')->whereNotNull('profile_photo')->whereNotNull('passport_photo')->count();
