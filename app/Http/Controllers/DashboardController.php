@@ -50,7 +50,16 @@ class DashboardController extends Controller
         $today_completed = Employee::whereDate('created_at', Carbon::today())->whereNotNull('profile_photo')->whereNotNull('passport_photo')->where('status','completed')->count();
         $today_final_list = Employee::whereDate('created_at', Carbon::today())->where('employee_status','final')->count();
         $today_shortlist = Employee::whereDate('created_at', Carbon::today())->where('employee_status','shortlist')->count();
-
+        $upload_with_photos = Employee::where('status', 'upload')
+        ->whereNotNull('passport_photo')
+        ->whereNotNull('profile_photo')
+        ->count();
+        $today_upload_with_photos = Employee::whereDate('created_at', Carbon::today())->where('status', 'upload')
+        ->whereNotNull('passport_photo')
+        ->whereNotNull('profile_photo')
+        ->count();
+    $summary += $upload_with_photos ;
+    $today_summary += $today_upload_with_photos;
          return view('dashboard',[
             'basic'=>$basic,
             'basic_null'=>$basic_null,
