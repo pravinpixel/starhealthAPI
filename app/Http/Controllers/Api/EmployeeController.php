@@ -25,10 +25,10 @@ use Illuminate\Validation\Rule;
 
 
 class EmployeeController extends Controller
-{ public function view(Request $request,$id)
+{ public function view(Request $request)
     {
       try {
-        $employee = Employee::find($id);
+        $employee = Employee::all();
         return response()->json(['message' => 'Employee data', 'data' => $employee]);
       } catch (\Exception $e) {
         return response()->json(['status' => false, 'errors' => $e->getMessage()], 422);
