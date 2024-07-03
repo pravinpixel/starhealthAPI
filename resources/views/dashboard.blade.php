@@ -77,6 +77,10 @@ td, th {
                                     <td>{{$sub_mission - $completed }}</td>
                                     </tr>
                                     <tr>
+                                        <td>Total Basic null</td>
+                                        <td>{{$basic_null }}</td>
+                                    </tr>
+                                    <tr>
                                         <td>Total Basic</td>
                                         <td>{{$basic }}</td>
                                     </tr>
@@ -120,6 +124,10 @@ td, th {
                                             <tr>
                                             <td>Total Incomplete</td>
                                             <td>{{ $today_sub_mission - $today_completed}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Total Basic null</td>
+                                                <td>{{$today_basic_null }}</td>
                                             </tr>
                                             <tr>
                                                 <td>Total Basic</td>

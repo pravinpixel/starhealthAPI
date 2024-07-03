@@ -10,27 +10,30 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        
+        $basic_null=Employee::whereNull('status')->count();
+        $today_basic_null=Employee::whereDate('created_at', Carbon::today())->whereNull('status')->count();
         $basic=Employee::where('status','basic')->count();
-        $no_upoloads=Employee::whereIn('status',['upload','summary'])->whereNull('passport_photo')->whereNull('profile_photo')->count();
-        $passportcount=Employee::whereIn('status',['upload','summary'])
+        $no_upoloads=Employee::whereIn('status',['upload','completed','summary'])->whereNull('passport_photo')->whereNull('profile_photo')->count();
+        $passportcount=Employee::whereIn('status',['upload','summary','completed'])
                         ->where(function($query){
                             $query->whereNotNull('passport_photo')
                             ->whereNull('profile_photo');
                         })->count();
-                        $profilecount=Employee::whereIn('status',['upload','summary'])
+                        $profilecount=Employee::whereIn('status',['upload','summary','completed'])
                         ->where(function($query){
                             $query->whereNotNull('profile_photo')
                             ->whereNull('passport_photo');
                         })->count();
                         $partial_upoloads = $passportcount + $profilecount;
         $today_basic=Employee::whereDate('created_at', Carbon::today())->where('status','basic')->count();
-        $today_no_upoloads=Employee::whereDate('created_at', Carbon::today())->whereIn('status',['upload','summary'])->whereNull('passport_photo')->whereNull('profile_photo')->count();
-        $today_passportcount=Employee::whereDate('created_at', Carbon::today())->whereIn('status',['upload','summary'])
+        $today_no_upoloads=Employee::whereDate('created_at', Carbon::today())->whereIn('status',['upload','summary','completed'])->whereNull('passport_photo')->whereNull('profile_photo')->count();
+        $today_passportcount=Employee::whereDate('created_at', Carbon::today())->whereIn('status',['upload','summary','completed'])
                         ->where(function($query){
                             $query->whereNotNull('passport_photo')
                             ->whereNull('profile_photo');
                         })->count();
-                        $today_profilecount=Employee::whereDate('created_at', Carbon::today())->whereIn('status',['upload','summary'])
+                        $today_profilecount=Employee::whereDate('created_at', Carbon::today())->whereIn('status',['upload','summary','completed'])
                         ->where(function($query){
                             $query->whereNotNull('profile_photo')
                             ->whereNull('passport_photo');
@@ -39,8 +42,8 @@ class DashboardController extends Controller
         $sub_mission = Employee::count();
         $final_list = Employee::where('employee_status','final')->where('status','completed')->count();
         $completed = Employee::where('status','completed')->whereNotNull('profile_photo')->whereNotNull('passport_photo')->count();
-        $summary = Employee::where('status','summary')->count();
-        $today_summary = Employee::whereDate('created_at', Carbon::today())->where('status','summary')->count();
+        $summary = Employee::where('status','summary')->whereNotNull('profile_photo')->whereNotNull('passport_photo')->count();
+        $today_summary = Employee::whereDate('created_at', Carbon::today())->where('status','summary')->whereNotNull('profile_photo')->whereNotNull('passport_photo')->count();
         $in_completed = Employee::whereIn('status',['basic','upload','summary'])->count();
         $shortlist = Employee::where('employee_status','shortlist')->where('status','completed')->whereNotNull('profile_photo')->whereNotNull('passport_photo')->count();
         $today_sub_mission = Employee::whereDate('created_at', Carbon::today())->count();
@@ -50,7 +53,9 @@ class DashboardController extends Controller
 
          return view('dashboard',[
             'basic'=>$basic,
+            'basic_null'=>$basic_null,
             'summary'=>$summary,
+            'today_basic_null'=> $today_basic_null,
             'today_summary'=>$today_summary,
             'no_upoloads'=>$no_upoloads,
             'partial_upoloads'=>$partial_upoloads,
