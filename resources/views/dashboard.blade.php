@@ -88,7 +88,10 @@ td, th {
                                         <td>Total Partial Uploads</td>
                                         <td>{{$partial_upoloads }}</td>
                                     </tr>
-
+                                    <tr>
+                                        <td>Total Summary</td>
+                                        <td>{{$summary}}</td>
+                                    </tr>
 
                                     <tr>
                                     <td>Total Shortlisted</td>
@@ -130,6 +133,11 @@ td, th {
                                                 <td>Total Partial Uploads</td>
                                                 <td>{{$today_partial_upoloads }}</td>
                                             </tr>
+                                            <tr>
+                                                <td>Total Summary</td>
+                                                <td>{{$today_summary}}</td>
+                                            </tr>
+        
                                             <tr>
                                             <td>Total Shortlisted</td>
                                             <td>{{$today_shortlist}}</td>
