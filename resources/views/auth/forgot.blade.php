@@ -4,13 +4,13 @@
  <title>@yield('title',  config('app.name') )</title>
 
  <meta charset="utf-8"/>
- <meta name="description" content="StarHelath Admin"/>
+ <meta name="description" content="Star Health Admin"/>
  <meta name="keywords" content="admin"/>
  <meta name="viewport" content="width=device-width, initial-scale=1"/>
  <meta property="og:locale" content="en_US"/>
  <meta property="og:type" content="article"/>
- <meta property="og:title" content="StarHelath"/>
- <meta property="og:site_name" content="StarHelath | Admin"/>
+ <meta property="og:title" content="Star Health"/>
+ <meta property="og:site_name" content="Star Health | Admin"/>
  <link rel="shortcut icon" href="{{ asset('images/Group.png') }}"/>
 <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
  @section('style')

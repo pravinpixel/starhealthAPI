@@ -3,13 +3,13 @@
 <head>
     <title>@yield('title',  config('app.name') )</title>
     <meta charset="utf-8"/>
-    <meta name="description" content="StarHelath Admin"/>
+    <meta name="description" content="Star Health Admin"/>
     <meta name="keywords" content="admin"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta property="og:locale" content="en_US"/>
     <meta property="og:type" content="article"/>
-    <meta property="og:title" content="StarHelath"/>
-    <meta property="og:site_name" content="StarHelath | Admin"/>
+    <meta property="og:title" content="Star Health"/>
+    <meta property="og:site_name" content="Star Health | Admin"/>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{ asset('images/Group.png') }}"/>
     @section('style')
