@@ -30,6 +30,32 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+.passport_photo .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 250px;
+    opacity: 0;
+    transition: opacity .3s ease;
+    background-color: rgba(102, 99, 99, 0.5); /* Adjust opacity as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.passport_photo:hover .overlay {
+    opacity: 1;
+}
+
+.overlay .icon {
+    color: white;
+    text-align: center;
+    cursor: pointer;
+}
+
 </style>
 @endsection
 @section('content')
@@ -98,11 +124,9 @@
         </div>
        </div>
        <div class="card-toolbar" style="gap: 25px">
-        @if(in_array($title, ['Submitted', 'Shortlisted']))
         <div>
             <button type="submit" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Select</button>
         </div>
-        @endif
         <div>
         <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="tooltip" id="filter_panel">
             <i class="fa-solid fa-filter"><span class="path1"></span><span class="path2"></span></i>
@@ -114,89 +138,34 @@
            @include('employee.filter')        
         <div class="card-body pt-0">
           <div style="overflow-x:auto;">
-            <table style="width:100%;" class="table align-middle table-row-dashed fs-6 gy-5" id="kt_customers_table">
-              <thead style="color: #3498db">
-                          <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0" style="color:#3498db !important">
-                          <th  class="min-w-115px">Employee Code</th>
-                              <th class="min-w-125px">Employee Name</th>
-                              <th class="min-w-125px">Email</th>
-                              <th class="min-w-125px">State</th>
-                              <th class="min-w-125px">City</th>
-                              <th class="min-w-125px">Department</th>
-                              <th class="min-w-125px">Designation</th>       
-                              <th class="min-w-115px">View Images</th>
-                              @if(in_array($title, ['Submitted', 'Shortlisted']))
-                              <th class="min-w-100px">Select</th>
-                              @endif
-                          </tr>
-                          </thead>
-                          <tbody class="fw-semibold text-gray-600">
-                              @if($employees->isEmpty())
-                                  <tr>
-                                      <td colspan="9" class="text-center">No results found.</td>
-                                  </tr>
-                              @else
-                              @foreach($employees as $employee)
-                              <tr>
-                                  <td>
-                                      {{$employee->employee_code}}
-                                      {{-- {{ $serialNumberStart++ }} --}}
-                                  </td>
-                                  <td>
-                                  {{$employee->employee_name}},<br>
-                                  {{$employee->mobile_number}}
-                                  </td>
-                                  <td>
-                                      {{$employee->email}}
-                                      </td>
-                                      <td>
-                                          {{$employee->state}}
-                                      </td>
-                                      <td>
-                                          {{$employee->city}}
-                                      </td>
-                                      <td>
-                                          {{$employee->department}}
-                                      </td>
-                                      <td>
-                                          {{$employee->designation}}
-                                      </td>
-                                      {{-- @php
-                                      if($employee->passport_photo){
-                                        $data=explode('.com/', $employee->passport_photo);
-                                           $value = Storage::disk('s3')->get($data[1]);
-                                           $passport= 'data:image/jpeg;base64,' . base64_encode($value);
-                                      }
-                                      if($employee->profile_photo){
-                                        $data_profile=explode('.com/', $employee->profile_photo);
-                                           $value_profile = Storage::disk('s3')->get($data_profile[1]);
-                                           $profile= 'data:image/jpeg;base64,' . base64_encode($value_profile);
-                                      }
-                                      if($employee->family_photo){
-                                           $data_family=explode('.com/', $employee->family_photo);
-                                           $value_family = Storage::disk('s3')->get($data_family[1]);
-                                           $family= 'data:image/jpeg;base64,' . base64_encode($value_family);
-                                      }
-                                      @endphp --}}
-                                     
-                                      <td>
-                                        <a class="btn btn-icon btn-active-primary btn-light-primary mx-1 w-30px h-30px moreimages" data-passport="{{$employee->passport_photo ?? ''}}"
-                                        data-profile="{{$employee->profile_photo ?? ''}}" data-family="{{$employee->family_photo ?? ''}}" data-id="{{$employee->id}}" id="view_image">
-                                            <i class="fa fa-eye"></i>
-                                        </a>
-                                    </td>                                
-                                      @if(in_array($title, ['Submitted', 'Shortlisted']))
-                                      <td>
-                                          <div class="form-check form-check-custom form-check-success form-check-solid">
-                                              <input style=" border: 2px solid #bcbcbc;" class="form-check-input" id="select" name="select" type="checkbox" value="{{$employee->id}}" />
-                                          </div>
-                                      </td>
-                                  @endif
-                                  </tr>
-                              @endforeach
-                              @endif
-                          </tbody>    
-            </table>
+            <div class="card-header border-0 pt-6">
+                <div class="card-title" id="contentDiv">
+                    @if($employees->isEmpty())
+                    <tr>
+                        <td colspan="9" class="text-center">No results found.</td>
+                    </tr>
+                @else
+                <div class="row" style="margin-left:40px">
+                @foreach($employees as $employee)
+                <div class="w-250px me-3" style="display:flex;flex-direction:column;position:relative;">
+                    <div class="col-md-4 mt-3 passport_photo" style="position:relative;">
+                        <img src="{{ $employee->passport_photo}}" style="height:250px;width:250px" alt="">
+                        <div class="overlay">
+                            <a data-passport="{{$employee->passport_photo}}" class="icon moreimages" title="passport image">
+                                <i class="bi bi-eye-fill fs-2x text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div style="display:flex;justify-content:center;" class="form-check form-check-custom form-check-success form-check-solid mt-5 mb-5">
+                        <input style="border: 2px solid #bcbcbc;cursor: pointer;" class="form-check-input" id="select" name="select" type="checkbox" value="{{$employee->id}}" />
+                    </div>
+                </div>
+                
+                    @endforeach
+                </div>
+                    @endif
+                </div>
+            </div>
           </div>
           <div class="row">
          <div  id="paginationLinks" class="col-lg-12 col-md-12 col-sm-12">
@@ -221,9 +190,8 @@
     @parent
 <script>
  $(document).ready(function () {
-
             var routename = $('#routename').val();
-           
+            console.log(routename);
             $('#searchInput').keyup(function () {
                 updateTableData();
             });
@@ -260,24 +228,21 @@
                         selectstatus(array);
                     }
             });
-            $(document).on('click', '.moreimages', function (e) {
+            $(window).on('beforeunload', function() {
+              $('#searchInput').val('');
+              $('[name="designation"]').val('');
+              $('[name="state"]').val('');
+              $('[name="city"]').val('');
+              $('[name="department"]').val('');
+                });
+
+                $(document).on('click', '.moreimages', function (e) {
             e.preventDefault();
             $('#hidden_images').html('');
             var lightbox = new FsLightbox();
             $('#pageLoader').fadeIn();
             lightbox.props.sources = [];
-           
-                let family = $(this).attr('data-family');
-                let profile = $(this).attr('data-profile');
                 let passport = $(this).attr('data-passport');
-                if(family){
-                    $('#hidden_images').append('<img src="' + family + '" id="family1" />');
-                    lightbox.props.sources.push(document.getElementById("family1"));
-                }
-                if(profile){
-                    $('#hidden_images').append('<img src="' + profile + '" id="profile1" />');
-                    lightbox.props.sources.push(document.getElementById("profile1"));
-                }
                 if(passport){
                 $('#hidden_images').append('<img src="' + passport + '" id="passport1" />');
                 lightbox.props.sources.push(document.getElementById("passport1"));
@@ -288,13 +253,6 @@
                     lightbox.open();
                 }, 1000);
         });
-            $(window).on('beforeunload', function() {
-              $('#searchInput').val('');
-              $('[name="designation"]').val('');
-              $('[name="state"]').val('');
-              $('[name="city"]').val('');
-              $('[name="department"]').val('');
-                });
        function updateTableData(page = '') {
             var searchTerm = $('#searchInput').val();
             var designation = $('[name="designation"]').val();
@@ -318,7 +276,7 @@
             },
            dataType: 'html',
            success: function (response) {
-               $('#kt_customers_table tbody').html($(response).find('#kt_customers_table tbody').html());
+            $('#contentDiv').html($(response).find('#contentDiv').html());
                $('#paginationLinks').html($(response).find('#paginationLinks').html());
            },
            error: function () {
@@ -332,7 +290,7 @@
                type: "GET",
                dataType: 'html',
                success: function (response) {
-                   $('#kt_customers_table tbody').html($(response).find('#kt_customers_table tbody').html());
+                $('#contentDiv').html($(response).find('#contentDiv').html());
                updateTableData(); 
                },
                error: function (xhr, status, error) {

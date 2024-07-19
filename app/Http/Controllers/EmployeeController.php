@@ -121,5 +121,49 @@ class EmployeeController extends Controller
       return response()->json(['status' => false, 'errors' => $e->getMessage()], 422);
     }
   }
-
+  public function registernew(Request $request)
+  {
+  
+    $search = $request->input('search');
+    $designation = $request->input('designation');
+    $state = $request->input('state');
+    $department = $request->input('department');
+    $city = $request->input('city');
+    $perPage = 24;
+    $query = Employee::query();
+    if ($search) {
+      $query->where(function ($q) use ($search) {
+        $q->where('employee_name', 'like', '%' . $search . '%')
+          ->orWhere('employee_code', 'like', '%' . $search . '%')
+          ->orWhere('email', 'like', '%' . $search . '%')
+          ->orWhere('mobile_number', 'like', '%' . $search . '%')
+          ->orWhere('designation', 'like', '%' . $search . '%');
+      });
+    }
+      $query->where('status','completed')->where('employee_status', 'register')->whereNotNull('profile_photo')->whereNotNull('passport_photo');
+    if ($designation) {
+      $query->where('designation', $designation);
+    }
+    if ($state) {
+      $query->where('state', $state);
+    }
+    if ($department) {
+      $query->where('department', $department);
+    }
+    if ($city) {
+      $query->where('city', $city);
+    }
+      $title = 'Submitted New';
+     
+    $employees = $query->orderBy('id', 'desc')->paginate($perPage);
+    $currentPage = $employees->currentPage();
+    $serialNumberStart = ($currentPage - 1) * $perPage + 1;
+    
+    return view('employee.registernew', [
+      'employees' => $employees,
+      'search' => $search,
+      'title' => $title,
+      'serialNumberStart' => $serialNumberStart,
+    ]);
+  }
 }

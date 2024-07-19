@@ -26,6 +26,7 @@ Route::group(['middleware' => ['auth']], function () {
          #..Employee...
          Route::prefix('employee')->controller(EmployeeController::class)->group(function () {
            Route::get('/register-list', 'registerlist')->name('register');
+           Route::get('/register-new', 'registernew')->name('registernew');
            Route::get('/short-list', 'registerlist')->name('shortlist');
            Route::get('/final-list', 'registerlist')->name('final');
            Route::post('/select', 'statusselect')->name('select');
