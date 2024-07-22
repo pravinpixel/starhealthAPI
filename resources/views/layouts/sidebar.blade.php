@@ -107,7 +107,7 @@
                         </svg>
                         </span>
                       </span>
-                      <span  style="color: white" class="menu-title">Submitted New</span>
+                      <span  style="color: white" class="menu-title">Gallery</span>
                     </a>
             </div>
               <div class="menu-item">

@@ -153,7 +153,7 @@ class EmployeeController extends Controller
     if ($city) {
       $query->where('city', $city);
     }
-      $title = 'Submitted New';
+      $title = 'Gallery';
      
     $employees = $query->orderBy('id', 'desc')->paginate($perPage);
     $currentPage = $employees->currentPage();

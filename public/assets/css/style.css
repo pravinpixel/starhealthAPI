@@ -21,6 +21,9 @@ body{
   color:black !important;
 }
 
+.row-gap-10px{
+  row-gap: 20px;
+}
 
 
 .logo{

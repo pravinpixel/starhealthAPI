@@ -1,7 +1,7 @@
 <div class="card-header border-0 pt-6" id="filter_sub" style="display: none">
 <div class="card-title">
-        <div class="row ">
-            <div class="w-250px me-3">
+        <div class="row row-gap-10px">
+            <div class="w-200px">
                 <select class="form-select" data-allow-clear="true" data-control="select2" data-placeholder="Select Department" name="department">
                     <option value="">Select Department</option>
                     @php
@@ -15,7 +15,7 @@
                 </select>
                 
                </div>
-            <div class="w-250px me-3">
+            <div class="w-200px">
                 <select class="form-select select2Box" data-allow-clear="true" data-control="select2" data-placeholder="Select Designation" name="designation">
                     <option value="">Select Designation</option>
                     @php
@@ -29,7 +29,7 @@
                 </select>
                 
                </div>
-               <div class="w-250px me-3">
+               <div class="w-200px">
                 <select class="form-select" data-allow-clear="true" data-control="select2" data-placeholder="Select State" name="state">
                     <option value="">Select State</option>
                     @php
@@ -43,7 +43,7 @@
                 </select>
                 
                </div>
-               <div class="w-250px me-3">
+               <div class="w-200px">
                 <select class="form-select" data-allow-clear="true" data-control="select2" data-placeholder="Select City" name="city">
                     <option value="">Select City</option>
                     @php
