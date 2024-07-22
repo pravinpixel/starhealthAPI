@@ -29,9 +29,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (Throwable $e, Request $request) {
             if ($request->is('api/*')) {
                 return response()->json(['error' => 404, 'message' => 'not_found'], 404);
-            } else {
-                return parent::render($request, $e);
-            }          
+             } 
+            //  else {
+            //     return parent::render($request, $e);
+            // }          
         });
     })
     ->create();
