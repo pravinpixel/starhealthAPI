@@ -181,7 +181,7 @@
 <img id="test_image"/>
 <input type="hidden" name="routename" id="routename" value="{{route( Route::currentRouteName()) }}">
 <input type="hidden" name="title" id="title" value="{{$title}}">
-<div style="display: none" id="hidden_images">
+<div style="display: none" id="hidden_image">
 
 </div>
 
@@ -237,7 +237,7 @@
 
                 $(document).on('click', '.moreimages', function (e) {
             e.preventDefault();
-            $('#hidden_images').html('');
+            $('#hidden_image').html('');
             var lightbox = new FsLightbox();
             $('#pageLoader').fadeIn();
             lightbox.props.sources = [];
@@ -245,15 +245,15 @@
                 let profile = $(this).attr('data-profile');
                 let passport = $(this).attr('data-passport');
                 if(family){
-                    $('#hidden_images').append('<img src="' + family + '" id="family1" />');
+                    $('#hidden_image').append('<img src="' + family + '" id="family1" />');
                     lightbox.props.sources.push(document.getElementById("family1"));
                 }
                 if(profile){
-                    $('#hidden_images').append('<img src="' + profile + '" id="profile1" />');
+                    $('#hidden_image').append('<img src="' + profile + '" id="profile1" />');
                     lightbox.props.sources.push(document.getElementById("profile1"));
                 }
                 if(passport){
-                $('#hidden_images').append('<img src="' + passport + '" id="passport1" />');
+                $('#hidden_image').append('<img src="' + passport + '" id="passport1" />');
                 lightbox.props.sources.push(document.getElementById("passport1"));
                 }
                 setTimeout(function () {
