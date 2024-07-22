@@ -151,7 +151,7 @@
                     <div class="col-md-4 mt-3 passport_photo" style="position:relative;">
                         <img src="{{ $employee->passport_photo}}" style="height:250px;width:250px" alt="">
                         <div class="overlay">
-                            <a data-passport="{{$employee->passport_photo}}" class="icon moreimages" title="passport image">
+                            <a data-passport="{{$employee->passport_photo}}"  data-profile="{{$employee->profile_photo ?? ''}}" data-family="{{$employee->family_photo ?? ''}}" class="icon moreimages" title="passport image">
                                 <i class="bi bi-eye-fill fs-2x text-white"></i>
                             </a>
                         </div>
@@ -191,7 +191,6 @@
 <script>
  $(document).ready(function () {
             var routename = $('#routename').val();
-            console.log(routename);
             $('#searchInput').keyup(function () {
                 updateTableData();
             });
@@ -242,12 +241,21 @@
             var lightbox = new FsLightbox();
             $('#pageLoader').fadeIn();
             lightbox.props.sources = [];
+            let family = $(this).attr('data-family');
+                let profile = $(this).attr('data-profile');
                 let passport = $(this).attr('data-passport');
+                if(family){
+                    $('#hidden_images').append('<img src="' + family + '" id="family1" />');
+                    lightbox.props.sources.push(document.getElementById("family1"));
+                }
+                if(profile){
+                    $('#hidden_images').append('<img src="' + profile + '" id="profile1" />');
+                    lightbox.props.sources.push(document.getElementById("profile1"));
+                }
                 if(passport){
                 $('#hidden_images').append('<img src="' + passport + '" id="passport1" />');
                 lightbox.props.sources.push(document.getElementById("passport1"));
                 }
-
                 setTimeout(function () {
                     $('#pageLoader').fadeOut();
                     lightbox.open();
