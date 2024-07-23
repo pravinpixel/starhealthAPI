@@ -22,6 +22,7 @@ use Tymon\JWTAuth\Token;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Intervention\Image\Facades\Image;
 
 
 class EmployeeController extends Controller
@@ -424,35 +425,29 @@ class EmployeeController extends Controller
                 $employee->status = $request->input('status');
                $message='Profile Details updated successfully';
             }elseif($request->status == "summary"){
-                if ($request->hasFile('passport_photo')) {    
+                if ($request->hasFile('passport_photo')) {   
+                     
                     $validator = Validator::make($request->all(), [
                         'passport_photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
                     ]);
-                    $validator->after(function ($validator) use ($request) {
-                        if ($request->file('passport_photo')) {
-                            $fileName = $request->file('passport_photo')->getClientOriginalName();
-                            $extension = $request->file('passport_photo')->getClientOriginalExtension();
                 
-                            // Check if the file name contains more than one extension separator
-                            if (substr_count($fileName, '.') > 1) {
-                                $validator->errors()->add('passport_photo', 'Double file extension is not allowed.');
-                            }
-                        }
-                    });
                     if ($validator->fails()) {
-                                $this->error = $validator->errors();
-                                throw new \Exception('validation Error');
+                        $this->error = $validator->errors();
+                        throw new \Exception('Validation Error');
                     }
-                    if($employee->passport_photo != null){
-                        $data=explode('.com/', $employee->passport_photo);
+                
+                    if ($employee->passport_photo != null) {
+                        $data = explode('.com/', $employee->passport_photo);
                         if (Storage::disk('s3')->exists($data[1])) {
                             Storage::disk('s3')->delete($data[1]);
                         }
-                  }         
-                    $passport_photo=$request->passport_photo;
-                    $fileName = "passport_photo_" .  $employee->id . "_" . time() . "." . $passport_photo->getClientOriginalExtension();
-                      $filePath = 'employee/' . $fileName;
-                    Storage::disk('s3')->put($filePath, file_get_contents($passport_photo));
+                    }
+                
+                    $passport_photo = $request->file('passport_photo');
+                    $img = Image::make($passport_photo)->orientate(); // Use the file object directly
+                    $fileName = "passport_photo_" . $employee->id . "_" . time() . "." . $passport_photo->getClientOriginalExtension();
+                    $filePath = 'employee/' . $fileName;
+                    Storage::disk('s3')->put($filePath, (string) $img->encode());
                     $employee->passport_photo = $filePath;
                 }elseif($request->passport_photo == null){
                     $employee->passport_photo = null;
@@ -476,10 +471,11 @@ class EmployeeController extends Controller
                                 $this->error = $validator->errors();
                                 throw new \Exception('validation Error');
                     } 
-                    $profile_photo=$request->profile_photo;
-                    $fileName = "profile_photo_" .$employee->id. "_" . time() . "." . $profile_photo->extension();
+                    $profile_photo = $request->file('profile_photo');
+                    $img = Image::make($profile_photo)->orientate();
+                    $fileName = "profile_photo_" .$employee->id. "_" . time() . "." . $profile_photo->getClientOriginalExtension();
                     $filePath = 'employee/' . $fileName;
-                    Storage::disk('s3')->put($filePath, file_get_contents($profile_photo));
+                    Storage::disk('s3')->put($filePath, (string) $img->encode());
                     $employee->profile_photo = $filePath;
                 }elseif($request->profile_photo == null){
                     $employee->profile_photo = null;
@@ -503,19 +499,17 @@ class EmployeeController extends Controller
                                 $this->error = $validator->errors();
                                 throw new \Exception('validation Error');
                     }   
-                    $family_photo=$request->family_photo;
-                    $fileName = "family_photo_" . $employee->id. "_" . time() . "." . $family_photo->extension();
+                    $family_photo = $request->file('family_photo');
+                    $img = Image::make($family_photo)->orientate();
+                    $fileName = "family_photo_" . $employee->id. "_" . time() . "." . $family_photo->getClientOriginalExtension();
                     $filePath = 'employee/' . $fileName;
-                    Storage::disk('s3')->put($filePath, file_get_contents($family_photo));
+                    Storage::disk('s3')->put($filePath, (string) $img->encode());
                     $employee->family_photo = $filePath;
                 }elseif($request->family_photo == null){
                     $employee->family_photo = null;
                 }
                 $employee->status = $request->input('status');
-                // if( !$employee->profile_photo || !$employee->passport_photo){
-                //     return $this->returnError('please check employee profile photo and passport photo');
-                // }
-                $message='Photo uploaded successfuly';
+                  $message='Photo uploaded successfuly';
             }else{
                 $employee->status = $request->input('status');
                 $employee->employee_status ='register';
@@ -585,11 +579,11 @@ class EmployeeController extends Controller
                             Storage::disk('s3')->delete($data[1]);
                         }
                   }         
-                    $passport_photo=$request->passport_photo;
-                    $fileName = "passport_photo_" . uniqid() . "_" . time() . "." . $passport_photo->extension();
-                    $filePath = 'employee/' . $fileName;
-                    Storage::disk('s3')->put($filePath, file_get_contents($passport_photo));
-                    $employee->passport_photo = $filePath;
+                  $passport_photo = $request->file('passport_photo');
+                  $img = Image::make($passport_photo)->orientate();
+                  $fileName = "passport_photo_" . $employee->id . "_" . time() . "." . $passport_photo->getClientOriginalExtension();
+                  $filePath = 'employee/' . $fileName;
+                  Storage::disk('s3')->put($filePath, (string) $img->encode());
                  }elseif($request->passport_photo == null){
                     $employee->passport_photo = null;
                 }
@@ -607,11 +601,12 @@ class EmployeeController extends Controller
                             Storage::disk('s3')->delete($data[1]);
                         }
                   }         
-                    $profile_photo=$request->profile_photo;
-                    $fileName = "profile_photo_" . uniqid() . "_" . time() . "." . $profile_photo->extension();
-                    $filePath = 'employee/' . $fileName;
-                    Storage::disk('s3')->put($filePath, file_get_contents($profile_photo));
-                    $employee->profile_photo = $filePath;
+                  $profile_photo = $request->file('profile_photo');
+                  $img = Image::make($profile_photo)->orientate();
+                  $fileName = "profile_photo_" .$employee->id. "_" . time() . "." . $profile_photo->getClientOriginalExtension();
+                  $filePath = 'employee/' . $fileName;
+                  Storage::disk('s3')->put($filePath, (string) $img->encode());
+                  $employee->profile_photo = $filePath;
                 }elseif($request->profile_photo == null){
                     $employee->profile_photo = null;
                 }
@@ -629,10 +624,11 @@ class EmployeeController extends Controller
                             Storage::disk('s3')->delete($data[1]);
                         }
                   }         
-                    $family_photo=$request->family_photo;
-                    $fileName = "family_photo_" . uniqid() . "_" . time() . "." . $family_photo->extension();
-                    $filePath = 'employee/' . $fileName;
-                    Storage::disk('s3')->put($filePath, file_get_contents($family_photo));
+                  $family_photo = $request->file('family_photo');
+                  $img = Image::make($family_photo)->orientate();
+                  $fileName = "family_photo_" . $employee->id. "_" . time() . "." . $family_photo->getClientOriginalExtension();
+                  $filePath = 'employee/' . $fileName;
+                  Storage::disk('s3')->put($filePath, (string) $img->encode());
                     $employee->family_photo = $filePath;
                 }   elseif($request->family_photo == null){
                     $employee->family_photo = null;
