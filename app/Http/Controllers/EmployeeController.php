@@ -77,8 +77,7 @@ class EmployeeController extends Controller
                   // Skip this iteration if employee is not found
                   continue;
               }
-  
-              if ($pagename == 'Submitted') {
+              if ($pagename == 'Submitted' || $pagename == 'Gallery') {
                   $employee->employee_status = 'shortlist';
                   $employee->update();
                   $shortlistedEmployees[] = $employee;  // Collect updated employee data
