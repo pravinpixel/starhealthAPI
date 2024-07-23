@@ -98,8 +98,8 @@
         </div>
        </div>
        <div  class="mt-5 ms-5 mb-0" id="count_data">
-                  <h4>Entries({{$employees->total()}})</h4>
-         </div>
+                  <h4 style="color: #3498db;margin-left: -17px;">Total Count : {{$employees->total()}}</h4>
+        </div>
        <div class="card-toolbar" style="gap: 25px">
         @if(in_array($title, ['Submitted', 'Shortlisted']))
         @if($title == 'Submitted')

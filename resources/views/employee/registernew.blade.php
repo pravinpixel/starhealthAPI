@@ -123,8 +123,8 @@
          <input type="text" id="searchInput" class="form-control form-control-solid w-350px ps-15" placeholder="Search {{$title}}" />
         </div>
        </div>
-       <div  class="mt-5 ms-5 mb-0" id="count_data">
-              <h4>Entries({{$employees->total()}})</h4>
+       <div  class="mt-5 mb-0" id="count_data">
+              <h4 style="color: #3498db;margin-left: -17px;"> Total Count : {{$employees->total()}}</h4>
        </div>
        <div class="card-toolbar" style="gap: 25px">
         <div>
