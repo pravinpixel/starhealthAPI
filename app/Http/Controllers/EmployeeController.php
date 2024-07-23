@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Employee;
+use Carbon\Carbon;
 
 class EmployeeController extends Controller
 {
@@ -44,17 +45,23 @@ class EmployeeController extends Controller
 
     if ($currentRouteName == 'register') {
       $title = 'Submitted';
+      $employees = $query->orderBy('id', 'desc')->paginate($perPage);
     } elseif ($currentRouteName == 'shortlist') {
       $title = 'Shortlisted';
+      $employees = $query->orderBy('status_change_time', 'desc')->paginate($perPage);
     } else {
       $title = 'Finalist';
+      $employees = $query->orderBy('status_change_time', 'desc')->paginate($perPage);
     }
    
-    $employees = $query->orderBy('id', 'desc')->paginate($perPage);
+   
     $currentPage = $employees->currentPage();
     $serialNumberStart = ($currentPage - 1) * $perPage + 1;
+    $count=count($employees);
+
     return view('employee.index', [
       'employees' => $employees,
+      'count'=>$count,
       'search' => $search,
       'title' => $title,
       'serialNumberStart' => $serialNumberStart,
@@ -62,41 +69,52 @@ class EmployeeController extends Controller
   }
   public function statusselect(Request $request)
   {
-      $ids = $request->id;  // Expecting an array of IDs
+      $ids = $request->id;
       $pagename = $request->pagename;
-  
+      $data=$request->submit_data ?? '';
       try {
-          // Initialize an array to store the results
           $shortlistedEmployees = [];
           $finalizedEmployees = [];
-          
+          $submittededEmployees=[];
           foreach ($ids as $id) {
               $employee = Employee::find($id);
-  
               if (!$employee) {
-                  // Skip this iteration if employee is not found
                   continue;
               }
               if ($pagename == 'Submitted' || $pagename == 'Gallery') {
                   $employee->employee_status = 'shortlist';
+                  $employee->status_change_time =now();
                   $employee->update();
-                  $shortlistedEmployees[] = $employee;  // Collect updated employee data
-              } else {
+                  $shortlistedEmployees[] = $employee;
+              } 
+              elseif($pagename == 'Finalist'){
+                $employee->employee_status = 'shortlist';
+                $employee->status_change_time =now();
+                $employee->update();
+                $shortlistedEmployees[] = $employee;
+              }
+              elseif($data == 'move_to_submitted'){
+                $employee->employee_status = 'register';
+                $employee->update();
+                $submittededEmployees[] = $employee;
+              }
+              else {
                   $employee->employee_status = 'final';
+                  $employee->status_change_time =now();
                   $employee->update();
-                  $finalizedEmployees[] = $employee;  // Collect updated employee data
+                  $finalizedEmployees[] = $employee;
               }
           }
-  
-          // Prepare the response messages
           $responseMessages = [];
           if (!empty($shortlistedEmployees)) {
               $responseMessages[] = 'Selected Employee is Shortlist';
           }
+          if (!empty($submittededEmployees)) {
+            $responseMessages[] = 'Selected Employee is Submitted';
+        }
           if (!empty($finalizedEmployees)) {
               $responseMessages[] = 'Selected Employee is Finalist';
           }
-  
           return response()->json([
               'message' => $responseMessages,
               'shortlisted' => $shortlistedEmployees,
@@ -157,10 +175,11 @@ class EmployeeController extends Controller
     $employees = $query->orderBy('id', 'desc')->paginate($perPage);
     $currentPage = $employees->currentPage();
     $serialNumberStart = ($currentPage - 1) * $perPage + 1;
-    
+    $count=count($employees);
     return view('employee.registernew', [
       'employees' => $employees,
       'search' => $search,
+      'count'=>$count,
       'title' => $title,
       'serialNumberStart' => $serialNumberStart,
     ]);

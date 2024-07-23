@@ -97,11 +97,27 @@
          <input type="text" id="searchInput" class="form-control form-control-solid w-350px ps-15" placeholder="Search {{$title}}" />
         </div>
        </div>
+       <div  class="mt-5 ms-5 mb-0" id="count_data">
+                  <h4>Entries({{$count}})</h4>
+         </div>
        <div class="card-toolbar" style="gap: 25px">
         @if(in_array($title, ['Submitted', 'Shortlisted']))
+        @if($title == 'Submitted')
         <div>
-            <button type="submit" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Select</button>
+            <button type="submit" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Move to Shortlisted</button>
         </div>
+        @else
+        <div>
+            <button type="submit" data-submit="move_to_submitted" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Move to Submitted</button>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Move to Finalist</button>
+        </div>
+       @endif
+       @else
+       <div>
+          <button type="submit" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Move to Shortlisted</button>
+       </div>
         @endif
         <div>
         <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="tooltip" id="filter_panel">
@@ -125,9 +141,7 @@
                               <th class="min-w-125px">Department</th>
                               <th class="min-w-125px">Designation</th>       
                               <th class="min-w-115px">View Images</th>
-                              @if(in_array($title, ['Submitted', 'Shortlisted']))
                               <th class="min-w-100px">Select</th>
-                              @endif
                           </tr>
                           </thead>
                           <tbody class="fw-semibold text-gray-600">
@@ -140,7 +154,6 @@
                               <tr>
                                   <td>
                                       {{$employee->employee_code}}
-                                      {{-- {{ $serialNumberStart++ }} --}}
                                   </td>
                                   <td>
                                   {{$employee->employee_name}},<br>
@@ -161,37 +174,19 @@
                                       <td>
                                           {{$employee->designation}}
                                       </td>
-                                      {{-- @php
-                                      if($employee->passport_photo){
-                                        $data=explode('.com/', $employee->passport_photo);
-                                           $value = Storage::disk('s3')->get($data[1]);
-                                           $passport= 'data:image/jpeg;base64,' . base64_encode($value);
-                                      }
-                                      if($employee->profile_photo){
-                                        $data_profile=explode('.com/', $employee->profile_photo);
-                                           $value_profile = Storage::disk('s3')->get($data_profile[1]);
-                                           $profile= 'data:image/jpeg;base64,' . base64_encode($value_profile);
-                                      }
-                                      if($employee->family_photo){
-                                           $data_family=explode('.com/', $employee->family_photo);
-                                           $value_family = Storage::disk('s3')->get($data_family[1]);
-                                           $family= 'data:image/jpeg;base64,' . base64_encode($value_family);
-                                      }
-                                      @endphp --}}
-                                     
                                       <td>
                                         <a class="btn btn-icon btn-active-primary btn-light-primary mx-1 w-30px h-30px moreimages" data-passport="{{$employee->passport_photo ?? ''}}"
                                         data-profile="{{$employee->profile_photo ?? ''}}" data-family="{{$employee->family_photo ?? ''}}" data-id="{{$employee->id}}" id="view_image">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                     </td>                                
-                                      @if(in_array($title, ['Submitted', 'Shortlisted']))
+                                     
                                       <td>
                                           <div class="form-check form-check-custom form-check-success form-check-solid">
                                               <input style=" border: 2px solid #bcbcbc;" class="form-check-input" id="select" name="select" type="checkbox" value="{{$employee->id}}" />
                                           </div>
                                       </td>
-                                  @endif
+                               
                                   </tr>
                               @endforeach
                               @endif
@@ -253,11 +248,12 @@
                     $("input:checkbox[name=select]:checked").each(function() { 
                         array.push($(this).val()); 
                     });      
-
+                    let submit_data = $(this).attr('data-submit');
+                    console.log(submit_data);
                     if(array.length === 0) {
                         $('#pageLoader').fadeOut();
                     } else {
-                        selectstatus(array);
+                        selectstatus(array,submit_data);
                     }
             });
             $(document).on('click', '.moreimages', function (e) {
@@ -320,6 +316,7 @@
            success: function (response) {
                $('#kt_customers_table tbody').html($(response).find('#kt_customers_table tbody').html());
                $('#paginationLinks').html($(response).find('#paginationLinks').html());
+               $('#count_data').html($(response).find('#count_data').html());
            },
            error: function () {
                console.error('Error loading table data.');
@@ -333,6 +330,7 @@
                dataType: 'html',
                success: function (response) {
                    $('#kt_customers_table tbody').html($(response).find('#kt_customers_table tbody').html());
+                   $('#count_data').html($(response).find('#count_data').html());
                updateTableData(); 
                },
                error: function (xhr, status, error) {
@@ -340,7 +338,7 @@
                }
            });
        }
-    function selectstatus(array) {
+    function selectstatus(array,submit_data) {
             var pagename = $('#title').val();
           $.ajaxSetup({
             headers: {
@@ -353,6 +351,7 @@
             data: {
                 id: array,
                 pagename:pagename,
+                submit_data:submit_data,
             },
             success: function (response) {
                 toastr.success(response.message);

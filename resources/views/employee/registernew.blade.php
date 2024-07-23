@@ -123,9 +123,12 @@
          <input type="text" id="searchInput" class="form-control form-control-solid w-350px ps-15" placeholder="Search {{$title}}" />
         </div>
        </div>
+       <div  class="mt-5 ms-5 mb-0" id="count_data">
+              <h4>Entries({{$count}})</h4>
+       </div>
        <div class="card-toolbar" style="gap: 25px">
         <div>
-            <button type="submit" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Select</button>
+            <button type="submit" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Move to Shortlisted</button>
         </div>
         <div>
         <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="tooltip" id="filter_panel">
@@ -159,6 +162,10 @@
                     <div style="display:flex;justify-content:center;" class="form-check form-check-custom form-check-success form-check-solid mt-5 mb-5">
                         <input style="border: 2px solid #bcbcbc;cursor: pointer;" class="form-check-input" id="select" name="select" type="checkbox" value="{{$employee->id}}" />
                     </div>
+                    <div style="text-align: center">
+                        <p>{{ $employee->employee_name}}<br>
+                        {{ $employee->mobile_number}}</p>
+                        </div>
                 </div>
                 
                     @endforeach
@@ -286,6 +293,7 @@
            success: function (response) {
             $('#contentDiv').html($(response).find('#contentDiv').html());
                $('#paginationLinks').html($(response).find('#paginationLinks').html());
+               $('#count_data').html($(response).find('#count_data').html());
            },
            error: function () {
                console.error('Error loading table data.');
@@ -299,6 +307,7 @@
                dataType: 'html',
                success: function (response) {
                 $('#contentDiv').html($(response).find('#contentDiv').html());
+                $('#count_data').html($(response).find('#count_data').html());
                updateTableData(); 
                },
                error: function (xhr, status, error) {
