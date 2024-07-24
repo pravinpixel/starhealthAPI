@@ -54,14 +54,15 @@ class EmployeeController extends Controller
       $employees = $query->orderBy('status_change_time', 'desc')->paginate($perPage);
     }
    
-   
+       $datas=Employee::where('status','completed')->where('employee_status', 'register')->whereNotNull('profile_photo')->whereNotNull('passport_photo')->get();
+
     $currentPage = $employees->currentPage();
     $serialNumberStart = ($currentPage - 1) * $perPage + 1;
-    $count=count($employees);
+   
 
     return view('employee.index', [
       'employees' => $employees,
-      'count'=>$count,
+      'datas'=>$datas,
       'search' => $search,
       'title' => $title,
       'serialNumberStart' => $serialNumberStart,
@@ -171,16 +172,15 @@ class EmployeeController extends Controller
       $query->where('city', $city);
     }
       $title = 'Gallery';
-     
+    $datas=Employee::where('status','completed')->where('employee_status', 'register')->whereNotNull('profile_photo')->whereNotNull('passport_photo')->get();
     $employees = $query->orderBy('id', 'desc')->paginate($perPage);
     $currentPage = $employees->currentPage();
     $serialNumberStart = ($currentPage - 1) * $perPage + 1;
-    $count=count($employees);
     return view('employee.registernew', [
       'employees' => $employees,
       'search' => $search,
-      'count'=>$count,
       'title' => $title,
+      'datas'=>$datas,
       'serialNumberStart' => $serialNumberStart,
     ]);
   }

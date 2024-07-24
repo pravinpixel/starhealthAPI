@@ -5,7 +5,7 @@
                 <select class="form-select" data-allow-clear="true" data-control="select2" data-placeholder="Select Department" name="department">
                     <option value="">Select Department</option>
                     @php
-                        $uniqueDepartments = $employees->pluck('department')->unique(function ($department) {
+                        $uniqueDepartments = $datas->pluck('department')->unique(function ($department) {
                             return strtolower($department); 
                         });
                     @endphp
@@ -19,7 +19,7 @@
                 <select class="form-select select2Box" data-allow-clear="true" data-control="select2" data-placeholder="Select Designation" name="designation">
                     <option value="">Select Designation</option>
                     @php
-                        $uniqueDesignations = $employees->pluck('designation')->unique(function ($designation) {
+                        $uniqueDesignations = $datas->pluck('designation')->unique(function ($designation) {
                             return strtolower($designation); 
                         });
                     @endphp
@@ -33,7 +33,7 @@
                 <select class="form-select" data-allow-clear="true" data-control="select2" data-placeholder="Select State" name="state">
                     <option value="">Select State</option>
                     @php
-                        $uniqueStates = $employees->pluck('state')->unique(function ($state) {
+                        $uniqueStates = $datas->pluck('state')->unique(function ($state) {
                             return strtolower($state);
                         });
                     @endphp
@@ -47,7 +47,7 @@
                 <select class="form-select" data-allow-clear="true" data-control="select2" data-placeholder="Select City" name="city">
                     <option value="">Select City</option>
                     @php
-                        $uniqueCities = $employees->pluck('city')->unique(function ($city) {
+                        $uniqueCities = $datas->pluck('city')->unique(function ($city) {
                             return strtolower($city); 
                         });
                     @endphp
