@@ -25,6 +25,11 @@ body{
   row-gap: 20px;
 }
 
+.active{
+  background: white;
+  margin-right: 12px;
+  border-radius: .475rem;
+}
 
 .logo{
    margin-bottom: 10%;
