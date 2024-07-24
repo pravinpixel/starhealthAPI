@@ -81,13 +81,13 @@ class EmployeeController extends Controller
               if (!$employee) {
                   continue;
               }
-              if ($pagename == 'Submitted' || $pagename == 'Gallery') {
+              if ($pagename == 'Submitted' || $pagename == 'Submitted Gallery') {
                   $employee->employee_status = 'shortlist';
                   $employee->status_change_time =now();
                   $employee->update();
                   $shortlistedEmployees[] = $employee;
               } 
-              elseif($pagename == 'Finalist'){
+              elseif($pagename == 'Finalist' || $pagename == 'Finalist Gallery'){
                 $employee->employee_status = 'shortlist';
                 $employee->status_change_time =now();
                 $employee->update();

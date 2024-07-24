@@ -127,10 +127,23 @@
               <h4 style="color: #3498db;margin-left: -17px;"> Total Count : {{$employees->total()}}</h4>
        </div>
        <div class="card-toolbar" style="gap: 25px">
-        @if(in_array($title, ['Submitted Gallery']))
+        @if(in_array($title, ['Submitted Gallery', 'Shortlisted Gallery']))
+        @if($title == 'Submitted Gallery')
         <div>
             <button type="submit" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Move to Shortlisted</button>
         </div>
+        @else
+        <div>
+            <button type="submit" data-submit="move_to_submitted" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Move to Submitted</button>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Move to Finalist</button>
+        </div>
+       @endif
+       @else
+       <div>
+          <button type="submit" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Move to Shortlisted</button>
+       </div>
         @endif
         <div>
         <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="tooltip" id="filter_panel">
@@ -161,11 +174,9 @@
                             </a>
                         </div>
                     </div>
-                    @if(in_array($title, ['Submitted Gallery']))
                     <div style="display:flex;justify-content:center;" class="form-check form-check-custom form-check-success form-check-solid mt-5 mb-5">
                         <input style="border: 2px solid #bcbcbc;cursor: pointer;" class="form-check-input" id="select" name="select" type="checkbox" value="{{$employee->id}}" />
                     </div>
-                    @endif
                     <div style="text-align: center">
                         <p>{{ $employee->employee_name}}<br>
                              {{ $employee->state}} | {{ $employee->mobile_number}}</p>
@@ -230,11 +241,11 @@
                     $("input:checkbox[name=select]:checked").each(function() { 
                         array.push($(this).val()); 
                     });      
-
+                    let submit_data = $(this).attr('data-submit');
                     if(array.length === 0) {
                         $('#pageLoader').fadeOut();
                     } else {
-                        selectstatus(array);
+                        selectstatus(array,submit_data);
                     }
             });
             $(window).on('beforeunload', function() {
@@ -318,7 +329,7 @@
                }
            });
        }
-    function selectstatus(array) {
+       function selectstatus(array,submit_data) {
             var pagename = $('#title').val();
           $.ajaxSetup({
             headers: {
@@ -331,6 +342,7 @@
             data: {
                 id: array,
                 pagename:pagename,
+                submit_data:submit_data,
             },
             success: function (response) {
                 toastr.success(response.message);
