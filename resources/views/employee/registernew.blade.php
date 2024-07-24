@@ -164,10 +164,9 @@
                     </div>
                     <div style="text-align: center">
                         <p>{{ $employee->employee_name}}<br>
-                        {{ $employee->mobile_number}}</p>
+                             {{ $employee->state}} | {{ $employee->mobile_number}}</p>
                         </div>
-                </div>
-                
+                </div> 
                     @endforeach
                 </div>
                     @endif

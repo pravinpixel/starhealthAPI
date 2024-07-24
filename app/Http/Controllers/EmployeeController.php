@@ -54,8 +54,7 @@ class EmployeeController extends Controller
       $employees = $query->orderBy('status_change_time', 'desc')->paginate($perPage);
     }
    
-       $datas=Employee::where('status','completed')->where('employee_status', 'register')->whereNotNull('profile_photo')->whereNotNull('passport_photo')->get();
-
+    $datas=Employee::where('status','completed')->where('employee_status',$currentRouteName)->whereNotNull('profile_photo')->whereNotNull('passport_photo')->get();
     $currentPage = $employees->currentPage();
     $serialNumberStart = ($currentPage - 1) * $perPage + 1;
    
@@ -139,14 +138,21 @@ class EmployeeController extends Controller
       return response()->json(['status' => false, 'errors' => $e->getMessage()], 422);
     }
   }
-  public function registernew(Request $request)
+  public function galleryview(Request $request)
   {
-  
     $search = $request->input('search');
     $designation = $request->input('designation');
     $state = $request->input('state');
     $department = $request->input('department');
     $city = $request->input('city');
+    $currentRouteName = request()->route()->getName();
+    if ($currentRouteName == 'registernew') {
+      $employee_status = 'register';
+    } elseif ($currentRouteName == 'shortlistnew') {
+      $employee_status = 'shortlist';
+    } else {
+      $employee_status = 'final';
+    }
     $perPage = 24;
     $query = Employee::query();
     if ($search) {
@@ -158,7 +164,7 @@ class EmployeeController extends Controller
           ->orWhere('designation', 'like', '%' . $search . '%');
       });
     }
-      $query->where('status','completed')->where('employee_status', 'register')->whereNotNull('profile_photo')->whereNotNull('passport_photo');
+      $query->where('status','completed')->where('employee_status', $employee_status)->whereNotNull('profile_photo')->whereNotNull('passport_photo');
     if ($designation) {
       $query->where('designation', $designation);
     }
@@ -171,9 +177,17 @@ class EmployeeController extends Controller
     if ($city) {
       $query->where('city', $city);
     }
-      $title = 'Gallery';
-    $datas=Employee::where('status','completed')->where('employee_status', 'register')->whereNotNull('profile_photo')->whereNotNull('passport_photo')->get();
-    $employees = $query->orderBy('id', 'desc')->paginate($perPage);
+    if ($currentRouteName == 'registernew') {
+      $title = 'Submitted Gallery';
+      $employees = $query->orderBy('id', 'desc')->paginate($perPage);
+    } elseif ($currentRouteName == 'shortlistnew') {
+      $title = 'Shortlisted Gallery';
+      $employees = $query->orderBy('status_change_time', 'desc')->paginate($perPage);
+    } else {
+      $title = 'Finalist Gallery';
+      $employees = $query->orderBy('status_change_time', 'desc')->paginate($perPage);
+    }
+    $datas=Employee::where('status','completed')->where('employee_status', $employee_status)->whereNotNull('profile_photo')->whereNotNull('passport_photo')->get();
     $currentPage = $employees->currentPage();
     $serialNumberStart = ($currentPage - 1) * $perPage + 1;
     return view('employee.registernew', [
