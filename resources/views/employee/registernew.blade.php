@@ -127,9 +127,11 @@
               <h4 style="color: #3498db;margin-left: -17px;"> Total Count : {{$employees->total()}}</h4>
        </div>
        <div class="card-toolbar" style="gap: 25px">
+        @if(in_array($title, ['Submitted Gallery']))
         <div>
             <button type="submit" class="btn btn-primary btn-sm" id="selectbutton" style="height: 40px">Move to Shortlisted</button>
         </div>
+        @endif
         <div>
         <button type="button" class="btn btn-light-primary me-3" data-bs-toggle="tooltip" id="filter_panel">
             <i class="fa-solid fa-filter"><span class="path1"></span><span class="path2"></span></i>
@@ -159,9 +161,11 @@
                             </a>
                         </div>
                     </div>
+                    @if(in_array($title, ['Submitted Gallery']))
                     <div style="display:flex;justify-content:center;" class="form-check form-check-custom form-check-success form-check-solid mt-5 mb-5">
                         <input style="border: 2px solid #bcbcbc;cursor: pointer;" class="form-check-input" id="select" name="select" type="checkbox" value="{{$employee->id}}" />
                     </div>
+                    @endif
                     <div style="text-align: center">
                         <p>{{ $employee->employee_name}}<br>
                              {{ $employee->state}} | {{ $employee->mobile_number}}</p>
